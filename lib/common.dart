@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const String backImg = 'images/backimg.jpg';
-const String unionImg = 'images/Union.jpg';
+const String unionImg = 'images/Union.png';
 
 // footer
 class Footer extends StatelessWidget {
@@ -11,7 +11,7 @@ class Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // フッターの高さとパディングを設定
-      height: 100.0,
+      height: 130.0,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       decoration: const BoxDecoration(
         image: DecorationImage(

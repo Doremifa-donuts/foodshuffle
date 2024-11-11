@@ -64,21 +64,25 @@ class _MyHomePageState extends State<MyHomePage> {
             child: SafeArea(
               child: Column(
                 children: [
-                  SizedBox(height: 400),
+                  SizedBox(height: 500),
                   Text(
                     '画面一杯に画像',
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
-                  SizedBox(height: 400),
+                  SizedBox(height: 500),
                 ],
               ),
             ),
           ),
+          const Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Footer(),
+          ),
         ],
+        // フッターを画面の下部に配置
       ),
-
-      // bottomNavigationBarを利用せず、Stackでfooterも重ねる
-      bottomNavigationBar: const Footer(),
     );
   }
 }
