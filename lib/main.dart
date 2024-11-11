@@ -46,34 +46,39 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Container(
-        child: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                image: DecorationImage(
-                  image: AssetImage(backImg),
-                  fit: BoxFit.cover,
-                ),
+      // ScaffoldのbodyにStackを使って背景とコンテンツを重ねる
+      body: Stack(
+        children: [
+          // 背景画像
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(backImg),
+                fit: BoxFit.cover,
               ),
             ),
-            const SafeArea(
-              child: Center(
-                child: Text(
-                  '画面一杯に画像',
-                  style: TextStyle(
-                    color: Colors.white,
+          ),
+
+          // メインコンテンツ (スクロール可能)
+          const SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                children: [
+                  SizedBox(height: 400),
+                  Text(
+                    '画面一杯に画像',
+                    style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
-                ),
+                  SizedBox(height: 400),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+
+      // bottomNavigationBarを利用せず、Stackでfooterも重ねる
+      bottomNavigationBar: const Footer(),
     );
   }
 }
