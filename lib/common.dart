@@ -23,6 +23,20 @@ class Footer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
+            icon: const Icon(Icons.rate_review, color: Colors.white),
+            onPressed: () {
+              // ホームへのナビゲーション
+              Navigator.pushNamed(context, '/home');
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.groups_2, color: Colors.white),
+            onPressed: () {
+              // ホームへのナビゲーション
+              Navigator.pushNamed(context, '/home');
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.home, color: Colors.white),
             onPressed: () {
               // ホームへのナビゲーション
@@ -30,14 +44,14 @@ class Footer extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.white),
+            icon: const Icon(Icons.bookmark, color: Colors.white),
             onPressed: () {
               // 検索画面へのナビゲーション
               Navigator.pushNamed(context, '/search');
             },
           ),
           IconButton(
-            icon: const Icon(Icons.settings, color: Colors.white),
+            icon: const Icon(Icons.account_circle, color: Colors.white),
             onPressed: () {
               // 設定画面へのナビゲーション
               Navigator.pushNamed(context, '/settings');
