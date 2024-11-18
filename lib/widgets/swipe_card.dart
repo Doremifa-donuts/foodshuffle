@@ -27,7 +27,7 @@ class SwipeCard extends StatelessWidget {
               children: [
                 // カードの画像
                 Image.asset(
-                  'assets/image.png',
+                  'images/image.png',
                   height: 400, // 画像の高さ
                   fit: BoxFit.cover,
                 ),
