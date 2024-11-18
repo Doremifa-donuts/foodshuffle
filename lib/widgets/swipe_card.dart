@@ -10,7 +10,6 @@ class SwipeCard extends StatelessWidget {
     super.key,
     required this.list,
     required this.controller,
-    required Future<Null> Function(dynamic direction) onSwiping,
   });
 
   @override
@@ -23,9 +22,22 @@ class SwipeCard extends StatelessWidget {
           elevation: 4.0,
           margin: const EdgeInsets.all(10.0),
           child: Center(
-            child: Text(
-              list[index].toString(), // 表示する内容
-              style: const TextStyle(fontSize: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // カードの画像
+                Image.asset(
+                  'assets/image.png',
+                  height: 400, // 画像の高さ
+                  fit: BoxFit.cover,
+                ),
+                const SizedBox(height: 20), // 余白
+                // カードのテキスト
+                Text(
+                  list[index].toString(), // 表示する内容
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ],
             ),
           ),
         );

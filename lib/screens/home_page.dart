@@ -31,7 +31,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final asyncValue = ref.watch(swipeAsyncNotifierProvider);
-    final notifier = ref.read(swipeAsyncNotifierProvider.notifier);
 
     return Scaffold(
       body: Stack(
@@ -47,24 +46,27 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           asyncValue.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, _) => const Center(child: Text("Error")),
-            data: (data) => SafeArea(
-              child: SingleChildScrollView(
+            error: (error, stackTrace) => Center(child: Text(error.toString())),
+            data: (data) {
+              return SafeArea(
                 child: Column(
                   children: [
-                    const SizedBox(height: 500),
-                    SwipeCard(
-                      list: data,
-                      controller: _swiperController,
-                      onSwiping: (direction) async {
-                        // onSwipingをonSwipeに変更
-                        await notifier.swipeOnCard(direction);
-                      },
+                    const SizedBox(height: 20), // 上部余白を調整
+                    Expanded(
+                      flex: 2, // カード部分に多めのスペースを割り当て
+                      child: SwipeCard(
+                        list: data,
+                        controller: _swiperController,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1, // フッター部分に少しスペース
+                      child: Container(), // 下の余白を調整
                     ),
                   ],
                 ),
-              ),
-            ),
+              );
+            },
           ),
           // フッター部分
           const Positioned(

@@ -9,7 +9,7 @@ final swipeAsyncNotifierProvider =
 class SwipeAsyncNotifier extends AsyncNotifier<List<String>> {
   @override
   FutureOr<List<String>> build() async {
-    return List.generate(5, (index) => "Card ${index + 1}");
+    return List.generate(100, (index) => "Card ${index + 1}");
   }
 
   Future<void> swipeOnCard(String direction) async {
