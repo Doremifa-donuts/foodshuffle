@@ -45,7 +45,7 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
           ),
           const Column(
             children: [
-              SizedBox(height: 20), // 上部余白を調整
+              SizedBox(height: 300), // 上部余白を調整
               Center(child: Text("Archive")),
             ],
           ),
