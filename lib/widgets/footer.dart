@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodshuffle/common.dart';
 import 'package:foodshuffle/screens/home_page.dart';
 import 'package:foodshuffle/screens/archive_page.dart';
+import 'package:foodshuffle/screens/my_page.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
@@ -53,11 +54,15 @@ class Footer extends StatelessWidget {
                 );
               }),
           _FooterIcon(
-            icon: Icons.account_circle,
-            label: 'Profile',
-            isActive: false,
-            onPressed: () => Navigator.pushNamed(context, '/settings'),
-          ),
+              icon: Icons.account_circle,
+              label: 'Profile',
+              isActive: false,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyPage()),
+                );
+              }),
         ],
       ),
     );
