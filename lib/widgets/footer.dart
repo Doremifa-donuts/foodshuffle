@@ -4,6 +4,7 @@ import 'package:foodshuffle/screens/home_page.dart';
 import 'package:foodshuffle/screens/archive_page.dart';
 import 'package:foodshuffle/screens/my_page.dart';
 import 'package:foodshuffle/screens/group_page.dart';
+import 'package:foodshuffle/screens/review_page.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
@@ -23,11 +24,15 @@ class Footer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _FooterIcon(
-            icon: Icons.rate_review,
-            label: 'Review',
-            isActive: false, // 現在のページに応じて変更
-            onPressed: () => Navigator.pushNamed(context, '/home'),
-          ),
+              icon: Icons.rate_review,
+              label: 'Review',
+              isActive: false, // 現在のページに応じて変更
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReviewPage()),
+                );
+              }),
           _FooterIcon(
               icon: Icons.groups_2,
               label: 'Groups',
