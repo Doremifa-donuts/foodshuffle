@@ -3,6 +3,7 @@ import 'package:foodshuffle/common.dart';
 import 'package:foodshuffle/screens/home_page.dart';
 import 'package:foodshuffle/screens/archive_page.dart';
 import 'package:foodshuffle/screens/my_page.dart';
+import 'package:foodshuffle/screens/group_page.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
@@ -28,11 +29,15 @@ class Footer extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(context, '/home'),
           ),
           _FooterIcon(
-            icon: Icons.groups_2,
-            label: 'Groups',
-            isActive: false, // 現在のページに応じて変更
-            onPressed: () => Navigator.pushNamed(context, '/home'),
-          ),
+              icon: Icons.groups_2,
+              label: 'Groups',
+              isActive: false, // 現在のページに応じて変更
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GroupPage()),
+                );
+              }),
           _FooterIcon(
               icon: Icons.home,
               label: 'Home',
