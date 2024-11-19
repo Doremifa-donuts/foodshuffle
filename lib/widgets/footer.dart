@@ -9,12 +9,11 @@ class Footer extends StatelessWidget {
     return Container(
       height: 130.0,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(
-        image: const DecorationImage(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
           image: AssetImage(unionImg), // 背景画像の指定
           fit: BoxFit.cover,
         ),
-        color: Colors.black.withOpacity(0.7), // 透明な黒オーバーレイ
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
