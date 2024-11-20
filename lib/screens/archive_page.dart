@@ -46,7 +46,10 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
           const Column(
             children: [
               SizedBox(height: 300), // 上部余白を調整
-              Center(child: Text("Archive")),
+              Expanded(
+                flex: 2, // カード部分に多めのスペースを割り当て
+                child: Image(image: AssetImage('images/archive.png')),
+              ),
             ],
           ),
 
