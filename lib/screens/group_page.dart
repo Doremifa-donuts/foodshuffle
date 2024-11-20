@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodshuffle/widgets/footer.dart';
+import 'package:foodshuffle/common.dart';
 
 // グループデータクラス
 class Group {
@@ -26,17 +27,20 @@ class GroupPage extends ConsumerStatefulWidget {
 class _GroupPage extends ConsumerState<GroupPage> {
   final Random _random = Random(); // ランダム生成用
 
-  // ダミーデータ（人数ランダム＆順序ランダム）
+  // ダミーデータ（12個の画像を使用しランダム生成）
   late final List<Group> groups = List.generate(
     10,
     (index) {
-      // ランダム人数のアイコンリストを生成
-      List<String> memberIcons = List.generate(
-        _random.nextInt(6) + 1, // 1～5のランダムな人数
-        (iconIndex) => 'images/icon/member_${(iconIndex % 6) + 1}.png',
+      // 1～12のランダムな画像を選択
+      List<String> allIcons = List.generate(
+        12,
+        (iconIndex) => 'images/icon/member_${iconIndex + 1}.png',
       );
-      // 順序をランダムにシャッフル
-      memberIcons.shuffle(_random);
+      // ランダム人数のアイコンリストを生成（1～5個のランダムな数を取得）
+      List<String> memberIcons = List.generate(
+        _random.nextInt(5) + 1, // 1～5のランダムな人数
+        (_) => allIcons[_random.nextInt(12)], // 12個の画像からランダム選択
+      );
 
       return Group(
         name: "グループ ${index + 1}",
@@ -50,15 +54,18 @@ class _GroupPage extends ConsumerState<GroupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('グループ'),
-      ),
+          title: const Text(
+            'グループ',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: ColorUtils.hexToColor(mainColor)),
       body: Stack(
         children: [
           // 背景画像
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('images/background.jpg'), // 背景画像のパス
+                image: AssetImage(backImg), // 背景画像のパス
                 fit: BoxFit.cover,
               ),
             ),
