@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodshuffle/widgets/footer.dart';
 
@@ -23,17 +24,26 @@ class GroupPage extends ConsumerStatefulWidget {
 }
 
 class _GroupPage extends ConsumerState<GroupPage> {
-  // ダミーデータ
-  final List<Group> groups = List.generate(
+  final Random _random = Random(); // ランダム生成用
+
+  // ダミーデータ（人数ランダム＆順序ランダム）
+  late final List<Group> groups = List.generate(
     10,
-    (index) => Group(
-      name: "グループ ${index + 1}",
-      deadline: "2024/12/${(index + 10) % 30 + 1}",
-      memberIcons: List.generate(
-        5,
-        (iconIndex) => 'images/icon/member_${(iconIndex + 1)}.png', // 修正されたパス
-      ),
-    ),
+    (index) {
+      // ランダム人数のアイコンリストを生成
+      List<String> memberIcons = List.generate(
+        _random.nextInt(6) + 1, // 1～5のランダムな人数
+        (iconIndex) => 'images/icon/member_${(iconIndex % 6) + 1}.png',
+      );
+      // 順序をランダムにシャッフル
+      memberIcons.shuffle(_random);
+
+      return Group(
+        name: "グループ ${index + 1}",
+        deadline: "2024/12/${(index + 10) % 30 + 1}",
+        memberIcons: memberIcons,
+      );
+    },
   );
 
   @override
