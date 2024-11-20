@@ -30,7 +30,7 @@ class Footer extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  blackOut(const ReviewPage()),
+                  MaterialPageRoute(builder: (context) => const ReviewPage()),
                 );
               }),
           _FooterIcon(
@@ -40,7 +40,7 @@ class Footer extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  flipTransition(const GroupPage()),
+                  MaterialPageRoute(builder: (context) => const GroupPage()),
                 );
               }),
           _FooterIcon(
@@ -60,7 +60,7 @@ class Footer extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  diagonalSlideTransition(const ArchivePage()),
+                  MaterialPageRoute(builder: (context) => const ArchivePage()),
                 );
               }),
           _FooterIcon(
@@ -70,7 +70,7 @@ class Footer extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  verticalFlipTransition(const MyPage()),
+                  MaterialPageRoute(builder: (context) => const MyPage()),
                 );
               }),
         ],
@@ -136,8 +136,8 @@ PageRouteBuilder<Object?> blackOut(Widget screen) {
     reverseTransitionDuration: const Duration(seconds: 1),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       final color = ColorTween(
-        begin: Colors.transparent,
-        end: Colors.black,
+        begin: const Color.fromARGB(238, 255, 186, 157),
+        end: const Color.fromARGB(238, 255, 186, 157),
       ).animate(
         CurvedAnimation(
           parent: animation,
@@ -162,74 +162,6 @@ PageRouteBuilder<Object?> blackOut(Widget screen) {
               opacity: opacity.value,
               child: child,
             ),
-          );
-        },
-        child: child,
-      );
-    },
-  );
-}
-
-// 画面遷移アニメーション　flip
-PageRouteBuilder<Object?> flipTransition(Widget screen) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => screen,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return AnimatedBuilder(
-        animation: animation,
-        builder: (context, child) {
-          final flipAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(parent: animation, curve: Curves.linear),
-          );
-          return Transform(
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001)
-              ..rotateY(2 * 3.14 * flipAnimation.value),
-            alignment: Alignment.center,
-            child: child,
-          );
-        },
-        child: child,
-      );
-    },
-  );
-}
-
-// 画面遷移アニメーション　diagonal
-PageRouteBuilder<Object?> diagonalSlideTransition(Widget screen) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => screen,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final offsetAnimation = Tween<Offset>(
-        begin: const Offset(-1.0, -1.0),
-        end: Offset.zero,
-      ).animate(animation);
-
-      return SlideTransition(
-        position: offsetAnimation,
-        child: child,
-      );
-    },
-  );
-}
-
-// 画面遷移アニメーション　flip
-PageRouteBuilder<Object?> verticalFlipTransition(Widget screen) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => screen,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final flipAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(parent: animation, curve: Curves.linear),
-      );
-      return AnimatedBuilder(
-        animation: animation,
-        builder: (context, child) {
-          return Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001)
-              ..rotateX(2 * 3.14 * flipAnimation.value),
-            child: child,
           );
         },
         child: child,
