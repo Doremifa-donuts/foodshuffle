@@ -31,7 +31,7 @@ class _GroupPage extends ConsumerState<GroupPage> {
       deadline: "2024/12/${(index + 10) % 30 + 1}",
       memberIcons: List.generate(
         5,
-        (iconIndex) => 'images/icon/member_${(index + iconIndex) % 5 + 1}.png',
+        (iconIndex) => 'images/icon/member_${(iconIndex + 1)}.png', // 修正されたパス
       ),
     ),
   );
@@ -48,7 +48,7 @@ class _GroupPage extends ConsumerState<GroupPage> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/background.jpg'),
+                image: AssetImage('images/background.jpg'), // 背景画像のパス
                 fit: BoxFit.cover,
               ),
             ),
@@ -83,17 +83,20 @@ class _GroupPage extends ConsumerState<GroupPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // グループ名
-            Text(
-              group.name,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            // グループの期限日
-            Text(
-              '期限日: ${group.deadline}',
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
-            ),
+            Row(children: [
+              // グループ名
+              Text(
+                group.name,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(width: 8),
+              // グループの期限日
+              Text(
+                '期限日: ${group.deadline}',
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+            ]),
             const SizedBox(height: 8),
             // メンバーアイコン
             Row(
@@ -102,7 +105,7 @@ class _GroupPage extends ConsumerState<GroupPage> {
                         padding: const EdgeInsets.only(right: 8),
                         child: CircleAvatar(
                           radius: 20,
-                          backgroundImage: AssetImage(iconPath),
+                          backgroundImage: AssetImage(iconPath), // 修正されたパスを使用
                         ),
                       ))
                   .toList(),
