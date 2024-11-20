@@ -32,6 +32,12 @@ class _ReviewPage extends ConsumerState<ReviewPage> {
     final asyncValue = ref.watch(swipeAsyncNotifierProvider);
 
     return Scaffold(
+      appBar: AppBar(
+          title: const Text(
+            'グループ',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: ColorUtils.hexToColor(mainColor)),
       body: Stack(
         children: [
           // 背景画像

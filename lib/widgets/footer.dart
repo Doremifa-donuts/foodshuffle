@@ -12,70 +12,87 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150.0,
-      padding: const EdgeInsets.symmetric(horizontal: 2.0),
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(unionImg), // 背景画像の指定
-          fit: BoxFit.cover,
+        height: 150.0,
+        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(unionImg), // 背景画像の指定
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _FooterIcon(
-              icon: Icons.rate_review,
-              label: 'Review',
-              isActive: false, // 現在のページに応じて変更
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ReviewPage()),
-                );
-              }),
-          _FooterIcon(
-              icon: Icons.groups_2,
-              label: 'Groups',
-              isActive: false, // 現在のページに応じて変更
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const GroupPage()),
-                );
-              }),
-          _FooterIcon(
-              icon: Icons.home,
-              label: 'Home',
-              isActive: true, // アクティブなページ
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                );
-              }),
-          _FooterIcon(
-              icon: Icons.bookmark,
-              label: 'Bookmarks',
-              isActive: false,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ArchivePage()),
-                );
-              }),
-          _FooterIcon(
-              icon: Icons.account_circle,
-              label: 'Profile',
-              isActive: false,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyPage()),
-                );
-              }),
-        ],
-      ),
-    );
+        child: Column(
+          children: [
+            _FooterIcon(
+                icon: Icons.rate_review,
+                label: 'お店に着いたよ！',
+                isActive: false, // 現在のページに応じて変更
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _FooterIcon(
+                    icon: Icons.rate_review,
+                    label: 'Review',
+                    isActive: false, // 現在のページに応じて変更
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReviewPage()),
+                      );
+                    }),
+                _FooterIcon(
+                    icon: Icons.groups_2,
+                    label: 'Groups',
+                    isActive: false, // 現在のページに応じて変更
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const GroupPage()),
+                      );
+                    }),
+                _FooterIcon(
+                    icon: Icons.home,
+                    label: 'Home',
+                    isActive: true, // アクティブなページ
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()),
+                      );
+                    }),
+                _FooterIcon(
+                    icon: Icons.bookmark,
+                    label: 'Bookmarks',
+                    isActive: false,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ArchivePage()),
+                      );
+                    }),
+                _FooterIcon(
+                    icon: Icons.account_circle,
+                    label: 'Profile',
+                    isActive: false,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MyPage()),
+                      );
+                    }),
+              ],
+            ),
+          ],
+        ));
   }
 }
 
