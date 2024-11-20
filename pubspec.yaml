@@ -53,6 +53,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: uzura
+      fonts:
+        - asset: fonts/uzurafont100/uzura.ttf
 
 
   # The following line ensures that the Material Icons font is
