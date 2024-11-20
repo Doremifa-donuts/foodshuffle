@@ -12,8 +12,8 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 130.0,
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      height: 150.0,
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage(unionImg), // 背景画像の指定
