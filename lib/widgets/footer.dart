@@ -136,7 +136,9 @@ class _FooterIcon extends StatelessWidget {
               width: 20.0,
               height: 3.0,
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
+                color: isActive
+                    ? const Color(activeColor)
+                    : const Color(iconColor),
                 borderRadius: BorderRadius.circular(2.0),
               ),
             ),

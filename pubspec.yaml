@@ -68,6 +68,7 @@ flutter:
   assets:
     - images/
     - images/icon/
+    - images/store/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

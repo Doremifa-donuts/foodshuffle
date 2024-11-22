@@ -16,6 +16,7 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   late AppinioSwiperController _swiperController;
 
+  // スワイパーコントローラーの初期化
   @override
   void initState() {
     super.initState();
@@ -24,35 +25,39 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   void dispose() {
-    _swiperController.dispose();
+    _swiperController.dispose(); // コントローラーの解放
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final asyncValue = ref.watch(swipeAsyncNotifierProvider);
+    final asyncValue = ref
+        .watch(swipeAsyncNotifierProvider); // swipeAsyncNotifierProviderのデータを監視
 
     return Scaffold(
       appBar: AppBar(
-          title: const Text(
-            'グループ',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: const Color(mainColor)),
+        title: const Text(
+          'ホーム',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: const Color(mainColor), // AppBarの背景色
+      ),
       body: Stack(
         children: [
-          // 背景画像
+          // 背景画像を表示
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(backImg),
-                fit: BoxFit.cover,
+                image: AssetImage(backImg), // 背景画像の設定
+                fit: BoxFit.cover, // 画像を画面いっぱいに広げる
               ),
             ),
           ),
           asyncValue.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) => Center(child: Text(error.toString())),
+            loading: () =>
+                const Center(child: CircularProgressIndicator()), // データ読み込み中
+            error: (error, stackTrace) =>
+                Center(child: Text(error.toString())), // エラー時
             data: (data) {
               return SafeArea(
                 child: Column(
@@ -61,22 +66,22 @@ class _HomePageState extends ConsumerState<HomePage> {
                     Expanded(
                       flex: 2, // カード部分に多めのスペースを割り当て
                       child: SwipeCard(
-                        list: data,
-                        controller: _swiperController,
+                        list: data, // データリストをSwipeCardに渡す
+                        controller: _swiperController, // スワイプコントローラーを渡す
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       flex: 1, // フッター部分に少しスペース
-                      child: Container(), // 下の余白を調整
+                      child: SizedBox.shrink(), // 空のコンテナに変更（余白の調整）
                     ),
                   ],
                 ),
               );
             },
           ),
-          // フッター部分
+          // フッター部分を画面下部に配置
           const Positioned(
-            bottom: -20,
+            bottom: -20, // 下部に少しだけ余白を加える
             left: 0,
             right: 0,
             child: Footer(), // Footerウィジェットを表示
