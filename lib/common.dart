@@ -6,6 +6,7 @@ const String unionImg = 'images/Union.png';
 
 // カラーコード
 const String mainColor = '#E9CCA7';
+const String iconColor = '#EBF6DD';
 
 class ColorUtils {
   // 16進数カラーコードをColor型に変換する静的関数

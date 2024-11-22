@@ -33,6 +33,12 @@ class _HomePageState extends ConsumerState<HomePage> {
     final asyncValue = ref.watch(swipeAsyncNotifierProvider);
 
     return Scaffold(
+      appBar: AppBar(
+          title: const Text(
+            'グループ',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: ColorUtils.hexToColor(mainColor)),
       body: Stack(
         children: [
           // 背景画像
@@ -70,10 +76,10 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           // フッター部分
           const Positioned(
-            bottom: 0,
+            bottom: -20,
             left: 0,
             right: 0,
-            child: Footer(), // Footerウィジェットを表示
+            child: Footer(iconColor: iconColor), // Footerウィジェットを表示
           ),
         ],
       ),

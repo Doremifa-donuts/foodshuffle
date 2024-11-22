@@ -7,7 +7,9 @@ import 'package:foodshuffle/screens/group_page.dart';
 import 'package:foodshuffle/screens/review_page.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({super.key});
+  final String iconColor;
+
+  const Footer({super.key, required this.iconColor});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,14 @@ class Footer extends StatelessWidget {
         ),
         child: Column(
           children: [
+            Icon(Icons.store, color: ColorUtils.hexToColor(iconColor)),
+            Icon(Icons.rate_review, color: ColorUtils.hexToColor(iconColor)),
+            Icon(Icons.groups_2, color: ColorUtils.hexToColor(iconColor)),
+            Icon(Icons.home, color: ColorUtils.hexToColor(iconColor)),
+            Icon(Icons.bookmark, color: ColorUtils.hexToColor(iconColor)),
+            Icon(Icons.account_circle, color: ColorUtils.hexToColor(iconColor)),
             _FooterIcon(
-                icon: Icons.rate_review,
+                icon: Icons.store,
                 label: 'お店に着いたよ！',
                 isActive: false, // 現在のページに応じて変更
                 onPressed: () {
