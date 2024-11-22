@@ -83,10 +83,10 @@ class _GroupPage extends ConsumerState<GroupPage> {
 
           // フッター部分
           const Positioned(
-            bottom: 0,
+            bottom: -20,
             left: 0,
             right: 0,
-            child: Footer(), // Footerウィジェットを表示
+            child: Footer(iconColor: iconColor), // Footerウィジェットを表示
           ),
         ],
       ),
