@@ -64,10 +64,10 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
           ),
           // フッター部分
           const Positioned(
-            bottom: -20,
+            bottom: 0,
             left: 0,
             right: 0,
-            child: Footer(iconColor: iconColor), // Footerウィジェットを表示
+            child: Footer(), // Footerウィジェットを表示
           ),
         ],
       ),

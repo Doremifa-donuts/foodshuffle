@@ -34,7 +34,7 @@ class _ReviewPage extends ConsumerState<ReviewPage> {
             'レビュー',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          backgroundColor: ColorUtils.hexToColor(mainColor)),
+          backgroundColor: Color(mainColor as int)),
       body: Stack(
         children: [
           // 背景画像
@@ -62,7 +62,7 @@ class _ReviewPage extends ConsumerState<ReviewPage> {
             bottom: -20,
             left: 0,
             right: 0,
-            child: Footer(iconColor: iconColor), // Footerウィジェットを表示
+            child: Footer(), // Footerウィジェットを表示
           ),
         ],
       ),
