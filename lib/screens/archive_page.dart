@@ -105,6 +105,16 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
   // Storeの情報を元に、各ストアの詳細情報を表示するカードをビルド
   Widget _buildCard(Store store) {
     return Card(
+      // カードのカラー
+      color: const Color(listColor),
+      // カードの縁指定
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(
+          color: Color(allListColor), // 縁の色を指定
+          width: 2, // 縁の太さ
+        ),
+        borderRadius: BorderRadius.circular(15), // カードの角を丸くする
+      ),
       child: Padding(
         padding: const EdgeInsets.all(10), // カードの内側の余白
         child: Column(

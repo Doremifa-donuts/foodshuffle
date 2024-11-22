@@ -99,6 +99,16 @@ class _GroupPage extends ConsumerState<GroupPage> {
   // グループ情報を表示するカードウィジェット
   Widget _buildCard(Group group) {
     return Card(
+      // カードのカラー
+      color: const Color(listColor),
+      // カードの縁指定
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(
+          color: Color(allListColor), // 縁の色を指定
+          width: 2, // 縁の太さ
+        ),
+        borderRadius: BorderRadius.circular(15), // カードの角を丸くする
+      ),
       child: Padding(
         padding: const EdgeInsets.all(10), // カード内のパディング
         child: Column(
