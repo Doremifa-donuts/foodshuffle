@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
 import '../providers/swipe_notifier.dart';
-import '../widgets/swipe_card.dart';
 import 'package:foodshuffle/widgets/footer.dart';
 import 'package:foodshuffle/common.dart';
 
@@ -59,18 +58,12 @@ class _HomePageState extends ConsumerState<HomePage> {
             error: (error, stackTrace) =>
                 Center(child: Text(error.toString())), // エラー時
             data: (data) {
-              return SafeArea(
+              return const SafeArea(
                 child: Column(
                   children: [
-                    const SizedBox(height: 20), // 上部余白を調整
+                    SizedBox(height: 20), // 上部余白を調整
+
                     Expanded(
-                      flex: 2, // カード部分に多めのスペースを割り当て
-                      child: SwipeCard(
-                        list: data, // データリストをSwipeCardに渡す
-                        controller: _swiperController, // スワイプコントローラーを渡す
-                      ),
-                    ),
-                    const Expanded(
                       flex: 1, // フッター部分に少しスペース
                       child: SizedBox.shrink(), // 空のコンテナに変更（余白の調整）
                     ),

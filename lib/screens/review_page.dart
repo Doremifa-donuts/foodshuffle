@@ -4,19 +4,19 @@ import 'package:foodshuffle/common.dart';
 import 'package:foodshuffle/widgets/footer.dart';
 
 // レビュー時のストアのデータクラス
-// Storeクラスは、各ストアの情報（画像、名前、期限、メンバーアイコン）
+// Storeクラスは、各ストアの情報（画像、名前、電話番号、住所）
 class Store {
   final String storeImage; // ストア画像
   final String name; // ストア名
   final String tel; // 電話番号
-  final String addres; // 住所
+  final String address; // 住所
 
   // コンストラクタで必要なデータを受け取ります。
   Store({
     required this.storeImage,
     required this.name,
     required this.tel,
-    required this.addres,
+    required this.address,
   });
 }
 
@@ -36,7 +36,7 @@ class _ReviewPage extends ConsumerState<ReviewPage> {
         storeImage: 'images/store/store_1.png', // ストア画像を固定（仮の画像パス）
         name: "おにぎりごりちゃん 中崎町本店}",
         tel: "000-000-000",
-        addres: '大阪府大阪市北区中崎1丁目5-20 TKビル1階', // ランダムに選ばれたアイコン
+        address: '大阪府大阪市北区中崎1丁目5-20 TKビル1階', // ランダムに選ばれたアイコン
       );
     },
   );
@@ -142,9 +142,9 @@ class _ReviewPage extends ConsumerState<ReviewPage> {
                     width: MediaQuery.of(context).size.width -
                         200, // 画像の幅分を引いて残りの幅を使う
                     child: Text(
-                      store.addres,
+                      store.address,
                       style: const TextStyle(fontSize: 14), // コメントの文字サイズ
-                      maxLines: 2, // 最大3行に制限
+                      maxLines: 2, // 最大2行に制限
                       overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て
                     ),
                   ),
