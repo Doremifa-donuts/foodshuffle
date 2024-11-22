@@ -118,14 +118,15 @@ class _FooterIcon extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: isActive ? Colors.blueAccent : Colors.white, // アクティブな場合の色変更
+            color: isActive ? const Color(activeColor) : const Color(iconColor),
             size: 28.0, // アイコンサイズ
           ),
           const SizedBox(height: 4.0), // アイコンとラベルの間のスペース
           Text(
             label,
             style: TextStyle(
-              color: isActive ? Colors.blueAccent : Colors.white,
+              color:
+                  isActive ? const Color(activeColor) : const Color(iconColor),
               fontSize: 12.0, // ラベルサイズ
             ),
           ),

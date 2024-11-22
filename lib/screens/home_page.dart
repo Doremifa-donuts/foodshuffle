@@ -38,7 +38,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             'グループ',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Color(mainColor as int)),
+          backgroundColor: const Color(mainColor)),
       body: Stack(
         children: [
           // 背景画像

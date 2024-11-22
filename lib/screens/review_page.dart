@@ -34,7 +34,7 @@ class _ReviewPage extends ConsumerState<ReviewPage> {
             'レビュー',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Color(mainColor as int)),
+          backgroundColor: const Color(mainColor)),
       body: Stack(
         children: [
           // 背景画像

@@ -58,7 +58,7 @@ class _GroupPage extends ConsumerState<GroupPage> {
             'グループ',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Color(mainColor as int)),
+          backgroundColor: const Color(mainColor)),
       body: Stack(
         children: [
           // 背景画像
@@ -83,7 +83,7 @@ class _GroupPage extends ConsumerState<GroupPage> {
 
           // フッター部分
           const Positioned(
-            bottom: 0,
+            bottom: -20,
             left: 0,
             right: 0,
             child: Footer(), // Footerウィジェットを表示
