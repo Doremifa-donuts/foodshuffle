@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // footer 表示
-import 'package:foodshuffle/widgets/footer.dart';
+import '../widgets/footer.dart';
 // カラー、画像パス
 import '../model/color.dart';
 import '../model/images.dart';
