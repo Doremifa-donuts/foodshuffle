@@ -69,3 +69,22 @@ class ArchiveStore {
     required this.message,
   });
 }
+
+// UserPageのリスト要素
+// Userのデータクラス
+class User {
+  final String name; // ユーザー名
+  final String profileIcon; // プロフィールアイコン画像パス
+  final String goods; // いいね数
+  final int range; // 範囲
+  final int store; // 店数
+
+  // コンストラクタで必要なデータを受け取る
+  User({
+    required this.name,
+    required this.profileIcon,
+    required this.goods,
+    required this.range,
+    required this.store,
+  });
+}
