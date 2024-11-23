@@ -104,36 +104,57 @@ class MyPage extends ConsumerWidget {
                       ),
                     ),
 
-                    // 累計情報
-                    Column(children: [
-                      const Text('累計'),
-                      const SizedBox(height: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    Container(
+                      padding: const EdgeInsets.all(4), // 全体の内側余白
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.black, width: 2), // 外枠のボーダー
+                        borderRadius: BorderRadius.circular(8), // 角丸
+                      ),
+                      child: Stack(
+                        alignment: Alignment.center, // 中央揃え
                         children: [
                           Column(
                             children: [
-                              const Text('いいね'),
-                              Text(user.goods.toString()),
-                            ],
-                          ),
-                          const SizedBox(width: 40),
-                          Column(
-                            children: [
-                              const Text('共有距離（km）'),
-                              Text(user.store.toString()),
-                            ],
-                          ),
-                          const SizedBox(width: 40),
-                          Column(
-                            children: [
-                              const Text('お店'),
-                              Text(user.goods.toString()),
+                              const Text(
+                                '累計',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(height: 16), // 累計を重ねた部分の余白調整
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    children: [
+                                      const Text('いいね'),
+                                      Text(user.goods.toString()),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 40),
+                                  Column(
+                                    children: [
+                                      const Text('共有距離（km）'),
+                                      Text(user.store.toString()),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 40),
+                                  Column(
+                                    children: [
+                                      const Text('お店'),
+                                      Text(user.goods.toString()),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ],
                       ),
-                    ]),
+                    ),
 
                     // サインアウトボタン
                     ElevatedButton(
