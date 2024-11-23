@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
+// ランダム関数
 import 'dart:math';
+// 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// footer 表示
 import 'package:foodshuffle/widgets/footer.dart';
-import 'package:foodshuffle/model/data_list.dart';
+// カラー、画像パス
 import '../model/color.dart';
 import '../model/images.dart';
+// 表示するデータを受け取るclass
+import '../model/data_list.dart';
 
-class GroupPage extends ConsumerStatefulWidget {
-  const GroupPage({super.key});
+// データベースを使用できるか
+const bool useDatabase = false;
+// ランダム関数
+final Random _random = Random();
 
-  @override
-  ConsumerState<GroupPage> createState() => _GroupPage(); // ステートの作成
-}
+// プロバイダーの定義（データ取得を切り替え）
+final groupProvider = FutureProvider<List<Group>>((ref) async {
+  if (useDatabase) {
+    return fetchGroupsFromDatabase();
+  } else {
+    return fetchDummyGroups();
+  }
+});
 
-class _GroupPage extends ConsumerState<GroupPage> {
-  final Random _random = Random();
-
-  // ダミーデータ（12個の画像を使用しランダム生成）
-  late final List<Group> groups = List.generate(
-    10, // グループ数
+// ダミーデータ（データベースがない場合に使用する固定データ）
+Future<List<Group>> fetchDummyGroups() async {
+  return List.generate(
+    10,
     (index) {
       // 1～12のランダムな画像を選択
       List<String> allIcons = List.generate(
@@ -39,47 +49,70 @@ class _GroupPage extends ConsumerState<GroupPage> {
       );
     },
   );
+}
+
+// 本番用（データベースから取得する処理）
+Future<List<Group>> fetchGroupsFromDatabase() async {
+  await Future.delayed(const Duration(seconds: 2)); // 仮の遅延
+  return []; // データベースの中身を受け取る
+}
+
+// グループページ
+class GroupPage extends ConsumerWidget {
+  const GroupPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groupsAsyncValue = ref.watch(groupProvider);
     return Scaffold(
       appBar: AppBar(
-          title: const Text(
-            'グループ',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: const Color(mainColor)), // アプリバーの背景色
-      body: Stack(
-        children: [
-          // 背景画像
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backImg), // 背景画像のパス
-                fit: BoxFit.cover, // 大きく広げる
+        title: const Text(
+          'グループ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: const Color(mainColor), // アプリバーの背景色
+      ),
+      body: groupsAsyncValue.when(
+        data: (groups) {
+          return Stack(
+            children: [
+              // 背景画像
+              Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(backImg), // 背景画像のパス
+                    fit: BoxFit.cover, // 大きく広げる
+                  ),
+                ),
               ),
-            ),
-          ),
-          Scrollbar(
-            thickness: 12, // スクロールバーの太さ
-            radius: const Radius.circular(20), // スクロールバーの角の丸み
-            child: ListView.separated(
-              padding: const EdgeInsets.all(20),
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
-              itemCount: groups.length, // グループの数
-              itemBuilder: (context, index) =>
-                  _buildCard(groups[index]), // アイテム（カード）のビルド
-            ),
-          ),
-
-          // フッター部分
-          const Positioned(
-            bottom: -20,
-            left: 0,
-            right: 0,
-            child: Footer(), // Footerウィジェットを表示
-          ),
-        ],
+              // スクロールバーを使ったリスト表示
+              Scrollbar(
+                thickness: 12, // スクロールバーの太さ
+                radius: const Radius.circular(20), // スクロールバーの角の丸み
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(20),
+                  // リスト要素
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 8),
+                  itemCount: groups.length, // グループの数
+                  itemBuilder: (context, index) {
+                    return _buildCard(groups[index]); // グループ情報を表示
+                  },
+                ),
+              ),
+              // フッター部分
+              const Positioned(
+                bottom: -20,
+                left: 0,
+                right: 0,
+                child: Footer(), // Footerウィジェットを表示
+              ),
+            ],
+          );
+        },
+        loading: () =>
+            const Center(child: CircularProgressIndicator()), // 読み込み中
+        error: (err, stack) => Center(child: Text('エラーが発生しました: $err')), // エラー時
       ),
     );
   }
@@ -135,3 +168,7 @@ class _GroupPage extends ConsumerState<GroupPage> {
     );
   }
 }
+
+
+// TODO: 未実装
+// グループ作成ボタン
