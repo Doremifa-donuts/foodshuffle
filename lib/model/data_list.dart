@@ -74,15 +74,15 @@ class ArchiveStore {
 // Userのデータクラス
 class User {
   final String name; // ユーザー名
-  final String profileIcon; // プロフィールアイコン画像パス
-  final String goods; // いいね数
+  final String userIcon; // プロフィールアイコン画像パス
+  final int goods; // いいね数
   final int range; // 範囲
   final int store; // 店数
 
   // コンストラクタで必要なデータを受け取る
   User({
     required this.name,
-    required this.profileIcon,
+    required this.userIcon,
     required this.goods,
     required this.range,
     required this.store,
