@@ -1,78 +1,112 @@
 import 'package:flutter/material.dart';
+// 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// footer 表示
 import 'package:foodshuffle/widgets/footer.dart';
+// カラー、画像パス
 import '../model/color.dart';
 import '../model/images.dart';
+// 表示するデータを受け取るclass
 import '../model/data_list.dart';
 
-class ReviewPage extends ConsumerStatefulWidget {
+// データベースを使用できるか
+const bool useDatabase = false;
+
+// プロバイダーの定義（データ取得を切り替え）
+final reviewStoreProvider = FutureProvider<List<ReviewStore>>((ref) async {
+  if (useDatabase) {
+    return fetchReviewStoresFromDatabase();
+  } else {
+    return fetchDummyReviewStores();
+  }
+});
+
+// ダミーデータ（データベースがない場合に使用する固定データ）
+Future<List<ReviewStore>> fetchDummyReviewStores() async {
+  return List.generate(
+    10,
+    (index) => ReviewStore(
+      storeImage: 'images/store/store_1.png',
+      name: 'おにぎりごりちゃん 中崎町本店',
+      tel: '000-000-000',
+      address: '大阪府大阪市北区中崎1丁目5-20 TKビル1階',
+    ),
+  );
+}
+
+// 本番用（データベースから取得する処理）
+Future<List<ReviewStore>> fetchReviewStoresFromDatabase() async {
+  await Future.delayed(const Duration(seconds: 2)); // 仮の遅延
+  return []; // データベースの中身を受け取る
+}
+
+// レビューのページ画面
+class ReviewPage extends ConsumerWidget {
   const ReviewPage({super.key});
 
   @override
-  ConsumerState<ReviewPage> createState() => _ReviewPage();
-}
-
-class _ReviewPage extends ConsumerState<ReviewPage> {
-  // 各ストアのデータをランダムに設定します。
-  late final List<ReviewStore> stores = List.generate(
-    10,
-    (index) {
-      return ReviewStore(
-        storeImage: 'images/store/store_1.png', // ストア画像を固定（仮の画像パス）
-        name: "おにぎりごりちゃん 中崎町本店}",
-        tel: "000-000-000",
-        address: '大阪府大阪市北区中崎1丁目5-20 TKビル1階', // ランダムに選ばれたアイコン
-      );
-    },
-  );
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // レビューのデータを取得
+    final reviewStoreAsyncValue = ref.watch(reviewStoreProvider);
     return Scaffold(
+      // header
       appBar: AppBar(
-          title: const Text(
-            'レビュー',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: const Color(mainColor)),
-      body: Stack(
-        children: [
-          // 背景画像を表示するためのContainer
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backImg), // 背景画像のパス（共通定義）
-                fit: BoxFit.cover, // 画像を画面いっぱいに表示
+        title: const Text(
+          'レビュー',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: const Color(mainColor),
+      ),
+      // body
+      body: reviewStoreAsyncValue.when(
+        data: (stores) {
+          return Stack(
+            children: [
+              // 背景画像
+              Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(backImg),
+                    fit: BoxFit.cover, // 画像を画面いっぱいに表示
+                  ),
+                ),
               ),
-            ),
-          ),
-          // スクロールバー
-          Scrollbar(
-            thickness: 12, // スクロールバーの太さ
-            radius: const Radius.circular(20), // スクロールバーの角を丸く
-            child: ListView.separated(
-              padding: const EdgeInsets.all(20), // リストのパディングを指定
-              separatorBuilder: (context, index) =>
-                  const SizedBox(height: 8), // 各リストアイテム間のスペース
-              itemCount: stores.length, // リストアイテムの数
-              itemBuilder: (context, index) =>
-                  _buildCard(stores[index]), // 各カードをビルド
-            ),
-          ),
-          // フッター部分を画面下部に配置
-          const Positioned(
-            bottom: -20, // フッターを少しだけ下に配置
-            left: 0,
-            right: 0,
-            child: Footer(), // フッターウィジェット
-          ),
-        ],
+              // スクロール要素
+              Scrollbar(
+                thickness: 12, // スクロールバーの太さ
+                radius: const Radius.circular(20), // スクロールバーの角を丸く
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(20), // リストのパディングを指定
+                  // リスト要素
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 8), // 各リストアイテム間のスペース
+                  itemCount: stores.length, // リストアイテムの数
+                  // 各リストアイテム
+                  itemBuilder: (context, index) {
+                    return _buildCard(context, stores[index]);
+                  },
+                ),
+              ),
+              // footer
+              const Positioned(
+                bottom: -20, // フッターを少しだけ下に配置
+                left: 0,
+                right: 0,
+                child: Footer(), // フッターウィジェット
+              ),
+            ],
+          );
+        },
+
+        loading: () =>
+            const Center(child: CircularProgressIndicator()), // 読み込み中
+        error: (err, stack) => Center(child: Text('エラーが発生しました: $err')), // エラー時
       ),
     );
   }
 
-  // Storeの情報を元に、各ストアの詳細情報を表示するカードをビルド
-  Widget _buildCard(ReviewStore store) {
+  // Storeの情報を元に、各ストアの詳細情報を表示するカード
+  Widget _buildCard(BuildContext context, ReviewStore store) {
     return Card(
       // カードのカラー
       color: const Color(listColor),
@@ -89,56 +123,63 @@ class _ReviewPage extends ConsumerState<ReviewPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, // 子ウィジェットを左揃え
           children: [
-            Row(children: [
-              Column(
-                children: [
-                  // ストアの画像を表示
-                  Image.asset(
-                    store.storeImage,
-                    width: 120, // 画像の幅
-                    height: 100, // 画像の高さ
-                    fit: BoxFit.cover, // 画像のアスペクト比を維持
-                  ),
-                ],
-              ),
-              const SizedBox(width: 8), // 画像と他の要素との空白
-              Column(
-                children: [
-                  // 店名を表示(長すぎるテキストは切り捨て)
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 200,
-                    child: Text(
-                      store.name,
+            Row(
+              children: [
+                Column(
+                  children: [
+                    // ストアの画像を表示
+                    Image.asset(
+                      store.storeImage,
+                      width: 120, // 画像の幅
+                      height: 100, // 画像の高さ
+                      fit: BoxFit.cover, // 画像のアスペクト比を維持
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 8), // 画像と他の要素との空白
+                Column(
+                  children: [
+                    // 店名を表示(長すぎるテキストは切り捨て)
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 200,
+                      child: Text(
+                        store.name,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold), // 店名を太字で表示
+                        overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て
+                      ),
+                    ),
+                    // 電話番号
+                    Text(
+                      '📞: ${store.tel}',
                       style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold), // 店名を太字で表示
-                      overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て
+                          fontSize: 12, color: Colors.grey), // 電話番号をグレー色で表示
                     ),
-                  ),
-                  // 電話番号
-                  Text(
-                    '📞: ${store.tel}',
-                    style: const TextStyle(
-                        fontSize: 12, color: Colors.grey), // 電話番号をグレー色で表示
-                  ),
-
-                  // 住所の表示（改行を許可して、長すぎるテキストは切り捨て）
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width -
-                        200, // 画像の幅分を引いて残りの幅を使う
-                    child: Text(
-                      store.address,
-                      style: const TextStyle(fontSize: 14), // コメントの文字サイズ
-                      maxLines: 2, // 最大2行に制限
-                      overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て
+                    // 住所の表示（改行を許可して、長すぎるテキストは切り捨て）
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width -
+                          200, // 画像の幅分を引いて残りの幅を使う
+                      child: Text(
+                        store.address,
+                        style: const TextStyle(fontSize: 14), // コメントの文字サイズ
+                        maxLines: 2, // 最大2行に制限
+                        overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ]),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 }
+
+
+// TODO: 未実装
+// レビュー前後ボタン
+// 郵便番号
+// 電話icon
