@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // footer 表示
 import '../widgets/footer.dart';
 // カラー、画像パス
-// import '../model/color.dart';
+import '../model/color.dart';
 import '../model/images.dart';
 // 表示するデータを受け取るclass
 import '../model/data_list.dart';
@@ -60,7 +60,14 @@ class MyPage extends ConsumerWidget {
     final userAsyncValue = ref.watch(userProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('マイページ')), // アプリバー（ページタイトル）
+      // header
+      appBar: AppBar(
+        title: const Text(
+          'マイページ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: const Color(mainColor),
+      ),
       body: userAsyncValue.when(
         data: (user) {
           // ユーザーデータが正常に取得できた場合のUI
@@ -76,41 +83,44 @@ class MyPage extends ConsumerWidget {
                 ),
               ),
 
-              // ユーザー情報を表示する部分
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center, // 中央に配置
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(user.userIcon), // ユーザーアイコン画像
-                    radius: 40, // アイコンの半径
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    user.name, // ユーザー名の表示
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+              Center(
+                // ユーザー情報を表示する部分
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center, // 中央に配置
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage(user.userIcon), // ユーザーアイコン画像
+                      radius: 40, // アイコンの半径
                     ),
-                  ),
-                  const SizedBox(height: 16),
+                    const SizedBox(height: 8),
 
-                  // サインアウトボタン
-                  ElevatedButton(
-                    onPressed: () {
-                      // サインアウト後にログインページに遷移
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
-                      );
-                    },
-                    child: const Text('サインアウト'),
-                  ),
-                ],
+                    Text(
+                      user.name,
+                      style: const TextStyle(
+                        backgroundColor: Color(listColor),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // サインアウトボタン
+                    ElevatedButton(
+                      onPressed: () {
+                        // サインアウト後にログインページに遷移
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('サインアウト'),
+                    ),
+                  ],
+                ),
               ),
-
               // フッター部分
               const Positioned(
                 bottom: -20, // 画面下に配置
@@ -131,3 +141,10 @@ class MyPage extends ConsumerWidget {
     );
   }
 }
+
+
+// TODO 未実装
+// 真ん中寄せ
+// 累計部分
+// 名前の縁取り
+//　　名前変更icon
