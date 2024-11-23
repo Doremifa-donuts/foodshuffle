@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
+// ランダム関数
 import 'dart:math';
+// 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodshuffle/widgets/footer.dart';
+// footer 表示
+import '../widgets/footer.dart';
+// カラー、画像パス
 import '../model/color.dart';
 import '../model/images.dart';
+// 表示するデータを受け取るclass
 import '../model/data_list.dart';
 
-class ArchivePage extends ConsumerStatefulWidget {
-  const ArchivePage({super.key});
+// データベースを使用できるか
+const bool useDatabase = false;
+// ランダム関数
+final Random _random = Random();
 
-  @override
-  ConsumerState<ArchivePage> createState() => _ArchivePage();
-}
+// プロバイダーの定義（データ取得を切り替え）
+final archiveStoreProvider = FutureProvider<List<ArchiveStore>>((ref) async {
+  if (useDatabase) {
+    return fetchArchiveStoresFromDatabase();
+  } else {
+    return fetchDummyArchiveStores();
+  }
+});
 
-class _ArchivePage extends ConsumerState<ArchivePage> {
-  final Random _random = Random();
-
-  // 各ストアのデータをランダムに設定します。
-  late final List<ArchiveStore> stores = List.generate(
+// ダミーデータ（データベースがない場合に使用する固定データ）
+Future<List<ArchiveStore>> fetchDummyArchiveStores() async {
+  return List.generate(
     10,
     (index) {
       // 1～12のランダムな画像を選択
@@ -37,9 +47,22 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
               'オムライスの卵がふわふわでした、ミネストローネも野菜がたくさん入っていておいしかったです。リピートしようと思います。');
     },
   );
+}
+
+// 本番用（データベースから取得する処理）
+Future<List<ArchiveStore>> fetchArchiveStoresFromDatabase() async {
+  await Future.delayed(const Duration(seconds: 2)); // 仮の遅延
+  return []; // データベースの中身を受け取る
+}
+
+// アーカイブページ画面
+class ArchivePage extends ConsumerWidget {
+  const ArchivePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // アーカイブのデータを取得
+    final archiveStoreAsyncValue = ref.watch(archiveStoreProvider);
     return Scaffold(
       // アプリバー
       appBar: AppBar(
@@ -49,44 +72,55 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
         ),
         backgroundColor: const Color(mainColor), // アプリバーの背景色（共通定義）
       ),
-      body: Stack(
-        children: [
-          // 背景画像を表示するためのContainer
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backImg), // 背景画像のパス（共通定義）
-                fit: BoxFit.cover, // 画像を画面いっぱいに表示
+      // body
+      body: archiveStoreAsyncValue.when(
+        data: (stores) {
+          return Stack(
+            children: [
+              // 背景画像
+              Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(backImg),
+                    fit: BoxFit.cover, // 画像を画面いっぱいに表示
+                  ),
+                ),
               ),
-            ),
-          ),
-          // スクロールバー
-          Scrollbar(
-            thickness: 12, // スクロールバーの太さ
-            radius: const Radius.circular(20), // スクロールバーの角を丸く
-            child: ListView.separated(
-              padding: const EdgeInsets.all(20), // リストのパディングを指定
-              separatorBuilder: (context, index) =>
-                  const SizedBox(height: 8), // 各リストアイテム間のスペース
-              itemCount: stores.length, // リストアイテムの数
-              itemBuilder: (context, index) =>
-                  _buildCard(stores[index]), // 各カードをビルド
-            ),
-          ),
-          // フッター部分を画面下部に配置
-          const Positioned(
-            bottom: -20, // フッターを少しだけ下に配置
-            left: 0,
-            right: 0,
-            child: Footer(), // フッターウィジェット
-          ),
-        ],
+              // スクロール要素
+              Scrollbar(
+                thickness: 12, // スクロールバーの太さ
+                radius: const Radius.circular(20), // スクロールバーの角を丸く
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(20), // リストのパディングを指定
+                  // リスト要素
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 8), // 各リストアイテム間のスペース
+                  itemCount: stores.length, // リストアイテムの数
+                  // 各リストアイテム
+                  itemBuilder: (context, index) {
+                    return _buildCard(context, stores[index]);
+                  },
+                ),
+              ),
+              // フッター部分を画面下部に配置
+              const Positioned(
+                bottom: -20, // フッターを少しだけ下に配置
+                left: 0,
+                right: 0,
+                child: Footer(), // フッターウィジェット
+              ),
+            ],
+          );
+        },
+        loading: () =>
+            const Center(child: CircularProgressIndicator()), // 読み込み中
+        error: (err, stack) => Center(child: Text('エラーが発生しました: $err')), // エラー時
       ),
     );
   }
 
   // Storeの情報を元に、各ストアの詳細情報を表示するカードをビルド
-  Widget _buildCard(ArchiveStore store) {
+  Widget _buildCard(BuildContext context, ArchiveStore store) {
     return Card(
       // カードのカラー
       color: const Color(listColor),
