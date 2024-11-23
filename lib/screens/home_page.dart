@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
-import 'package:foodshuffle/model/common.dart';
 import 'package:foodshuffle/model/data_list.dart';
 import '../widgets/swipe_card.dart';
 import '../widgets/footer.dart';
+import '../model/color.dart';
 
 // ダミーデータ
 final swipeAsyncNotifierProvider = FutureProvider<List<homeStore>>((ref) async {

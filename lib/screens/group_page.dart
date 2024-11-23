@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodshuffle/widgets/footer.dart';
 import 'package:foodshuffle/model/common.dart';
 import 'package:foodshuffle/model/data_list.dart';
+import '../model/color.dart';
 
 class GroupPage extends ConsumerStatefulWidget {
   const GroupPage({super.key});

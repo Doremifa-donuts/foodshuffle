@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:foodshuffle/model/common.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/home_page.dart';
+import '../model/color.dart';
 
 // 立ち上げ時に実行
 void main() {

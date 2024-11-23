@@ -5,6 +5,7 @@ import 'package:foodshuffle/screens/archive_page.dart';
 import 'package:foodshuffle/screens/my_page.dart';
 import 'package:foodshuffle/screens/group_page.dart';
 import 'package:foodshuffle/screens/review_page.dart';
+import '../model/color.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key});

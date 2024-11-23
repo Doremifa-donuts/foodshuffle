@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodshuffle/model/common.dart';
 import 'package:foodshuffle/widgets/footer.dart';
+import '../model/color.dart';
 
 // レビュー時のストアのデータクラス
 // Storeクラスは、各ストアの情報（画像、名前、電話番号、住所）
