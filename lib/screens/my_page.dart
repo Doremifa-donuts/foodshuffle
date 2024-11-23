@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodshuffle/model/common.dart';
 import 'package:foodshuffle/widgets/footer.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:foodshuffle/login.dart';
+import '../model/images.dart';
 
 // マイページを表すConsumerStatefulWidget
 class MyPage extends ConsumerStatefulWidget {
