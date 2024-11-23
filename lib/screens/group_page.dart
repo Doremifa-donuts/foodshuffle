@@ -2,21 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodshuffle/widgets/footer.dart';
-import 'package:foodshuffle/common.dart';
-
-// グループデータクラス
-class Group {
-  final String name; // グループ名
-  final String deadline; // 期限日
-  final List<String> memberIcons; // メンバーのアイコン画像パス
-
-  // コンストラクタ
-  Group({
-    required this.name,
-    required this.deadline,
-    required this.memberIcons,
-  });
-}
+import 'package:foodshuffle/model/common.dart';
+import 'package:foodshuffle/model/data_list.dart';
 
 class GroupPage extends ConsumerStatefulWidget {
   const GroupPage({super.key});

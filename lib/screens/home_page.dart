@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
-import 'package:foodshuffle/common.dart';
-import 'package:foodshuffle/model/store.dart';
+import 'package:foodshuffle/model/common.dart';
+import 'package:foodshuffle/model/data_list.dart';
 import '../widgets/swipe_card.dart';
 import '../widgets/footer.dart';
 
-final swipeAsyncNotifierProvider = FutureProvider<List<Store>>((ref) async {
+// ダミーデータ
+final swipeAsyncNotifierProvider = FutureProvider<List<homeStore>>((ref) async {
   return [
-    Store(
+    homeStore(
       storeImage: 'images/store/store_1.png',
       name: 'Store A',
       address: '123 Street, City',
@@ -16,7 +17,7 @@ final swipeAsyncNotifierProvider = FutureProvider<List<Store>>((ref) async {
       days: '2024-11-20',
       goods: 120,
     ),
-    Store(
+    homeStore(
       storeImage: 'images/store/store_1.png',
       name: 'Store B',
       address: '456 Avenue, City',
@@ -27,6 +28,7 @@ final swipeAsyncNotifierProvider = FutureProvider<List<Store>>((ref) async {
   ];
 });
 
+// homePage クラス
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
@@ -49,11 +51,14 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.dispose();
   }
 
+// homePage 画面処理
   @override
   Widget build(BuildContext context) {
+    // リストの中身を確認
     final asyncValue = ref.watch(swipeAsyncNotifierProvider);
 
     return Scaffold(
+      // headerの処理
       appBar: AppBar(
         title: const Text(
           'ホーム',
@@ -61,6 +66,8 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
         backgroundColor: const Color(mainColor),
       ),
+
+      // body の処理
       body: asyncValue.when(
         data: (stores) => Stack(
           children: [
@@ -74,6 +81,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   cardBuilder: (context, index) {
                     return SwipeCard(store: stores[index]);
                   },
+                  // スワイプ処理
                   onSwipeEnd: (previousIndex, targetIndex, activity) {
                     debugPrint('Swiped from $previousIndex to $targetIndex');
                     debugPrint('Swipe activity: $activity');
@@ -84,6 +92,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
               ),
             ),
+
+            // footerの処理　classに飛ばす
             const Positioned(
               bottom: 0,
               left: 0,
@@ -92,6 +102,8 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           ],
         ),
+
+        // loading　処理
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
           child: Text(
