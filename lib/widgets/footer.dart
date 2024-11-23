@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodshuffle/common.dart';
+import 'package:foodshuffle/model/common.dart';
 import 'package:foodshuffle/screens/home_page.dart';
 import 'package:foodshuffle/screens/archive_page.dart';
 import 'package:foodshuffle/screens/my_page.dart';

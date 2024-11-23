@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodshuffle/common.dart';
+import 'package:foodshuffle/model/common.dart';
 import 'package:foodshuffle/widgets/footer.dart';
 
 // ストアのデータクラス
