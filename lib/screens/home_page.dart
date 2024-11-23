@@ -7,9 +7,9 @@ import '../widgets/footer.dart';
 import '../model/color.dart';
 
 // ダミーデータ
-final swipeAsyncNotifierProvider = FutureProvider<List<homeStore>>((ref) async {
+final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
   return [
-    homeStore(
+    HomeStore(
       storeImage: 'images/store/store_1.png',
       name: 'Store A',
       address: '123 Street, City',
@@ -17,7 +17,7 @@ final swipeAsyncNotifierProvider = FutureProvider<List<homeStore>>((ref) async {
       days: '2024-11-20',
       goods: 120,
     ),
-    homeStore(
+    HomeStore(
       storeImage: 'images/store/store_1.png',
       name: 'Store B',
       address: '456 Avenue, City',

@@ -3,23 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodshuffle/widgets/footer.dart';
 import '../model/color.dart';
 import '../model/images.dart';
-
-// レビュー時のストアのデータクラス
-// Storeクラスは、各ストアの情報（画像、名前、電話番号、住所）
-class Store {
-  final String storeImage; // ストア画像
-  final String name; // ストア名
-  final String tel; // 電話番号
-  final String address; // 住所
-
-  // コンストラクタで必要なデータを受け取ります。
-  Store({
-    required this.storeImage,
-    required this.name,
-    required this.tel,
-    required this.address,
-  });
-}
+import '../model/data_list.dart';
 
 class ReviewPage extends ConsumerStatefulWidget {
   const ReviewPage({super.key});
@@ -30,10 +14,10 @@ class ReviewPage extends ConsumerStatefulWidget {
 
 class _ReviewPage extends ConsumerState<ReviewPage> {
   // 各ストアのデータをランダムに設定します。
-  late final List<Store> stores = List.generate(
+  late final List<ReviewStore> stores = List.generate(
     10,
     (index) {
-      return Store(
+      return ReviewStore(
         storeImage: 'images/store/store_1.png', // ストア画像を固定（仮の画像パス）
         name: "おにぎりごりちゃん 中崎町本店}",
         tel: "000-000-000",
@@ -88,7 +72,7 @@ class _ReviewPage extends ConsumerState<ReviewPage> {
   }
 
   // Storeの情報を元に、各ストアの詳細情報を表示するカードをビルド
-  Widget _buildCard(Store store) {
+  Widget _buildCard(ReviewStore store) {
     return Card(
       // カードのカラー
       color: const Color(listColor),

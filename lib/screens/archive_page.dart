@@ -4,25 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodshuffle/widgets/footer.dart';
 import '../model/color.dart';
 import '../model/images.dart';
-
-// ストアのデータクラス
-// Storeクラスは、各ストアの情報（画像、名前、期限、メンバーアイコン）
-class Store {
-  final String storeImage; // ストア画像
-  final String name; // ストア名
-  final String deadline; // 提出
-  final String memberIcon; // アイコン
-  final String massage; // コメント
-
-  // コンストラクタで必要なデータを受け取ります。
-  Store({
-    required this.storeImage,
-    required this.name,
-    required this.deadline,
-    required this.memberIcon,
-    required this.massage,
-  });
-}
+import '../model/data_list.dart';
 
 class ArchivePage extends ConsumerStatefulWidget {
   const ArchivePage({super.key});
@@ -35,7 +17,7 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
   final Random _random = Random();
 
   // 各ストアのデータをランダムに設定します。
-  late final List<Store> stores = List.generate(
+  late final List<ArchiveStore> stores = List.generate(
     10,
     (index) {
       // 1～12のランダムな画像を選択
@@ -46,12 +28,12 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
       // ランダムでアイコンを1つ選択
       String memberIcon = allIcons[_random.nextInt(12)]; // 12個の画像からランダムに選択
 
-      return Store(
+      return ArchiveStore(
           storeImage: 'images/store/store_1.png', // ストア画像を固定（仮の画像パス）
           name: "ストア ${index + 1}",
-          deadline: "12/${(index + 10) % 30 + 1}",
+          days: "12/${(index + 10) % 30 + 1}",
           memberIcon: memberIcon, // ランダムに選ばれたアイコン
-          massage:
+          message:
               'オムライスの卵がふわふわでした、ミネストローネも野菜がたくさん入っていておいしかったです。リピートしようと思います。');
     },
   );
@@ -104,7 +86,7 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
   }
 
   // Storeの情報を元に、各ストアの詳細情報を表示するカードをビルド
-  Widget _buildCard(Store store) {
+  Widget _buildCard(ArchiveStore store) {
     return Card(
       // カードのカラー
       color: const Color(listColor),
@@ -159,7 +141,7 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
                         ),
                         // 投稿日時を表示
                         Text(
-                          '投稿日: ${store.deadline}',
+                          '投稿日: ${store.days}',
                           style: const TextStyle(
                               fontSize: 16, color: Colors.grey), // 投稿日をグレー色で表示
                         ),
@@ -170,7 +152,7 @@ class _ArchivePage extends ConsumerState<ArchivePage> {
                       width: MediaQuery.of(context).size.width -
                           200, // 画像の幅分を引いて残りの幅を使う
                       child: Text(
-                        store.massage,
+                        store.message,
                         style: const TextStyle(fontSize: 14), // コメントの文字サイズ
                         maxLines: 3, // 最大3行に制限
                         overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て

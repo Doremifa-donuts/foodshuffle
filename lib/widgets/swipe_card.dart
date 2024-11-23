@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodshuffle/model/data_list.dart';
 
 class SwipeCard extends StatelessWidget {
-  final homeStore store;
+  final HomeStore store;
 
   const SwipeCard({super.key, required this.store});
 
