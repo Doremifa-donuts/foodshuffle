@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodshuffle/model/common.dart';
 import 'package:foodshuffle/widgets/footer.dart';
 import '../model/color.dart';
+import '../model/images.dart';
 
 // ストアのデータクラス
 // Storeクラスは、各ストアの情報（画像、名前、期限、メンバーアイコン）
