@@ -86,15 +86,15 @@ class MyPage extends ConsumerWidget {
               Center(
                 // ユーザー情報を表示する部分
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center, // 中央に配置
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    // ユーザーアイコン
                     CircleAvatar(
                       backgroundImage: AssetImage(user.userIcon), // ユーザーアイコン画像
                       radius: 40, // アイコンの半径
                     ),
-                    const SizedBox(height: 8),
 
+                    // ユーザー名
                     Text(
                       user.name,
                       style: const TextStyle(
@@ -103,7 +103,65 @@ class MyPage extends ConsumerWidget {
                         fontSize: 20,
                       ),
                     ),
-                    const SizedBox(height: 16),
+
+                    // 累計情報
+                    Column(children: [
+                      const Text('累計'),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            children: [
+                              const Text('いいね'),
+                              Text(user.goods.toString()),
+                            ],
+                          ),
+                          const SizedBox(width: 40),
+                          Column(
+                            children: [
+                              const Text('共有距離（km）'),
+                              Text(user.store.toString()),
+                            ],
+                          ),
+                          const SizedBox(width: 40),
+                          Column(
+                            children: [
+                              const Text('お店'),
+                              Text(user.goods.toString()),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ]),
+
+                    // サインアウトボタン
+                    ElevatedButton(
+                      onPressed: () {
+                        // サインアウト後にログインページに遷移
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('行ったところマップ'),
+                    ),
+
+                    // サインアウトボタン
+                    ElevatedButton(
+                      onPressed: () {
+                        // サインアウト後にログインページに遷移
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('いいね'),
+                    ),
 
                     // サインアウトボタン
                     ElevatedButton(
@@ -146,5 +204,5 @@ class MyPage extends ConsumerWidget {
 // TODO 未実装
 // 真ん中寄せ
 // 累計部分
-// 名前の縁取り
+  // icon
 //　　名前変更icon
