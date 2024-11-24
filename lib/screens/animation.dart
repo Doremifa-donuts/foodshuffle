@@ -1,72 +1,66 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
-class AnimationPage extends StatelessWidget {
+// AnimationPage クラス
+class AnimationPage extends StatefulWidget {
   const AnimationPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AnimatedList Sample',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: AnimatedListSample(),
-    );
-  }
+  State<AnimationPage> createState() => _AnimationPageState();
 }
 
-class AnimatedListSample extends StatefulWidget {
+class _AnimationPageState extends State<AnimationPage> {
+  int _currentImageIndex = 0; // 現在の画像インデックス
+  late Timer _timer; // 画像切り替え用タイマー
+  final List<String> _imagePaths = [
+    'images/animation/animation_1.jpg',
+    'images/animation/animation_2.jpg',
+    'images/animation/animation_3.jpg',
+    'images/animation/animation_4.jpg',
+  ];
+
   @override
-  _AnimatedListSampleState createState() => _AnimatedListSampleState();
-}
-
-class _AnimatedListSampleState extends State<AnimatedListSample> {
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  List<String> _items = ['Item 1', 'Item 2', 'Item 3'];
-
-  Widget _buildItem(BuildContext context, int index, String title,
-      Animation<double> animation) {
-    return SlideTransition(
-      position: animation.drive(
-          Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
-              .chain(CurveTween(curve: Curves.ease))),
-      child: ListTile(
-        title: Text(title),
-        onTap: () {
-          _items.removeAt(index);
-          AnimatedList.of(context).removeItem(
-              index,
-              (BuildContext context, Animation<double> animation) =>
-                  _buildItem(context, index, title, animation));
-        },
-      ),
-    );
+  void initState() {
+    super.initState();
+    // タイマーで画像を定期的に切り替える
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _currentImageIndex = (_currentImageIndex + 1) % _imagePaths.length;
+      });
+    });
   }
 
-  void _addItem() {
-    setState(() {
-      int index = _items.length;
-      _items.add('Item ${index + 1}');
-      _listKey.currentState?.insertItem(index);
-    });
+  @override
+  void dispose() {
+    _timer.cancel(); // 画面が破棄されるときにタイマーを停止
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('AnimatedList Sample'),
+      body: Stack(
+        children: [
+          _buildBackground(),
+          Center(
+            child: Image.asset(
+              _imagePaths[_currentImageIndex],
+              fit: BoxFit.contain,
+            ),
+          ),
+        ],
       ),
-      body: AnimatedList(
-        key: _listKey,
-        initialItemCount: _items.length,
-        itemBuilder:
-            (BuildContext context, int index, Animation<double> animation) {
-          return _buildItem(context, index, _items[index], animation);
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addItem,
-        tooltip: 'Add Item',
-        child: Icon(Icons.add),
+    );
+  }
+
+  // 背景を構築するメソッド
+  Widget _buildBackground() {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('images/backimg.jpg'),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
