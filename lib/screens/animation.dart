@@ -13,10 +13,10 @@ class _AnimationPageState extends State<AnimationPage> {
   int _currentImageIndex = 0; // 現在の画像インデックス
   late Timer _timer; // 画像切り替え用タイマー
   final List<String> _imagePaths = [
-    'images/animation/animation_1.jpg',
-    'images/animation/animation_2.jpg',
-    'images/animation/animation_3.jpg',
-    'images/animation/animation_4.jpg',
+    'images/animation/animation_1.png',
+    'images/animation/animation_2.png',
+    'images/animation/animation_3.png',
+    'images/animation/animation_4.png',
   ];
 
   @override
