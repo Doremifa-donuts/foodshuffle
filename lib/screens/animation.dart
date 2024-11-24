@@ -10,6 +10,7 @@ class AnimationPage extends StatefulWidget {
   State<AnimationPage> createState() => _AnimationPageState();
 }
 
+// 画像切り替え用ステート
 class _AnimationPageState extends State<AnimationPage> {
   int _currentImageIndex = 0; // 現在の画像インデックス
   late Timer _timer; // 画像切り替え用タイマー
@@ -38,6 +39,7 @@ class _AnimationPageState extends State<AnimationPage> {
     });
   }
 
+  // 画像切り替え用タイマー
   void _startImageChangeTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -46,12 +48,14 @@ class _AnimationPageState extends State<AnimationPage> {
     });
   }
 
+  // ウィジェットが破棄されるときにタイマーを停止
   @override
   void dispose() {
     _timer.cancel(); // タイマーを停止
     super.dispose();
   }
 
+  // 画面を構成
   @override
   Widget build(BuildContext context) {
     return Scaffold(
