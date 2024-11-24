@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-// AnimationPage クラス
 class AnimationPage extends StatefulWidget {
   const AnimationPage({super.key});
 
@@ -12,6 +11,8 @@ class AnimationPage extends StatefulWidget {
 class _AnimationPageState extends State<AnimationPage> {
   int _currentImageIndex = 0; // 現在の画像インデックス
   late Timer _timer; // 画像切り替え用タイマー
+
+  // 切り替える画像のパス
   final List<String> _imagePaths = [
     'images/animation/animation_1.png',
     'images/animation/animation_2.png',
@@ -23,6 +24,11 @@ class _AnimationPageState extends State<AnimationPage> {
   void initState() {
     super.initState();
     // タイマーで画像を定期的に切り替える
+    _startImageChangeTimer();
+  }
+
+  // タイマーを開始するメソッド
+  void _startImageChangeTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _currentImageIndex = (_currentImageIndex + 1) % _imagePaths.length;
@@ -30,12 +36,14 @@ class _AnimationPageState extends State<AnimationPage> {
     });
   }
 
+  // Widgetを破棄するメソッド
   @override
   void dispose() {
-    _timer.cancel(); // 画面が破棄されるときにタイマーを停止
+    _timer.cancel(); // タイマーを停止
     super.dispose();
   }
 
+  // UIを構築するメソッド
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +51,10 @@ class _AnimationPageState extends State<AnimationPage> {
         children: [
           _buildBackground(),
           Center(
-            child: Image.asset(
-              _imagePaths[_currentImageIndex],
-              fit: BoxFit.contain,
+            child: SizedBox(
+              width: 200, // 固定幅
+              height: 200, // 固定高さ
+              child: _buildAnimatedImage(),
             ),
           ),
         ],
@@ -62,6 +71,14 @@ class _AnimationPageState extends State<AnimationPage> {
           fit: BoxFit.cover,
         ),
       ),
+    );
+  }
+
+  // アニメーション画像を構築するメソッド
+  Widget _buildAnimatedImage() {
+    return Image.asset(
+      _imagePaths[_currentImageIndex],
+      fit: BoxFit.contain,
     );
   }
 }
