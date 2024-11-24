@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+// ホームページに移動
+import '../screens/home_page.dart';
 
 class AnimationPage extends StatefulWidget {
   const AnimationPage({super.key});
@@ -23,11 +25,19 @@ class _AnimationPageState extends State<AnimationPage> {
   @override
   void initState() {
     super.initState();
-    // タイマーで画像を定期的に切り替える
     _startImageChangeTimer();
+
+    // 3秒後にHomePageに遷移
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
+    });
   }
 
-  // タイマーを開始するメソッド
   void _startImageChangeTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -36,14 +46,12 @@ class _AnimationPageState extends State<AnimationPage> {
     });
   }
 
-  // Widgetを破棄するメソッド
   @override
   void dispose() {
     _timer.cancel(); // タイマーを停止
     super.dispose();
   }
 
-  // UIを構築するメソッド
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +62,10 @@ class _AnimationPageState extends State<AnimationPage> {
             child: SizedBox(
               width: 200, // 固定幅
               height: 200, // 固定高さ
-              child: _buildAnimatedImage(),
+              child: Image.asset(
+                _imagePaths[_currentImageIndex],
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ],
@@ -62,7 +73,6 @@ class _AnimationPageState extends State<AnimationPage> {
     );
   }
 
-  // 背景を構築するメソッド
   Widget _buildBackground() {
     return Container(
       decoration: const BoxDecoration(
@@ -71,14 +81,6 @@ class _AnimationPageState extends State<AnimationPage> {
           fit: BoxFit.cover,
         ),
       ),
-    );
-  }
-
-  // アニメーション画像を構築するメソッド
-  Widget _buildAnimatedImage() {
-    return Image.asset(
-      _imagePaths[_currentImageIndex],
-      fit: BoxFit.contain,
     );
   }
 }
