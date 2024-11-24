@@ -86,7 +86,7 @@ class MyPage extends ConsumerWidget {
               Center(
                 // ユーザー情報を表示する部分
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     // ユーザーアイコン
                     CircleAvatar(
