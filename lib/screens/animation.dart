@@ -28,7 +28,7 @@ class _AnimationPageState extends State<AnimationPage> {
     _startImageChangeTimer();
 
     // 3秒後にHomePageに遷移
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
