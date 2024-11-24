@@ -8,24 +8,17 @@ import '../model/color.dart';
 
 // ダミーデータ
 final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
-  return [
-    HomeStore(
-      storeImage: 'images/store/store_1.png',
-      name: 'Store A',
-      address: '123 Street, City',
-      message: 'Fresh and delicious!',
-      days: '2024-11-20',
-      goods: 120,
-    ),
-    HomeStore(
-      storeImage: 'images/store/store_1.png',
-      name: 'Store B',
-      address: '456 Avenue, City',
-      message: 'Great atmosphere!',
-      days: '2024-11-21',
-      goods: 90,
-    ),
-  ];
+  return List.generate(30, (index) {
+    return HomeStore(
+      storeImage: 'images/store/store_1.png', // 画像ファイル名を動的に変更
+      name:
+          'Store ${String.fromCharCode(65 + index)}', // 'Store A', 'Store B', ...
+      address: 'Street ${index + 1}, City',
+      message: 'Fresh and delicious! ${index + 1}',
+      days: '2024-11-${20 + index}',
+      goods: 120 + index,
+    );
+  });
 });
 
 // homePage クラス
