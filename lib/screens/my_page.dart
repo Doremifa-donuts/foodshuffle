@@ -9,7 +9,7 @@ import '../model/images.dart';
 // 表示するデータを受け取るclass
 import '../model/data_list.dart';
 // ログインページ
-import '../login.dart';
+import 'login.dart';
 
 // データベースを使用できるか
 const bool useDatabase = false;
