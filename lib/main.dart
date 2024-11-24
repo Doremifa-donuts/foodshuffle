@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/home_page.dart';
+import 'screens/login.dart';
 import '../model/color.dart';
 
 // 立ち上げ時に実行
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       ),
 
       // 起動時にホームに飛ばす
-      home: const HomePage(), // ホーム画面へ遷移
+      home: const LoginPage(), // ホーム画面へ遷移
     );
   }
 }
