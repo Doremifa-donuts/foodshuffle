@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 // 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // アニメーションを挟む
-import '../screens/animation.dart';
+import '../../screens/animation.dart';
 // カラー、画像パス
-import '../model/color.dart';
-import '../model/images.dart';
+import '../../model/color.dart';
+import '../../model/images.dart';
 // 表示するデータを受け取るclass
-import '../model/data_list.dart';
+import '../../model/data_list.dart';
 
 // データベースを使用できるか
 const bool useDatabase = false;
