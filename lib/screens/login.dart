@@ -44,9 +44,8 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // ユーザーアイコンの表示
+                  // food shuffle
                   const CircleAvatar(
-                    radius: 50, // アイコンの半径
                     backgroundImage:
                         AssetImage('images/icon/member_1.png'), // アイコン画像
                     backgroundColor: Colors.transparent,
