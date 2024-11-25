@@ -4,7 +4,6 @@ import 'package:foodshuffle/screens/archive_page.dart';
 import 'package:foodshuffle/screens/my_page.dart';
 import 'package:foodshuffle/screens/group_page.dart';
 import 'package:foodshuffle/screens/review_page.dart';
-import 'package:foodshuffle/screens/animation.dart';
 import '../model/color.dart';
 import '../model/images.dart';
 
@@ -31,8 +30,7 @@ class Footer extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const AnimationPage()),
+                    MaterialPageRoute(builder: (context) => const MyPage()),
                   );
                 }),
             Row(
