@@ -90,7 +90,7 @@ class MyPage extends ConsumerWidget {
                   children: [
                     // ユーザーアイコン
                     CircleAvatar(
-                      backgroundImage: AssetImage(user.Icon), // ユーザーアイコン画像
+                      backgroundImage: AssetImage(user.UserName), // ユーザーアイコン画像
                       radius: 40, // アイコンの半径
                     ),
 

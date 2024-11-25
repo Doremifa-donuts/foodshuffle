@@ -38,7 +38,7 @@ class Footer extends StatelessWidget {
               children: [
                 _FooterIcon(
                     icon: Icons.rate_review,
-                    label: 'Review',
+                    label: 'review',
                     isActive: false, // 現在のページに応じて変更
                     onPressed: () {
                       Navigator.push(
@@ -49,7 +49,7 @@ class Footer extends StatelessWidget {
                     }),
                 _FooterIcon(
                     icon: Icons.groups_2,
-                    label: 'Groups',
+                    label: 'groups',
                     isActive: false, // 現在のページに応じて変更
                     onPressed: () {
                       Navigator.push(
@@ -60,7 +60,7 @@ class Footer extends StatelessWidget {
                     }),
                 _FooterIcon(
                     icon: Icons.home,
-                    label: 'Home',
+                    label: 'home',
                     isActive: true, // アクティブなページ
                     onPressed: () {
                       Navigator.push(
@@ -82,7 +82,7 @@ class Footer extends StatelessWidget {
                     }),
                 _FooterIcon(
                     icon: Icons.account_circle,
-                    label: 'Profile',
+                    label: 'my page',
                     isActive: false,
                     onPressed: () {
                       Navigator.push(

@@ -39,7 +39,7 @@ class SwipeCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  store.RestaurantName,
+                  store.Address,
                   style: const TextStyle(fontSize: 16, color: Colors.grey),
                 ),
                 const SizedBox(height: 8),
