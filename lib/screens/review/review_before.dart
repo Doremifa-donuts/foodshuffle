@@ -13,16 +13,16 @@ import '../../model/data_list.dart';
 const bool useDatabase = false;
 
 // プロバイダーの定義（データ取得を切り替え）
-final reviewStoreProvider = FutureProvider<List<ReviewStore>>((ref) async {
+final reviewStoreBeforeProvider = FutureProvider<List<ReviewStore>>((ref) async {
   if (useDatabase) {
-    return fetchReviewStoresFromDatabase();
+    return fetchReviewStoresBeforeFromDatabase();
   } else {
-    return fetchDummyReviewStores();
+    return fetchDummyReviewStoresBefore();
   }
 });
 
 // ダミーデータ（データベースがない場合に使用する固定データ）
-Future<List<ReviewStore>> fetchDummyReviewStores() async {
+Future<List<ReviewStore>> fetchDummyReviewStoresBefore() async {
   return List.generate(
     10,
     (index) => ReviewStore(
@@ -35,7 +35,7 @@ Future<List<ReviewStore>> fetchDummyReviewStores() async {
 }
 
 // 本番用（データベースから取得する処理）
-Future<List<ReviewStore>> fetchReviewStoresFromDatabase() async {
+Future<List<ReviewStore>> fetchReviewStoresBeforeFromDatabase() async {
   await Future.delayed(const Duration(seconds: 2)); // 仮の遅延
   return []; // データベースの中身を受け取る
 }
@@ -47,7 +47,7 @@ class ReviewPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // レビューのデータを取得
-    final reviewStoreAsyncValue = ref.watch(reviewStoreProvider);
+    final reviewStoreBeforeAsyncValue = ref.watch(reviewStoreBeforeProvider);
     return Scaffold(
       // header
       appBar: AppBar(
@@ -58,7 +58,7 @@ class ReviewPage extends ConsumerWidget {
         backgroundColor: const Color(mainColor),
       ),
       // body
-      body: reviewStoreAsyncValue.when(
+      body: reviewStoreBeforeAsyncValue.when(
         data: (stores) {
           return Stack(
             children: [
