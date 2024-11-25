@@ -156,7 +156,21 @@ class MyPage extends ConsumerWidget {
                       ),
                     ),
 
-                    // サインアウトボタン
+                    // 共有するレビュー表示ボタン
+                    ElevatedButton(
+                      onPressed: () {
+                        // サインアウト後にログインページに遷移
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('共有するレビュー'),
+                    ),
+
+                    // 行ったところ表示ボタン
                     ElevatedButton(
                       onPressed: () {
                         // サインアウト後にログインページに遷移
@@ -170,7 +184,7 @@ class MyPage extends ConsumerWidget {
                       child: const Text('行ったところマップ'),
                     ),
 
-                    // サインアウトボタン
+                    // いいねしたレビュー表示ボタン
                     ElevatedButton(
                       onPressed: () {
                         // サインアウト後にログインページに遷移
