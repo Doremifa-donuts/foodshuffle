@@ -39,11 +39,11 @@ Future<List<ArchiveStore>> fetchDummyArchiveStores() async {
       String memberIcon = allIcons[_random.nextInt(12)]; // 12個の画像からランダムに選択
 
       return ArchiveStore(
-          storeImage: 'images/store/store_1.png', // ストア画像を固定（仮の画像パス）
-          name: "ストア ${index + 1}",
-          days: "12/${(index + 10) % 30 + 1}",
-          memberIcon: memberIcon, // ランダムに選ばれたアイコン
-          message:
+          Images: 'images/store/store_1.png', // ストア画像を固定（仮の画像パス）
+          RestaurantName: "ストア ${index + 1}",
+          CreatedAt: "12/${(index + 10) % 30 + 1}",
+          Icon: memberIcon, // ランダムに選ばれたアイコン
+          Comment:
               'オムライスの卵がふわふわでした、ミネストローネも野菜がたくさん入っていておいしかったです。リピートしようと思います。');
     },
   );
@@ -143,7 +143,7 @@ class ArchivePage extends ConsumerWidget {
                   children: [
                     // 店名を表示
                     Text(
-                      store.name,
+                      store.RestaurantName,
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold), // 店名を太字で表示
@@ -151,7 +151,7 @@ class ArchivePage extends ConsumerWidget {
                     const SizedBox(height: 8), // 店名と画像の間に余白
                     // ストアの画像を表示
                     Image.asset(
-                      store.storeImage,
+                      store.Images,
                       width: 120, // 画像の幅
                       height: 100, // 画像の高さ
                       fit: BoxFit.cover, // 画像のアスペクト比を維持
@@ -170,12 +170,12 @@ class ArchivePage extends ConsumerWidget {
                           child: CircleAvatar(
                             radius: 20, // アイコンの半径（大きさ）
                             backgroundImage:
-                                AssetImage(store.memberIcon), // アイコン画像を設定
+                                AssetImage(store.Icon), // アイコン画像を設定
                           ),
                         ),
                         // 投稿日時を表示
                         Text(
-                          '投稿日: ${store.days}',
+                          '投稿日: ${store.CreatedAt}',
                           style: const TextStyle(
                               fontSize: 16, color: Colors.grey), // 投稿日をグレー色で表示
                         ),
@@ -186,7 +186,7 @@ class ArchivePage extends ConsumerWidget {
                       width: MediaQuery.of(context).size.width -
                           200, // 画像の幅分を引いて残りの幅を使う
                       child: Text(
-                        store.message,
+                        store.Comment,
                         style: const TextStyle(fontSize: 14), // コメントの文字サイズ
                         maxLines: 3, // 最大3行に制限
                         overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て

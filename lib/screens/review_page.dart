@@ -26,10 +26,10 @@ Future<List<ReviewStore>> fetchDummyReviewStores() async {
   return List.generate(
     10,
     (index) => ReviewStore(
-      storeImage: 'images/store/store_1.png',
-      name: 'おにぎりごりちゃん 中崎町本店',
-      tel: '000-000-000',
-      address: '大阪府大阪市北区中崎1丁目5-20 TKビル1階',
+      Images: 'images/store/store_1.png',
+      RestaurantName: 'おにぎりごりちゃん 中崎町本店',
+      Tell: '000-000-000',
+      Address: '大阪府大阪市北区中崎1丁目5-20 TKビル1階',
     ),
   );
 }
@@ -129,7 +129,7 @@ class ReviewPage extends ConsumerWidget {
                   children: [
                     // ストアの画像を表示
                     Image.asset(
-                      store.storeImage,
+                      store.Images,
                       width: 120, // 画像の幅
                       height: 100, // 画像の高さ
                       fit: BoxFit.cover, // 画像のアスペクト比を維持
@@ -143,7 +143,7 @@ class ReviewPage extends ConsumerWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width - 200,
                       child: Text(
-                        store.name,
+                        store.RestaurantName,
                         style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold), // 店名を太字で表示
@@ -152,7 +152,7 @@ class ReviewPage extends ConsumerWidget {
                     ),
                     // 電話番号
                     Text(
-                      '📞: ${store.tel}',
+                      '📞: ${store.Tell}',
                       style: const TextStyle(
                           fontSize: 12, color: Colors.grey), // 電話番号をグレー色で表示
                     ),
@@ -161,7 +161,7 @@ class ReviewPage extends ConsumerWidget {
                       width: MediaQuery.of(context).size.width -
                           200, // 画像の幅分を引いて残りの幅を使う
                       child: Text(
-                        store.address,
+                        store.Address,
                         style: const TextStyle(fontSize: 14), // コメントの文字サイズ
                         maxLines: 2, // 最大2行に制限
                         overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て

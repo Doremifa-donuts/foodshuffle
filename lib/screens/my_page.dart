@@ -29,8 +29,8 @@ final userProvider = FutureProvider<User>((ref) async {
 Future<User> fetchDummyUser() async {
   // 固定されたユーザー情報を返す
   return User(
-    name: 'かれんこん', // ユーザー名
-    userIcon: 'images/icon/member_1.png', // ユーザーアイコン
+    UserName: 'かれんこん', // ユーザー名
+    Icon: 'images/icon/member_1.png', // ユーザーアイコン
     goods: 10, // 所持アイテム数
     range: 50, // 距離（例: 運送サービスなどのイメージ）
     store: 3, // 関連ストア数
@@ -42,8 +42,8 @@ Future<User> fetchUserFromDatabase() async {
   await Future.delayed(const Duration(seconds: 2)); // 仮の遅延を追加
   // 本番環境ではデータベースから情報を取得して返す
   return User(
-    name: 'ユーザー', // 仮のデータ
-    userIcon: 'images/icon/member_2.png',
+    UserName: 'ユーザー', // 仮のデータ
+    Icon: 'images/icon/member_2.png',
     goods: 5,
     range: 30,
     store: 2,
@@ -90,13 +90,13 @@ class MyPage extends ConsumerWidget {
                   children: [
                     // ユーザーアイコン
                     CircleAvatar(
-                      backgroundImage: AssetImage(user.userIcon), // ユーザーアイコン画像
+                      backgroundImage: AssetImage(user.Icon), // ユーザーアイコン画像
                       radius: 40, // アイコンの半径
                     ),
 
                     // ユーザー名
                     Text(
-                      user.name,
+                      user.UserName,
                       style: const TextStyle(
                         backgroundColor: Color(listColor),
                         fontWeight: FontWeight.bold,

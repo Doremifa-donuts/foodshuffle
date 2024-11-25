@@ -21,7 +21,7 @@ class SwipeCard extends StatelessWidget {
             borderRadius:
                 const BorderRadius.vertical(top: Radius.circular(12.0)),
             child: Image.asset(
-              store.storeImage,
+              store.Images,
               height: 200,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -33,22 +33,22 @@ class SwipeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  store.name,
+                  store.RestaurantName,
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  store.address,
+                  store.RestaurantName,
                   style: const TextStyle(fontSize: 16, color: Colors.grey),
                 ),
                 const SizedBox(height: 8),
-                Text(store.message, style: const TextStyle(fontSize: 16)),
+                Text(store.Comment, style: const TextStyle(fontSize: 16)),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('投稿日: ${store.days}',
+                    Text('投稿日: ${store.CreatedAt}',
                         style: const TextStyle(fontSize: 14)),
                     Row(
                       children: [

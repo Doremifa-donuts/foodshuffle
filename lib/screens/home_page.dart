@@ -10,12 +10,12 @@ import '../model/color.dart';
 final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
   return List.generate(30, (index) {
     return HomeStore(
-      storeImage: 'images/store/store_1.png', // 画像ファイル名を動的に変更
-      name:
+      Images: 'images/store/store_1.png', // 画像ファイル名を動的に変更
+      RestaurantName:
           'Store ${String.fromCharCode(65 + index)}', // 'Store A', 'Store B', ...
-      address: 'Street ${index + 1}, City',
-      message: 'Fresh and delicious! ${index + 1}',
-      days: '2024-11-${20 + index}',
+      Address: 'Street ${index + 1}, City',
+      Comment: 'Fresh and delicious! ${index + 1}',
+      CreatedAt: '2024-11-${20 + index}',
       goods: 120 + index,
     );
   });

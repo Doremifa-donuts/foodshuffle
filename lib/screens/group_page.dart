@@ -43,9 +43,9 @@ Future<List<Group>> fetchDummyGroups() async {
 
       // グループを返す
       return Group(
-        name: "グループ ${index + 1}",
-        deadline: "2024/12/${(index + 10) % 30 + 1}", // 期限日を設定
-        memberIcons: memberIcons,
+        PopupGroupName: "グループ ${index + 1}",
+        ExpirationDate: "2024/12/${(index + 10) % 30 + 1}", // 期限日を設定
+        Icon: memberIcons,
       );
     },
   );
@@ -138,29 +138,27 @@ class GroupPage extends ConsumerWidget {
             Row(children: [
               // グループ名
               Text(
-                group.name,
+                group.PopupGroupName,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 8),
               // グループの期限日
               Text(
-                '期限日: ${group.deadline}',
+                '期限日: ${group.ExpirationDate}',
                 style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
             ]),
             const SizedBox(height: 8),
             // メンバーアイコン
             Row(
-              children: group.memberIcons
-                  .map((iconPath) => Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: CircleAvatar(
-                          radius: 20, // アイコンのサイズ
-                          backgroundImage: AssetImage(iconPath), // アイコンの画像
-                        ),
-                      ))
-                  .toList(), // メンバーアイコンをリストとして表示
+              children: group.Icon.map((iconPath) => Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: CircleAvatar(
+                      radius: 20, // アイコンのサイズ
+                      backgroundImage: AssetImage(iconPath), // アイコンの画像
+                    ),
+                  )).toList(), // メンバーアイコンをリストとして表示
             ),
           ],
         ),
