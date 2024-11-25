@@ -12,6 +12,8 @@ import '../../model/data_list.dart';
 import './review_after.dart';
 // レビューリスト
 import './review_list.dart';
+// レビューのページ画面切り替えボタン
+import '../../widgets/review/review_toggle_buttons.dart';
 
 // データベースを使用できるか
 const bool useDatabase = false;
@@ -77,33 +79,17 @@ class ReviewBeforePage extends ConsumerWidget {
               ),
              Column(
                 children: [
-                  // フィルターボタン（レビュー未／レビュー済）
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        TextButton(
-                          onPressed: null,
-                          style: TextButton.styleFrom(
-                            foregroundColor: const Color(textMainColor), // テキスト色
-                          ),
-                          child: const Text('レビュー未'),
-                        ),
-                        TextButton(
-                          onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const ReviewAfterPage()),
-                            );
-                          }, // 現在無効
-                          style: TextButton.styleFrom(
-                            foregroundColor: const Color(textMainColor), // テキスト色
-                          ),
-                          child: const Text('レビュー済'),
-                        ),
-                      ],
-                    ),
+                  ReviewToggleButtons(
+                    onPendingPressed: () {
+                      // レビュー未の処理（現在の画面なので何もしない）
+                    },
+                    onReviewedPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReviewAfterPage()),
+                      );
+                    },
                   ),
               
               ReviewList(stores: stores),
