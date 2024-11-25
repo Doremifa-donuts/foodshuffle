@@ -8,6 +8,8 @@ import '../../model/color.dart';
 import '../../model/images.dart';
 // 表示するデータを受け取るclass
 import '../../model/data_list.dart';
+// レビュー後のページ画面切り替え
+import '../review/review_after.dart';
 
 // データベースを使用できるか
 const bool useDatabase = false;
@@ -41,8 +43,8 @@ Future<List<ReviewStore>> fetchReviewStoresBeforeFromDatabase() async {
 }
 
 // レビューのページ画面
-class ReviewPage extends ConsumerWidget {
-  const ReviewPage({super.key});
+class ReviewBeforePage extends ConsumerWidget {
+  const ReviewBeforePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,22 +73,55 @@ class ReviewPage extends ConsumerWidget {
                   ),
                 ),
               ),
-              // スクロール要素
-              Scrollbar(
+             Column(
+                children: [
+                  // フィルターボタン（レビュー未／レビュー済）
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: null,
+                          style: TextButton.styleFrom(
+                            foregroundColor: const Color(textMainColor), // テキスト色
+                          ),
+                          child: const Text('レビュー未'),
+                        ),
+                        TextButton(
+                          onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ReviewAfterPage()),
+                            );
+                          }, // 現在無効
+                          style: TextButton.styleFrom(
+                            foregroundColor: const Color(textMainColor), // テキスト色
+                          ),
+                          child: const Text('レビュー済'),
+                        ),
+                      ],
+                    ),
+                  ),
+              
+              // レビュー店舗一覧
+            Expanded(
+              child: Scrollbar(
                 thickness: 12, // スクロールバーの太さ
-                radius: const Radius.circular(20), // スクロールバーの角を丸く
+                radius: const Radius.circular(20), // スクロールバーの角丸
                 child: ListView.separated(
-                  padding: const EdgeInsets.all(20), // リストのパディングを指定
-                  // リスト要素
+                  padding: const EdgeInsets.all(20),
                   separatorBuilder: (context, index) =>
-                      const SizedBox(height: 8), // 各リストアイテム間のスペース
-                  itemCount: stores.length, // リストアイテムの数
-                  // 各リストアイテム
+                      const SizedBox(height: 8), // 各アイテム間のスペース
+                  itemCount: stores.length, // アイテム数
                   itemBuilder: (context, index) {
-                    return _buildCard(context, stores[index]);
+                    return _buildCard(context, stores[index]); // 各アイテムをカードとして表示
                   },
                 ),
               ),
+            ),
+          
+          ],),
               // footer
               const Positioned(
                 bottom: -20, // フッターを少しだけ下に配置

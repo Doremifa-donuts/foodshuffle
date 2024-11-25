@@ -41,8 +41,8 @@ Future<List<ReviewStore>> fetchReviewStoresAfterFromDatabase() async {
 }
 
 // レビューのページ画面
-class ReviewPage extends ConsumerWidget {
-  const ReviewPage({super.key});
+class ReviewAfterPage extends ConsumerWidget {
+  const ReviewAfterPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

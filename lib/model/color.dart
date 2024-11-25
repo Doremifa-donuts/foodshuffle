@@ -6,3 +6,5 @@ const int activeColor = 0xFFB5917C;
 // リストカラー（背景、縁）
 const int listColor = 0xFFEBF6DD;
 const int allListColor = 0xFFCAE9A7;
+// テキストカラー
+const int textMainColor = 0xFF4E4436;
