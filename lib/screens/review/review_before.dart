@@ -52,10 +52,11 @@ class ReviewBeforePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // レビューのデータを取得
+    // レビューのデータを非同期に取得
     final reviewStoreBeforeAsyncValue = ref.watch(reviewStoreBeforeProvider);
+
     return Scaffold(
-      // header
+      // アプリバー（ヘッダー）
       appBar: AppBar(
         title: const Text(
           'レビュー',
@@ -63,12 +64,13 @@ class ReviewBeforePage extends ConsumerWidget {
         ),
         backgroundColor: const Color(mainColor),
       ),
-      // body
+      // ボディ部分
       body: reviewStoreBeforeAsyncValue.when(
         data: (stores) {
+          // データが取得できた場合
           return Stack(
             children: [
-              // 背景画像
+              // 背景画像を表示
               Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -77,25 +79,54 @@ class ReviewBeforePage extends ConsumerWidget {
                   ),
                 ),
               ),
-             Column(
+              // メインのコンテンツ（列）
+              Column(
                 children: [
+                  // レビューボタン（未レビュー・レビュー済み）
                   ReviewToggleButtons(
-                    onPendingPressed: () {
-                      // レビュー未の処理（現在の画面なので何もしない）
-                    },
+                    onPendingPressed: (){}, // ここは無効化（未レビューのボタンは機能しない）
                     onReviewedPressed: () {
+                      // レビュー後ページへ遷移
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewAfterPage()),
+                          builder: (context) => const ReviewAfterPage(),
+                        ),
                       );
                     },
+                    // 未レビューのボタンスタイル
+                    pendingButtonStyle: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 24,
+                      ),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    // レビュー済みボタンのスタイル
+                    reviewedButtonStyle: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16,
+                        horizontal: 32,
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
                   ),
-              
-              ReviewList(stores: stores),
-          
-          ],),
-              // footer
+                  // レビューリストを表示（データを渡す）
+                  Expanded(
+                    child: ReviewList(stores: stores),
+                  ),
+                ],
+              ),
+              // フッター部分（画面の下に配置）
               const Positioned(
                 bottom: -20, // フッターを少しだけ下に配置
                 left: 0,
@@ -105,10 +136,12 @@ class ReviewBeforePage extends ConsumerWidget {
             ],
           );
         },
-
-        loading: () =>
-            const Center(child: CircularProgressIndicator()), // 読み込み中
-        error: (err, stack) => Center(child: Text('エラーが発生しました: $err')), // エラー時
+        loading: () => const Center(
+          child: CircularProgressIndicator(), // 読み込み中のインジケータ
+        ),
+        error: (err, stack) => Center(
+          child: Text('エラーが発生しました: $err'), // エラー時のメッセージ
+        ),
       ),
     );
   }
