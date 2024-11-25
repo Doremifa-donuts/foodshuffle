@@ -12,10 +12,10 @@ class AnimationPage extends StatefulWidget {
 
 // 画像切り替え用ステート
 class _AnimationPageState extends State<AnimationPage> {
-  int _currentImageIndex = 0; // 現在の画像インデックス
-  late Timer _timer; // 画像切り替え用タイマー
+  int _currentImageIndex = 0; // 現在表示中の画像のインデックス
+  late Timer _timer; // 画像切り替えのためのタイマー
 
-  // 切り替える画像のパス
+  // 切り替え対象の画像パスリスト
   final List<String> _imagePaths = [
     'images/animation/animation_1.png',
     'images/animation/animation_2.png',
@@ -23,13 +23,18 @@ class _AnimationPageState extends State<AnimationPage> {
     'images/animation/animation_4.png',
   ];
 
+  // 画像切り替え間隔（0.5秒）
+  final Duration imageChangeDuration = const Duration(milliseconds: 500);
+
   @override
   void initState() {
     super.initState();
+
+    // 画像を定期的に切り替えるタイマーを開始
     _startImageChangeTimer();
 
-    // 3秒後にHomePageに遷移
-    Future.delayed(const Duration(seconds: 5), () {
+    // 3秒後にホームページに遷移
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -39,36 +44,38 @@ class _AnimationPageState extends State<AnimationPage> {
     });
   }
 
-  // 画像切り替え用タイマー
+  // タイマーを設定して、一定間隔で画像を切り替える
   void _startImageChangeTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(imageChangeDuration, (timer) {
       setState(() {
+        // 次の画像に切り替える（インデックスを循環させる）
         _currentImageIndex = (_currentImageIndex + 1) % _imagePaths.length;
       });
     });
   }
 
-  // ウィジェットが破棄されるときにタイマーを停止
   @override
   void dispose() {
-    _timer.cancel(); // タイマーを停止
+    // 画面が破棄される際にタイマーを停止してメモリリークを防ぐ
+    _timer.cancel();
     super.dispose();
   }
 
-  // 画面を構成
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
+          // 背景画像
           _buildBackground(),
+          // 中央に表示される画像
           Center(
             child: SizedBox(
               width: 200, // 固定幅
               height: 200, // 固定高さ
               child: Image.asset(
-                _imagePaths[_currentImageIndex],
-                fit: BoxFit.contain,
+                _imagePaths[_currentImageIndex], // 現在の画像を表示
+                fit: BoxFit.contain, // 画像を枠内に収める
               ),
             ),
           ),
@@ -77,12 +84,13 @@ class _AnimationPageState extends State<AnimationPage> {
     );
   }
 
+  // 背景画像のウィジェット
   Widget _buildBackground() {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('images/backimg.jpg'),
-          fit: BoxFit.cover,
+          image: AssetImage('images/backimg.jpg'), // 背景画像のパス
+          fit: BoxFit.cover, // 背景を画面全体に拡大して表示
         ),
       ),
     );
