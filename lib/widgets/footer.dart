@@ -3,7 +3,7 @@ import 'package:foodshuffle/screens/home_page.dart';
 import 'package:foodshuffle/screens/archive_page.dart';
 import 'package:foodshuffle/screens/my_page.dart';
 import 'package:foodshuffle/screens/group_page.dart';
-import 'package:foodshuffle/screens/review_page.dart';
+import 'package:foodshuffle/screens/review/review_before.dart';
 import '../model/color.dart';
 import '../model/images.dart';
 
