@@ -44,7 +44,7 @@ class Footer extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewPage()),
+                            builder: (context) => const ReviewBeforePage()),
                       );
                     }),
                 _FooterIcon(
