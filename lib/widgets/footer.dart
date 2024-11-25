@@ -71,7 +71,7 @@ class Footer extends StatelessWidget {
                     }),
                 _FooterIcon(
                     icon: Icons.bookmark,
-                    label: 'Bookmarks',
+                    label: 'archive',
                     isActive: false,
                     onPressed: () {
                       Navigator.push(
