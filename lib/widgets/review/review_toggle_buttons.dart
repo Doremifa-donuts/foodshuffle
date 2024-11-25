@@ -26,8 +26,6 @@ class ReviewToggleButtons extends StatelessWidget {
             onPressed: onPendingPressed,
             style: pendingButtonStyle ??
                 TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 20,
@@ -44,8 +42,6 @@ class ReviewToggleButtons extends StatelessWidget {
             onPressed: onReviewedPressed,
             style: reviewedButtonStyle ??
                 TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.red,
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 20,

@@ -11,7 +11,7 @@ import '../../model/data_list.dart';
 // レビュー後のページ画面切り替え
 import './review_after.dart';
 // レビューリスト
-import './review_list.dart';
+import '../../widgets/review/review_list.dart';
 // レビューのページ画面切り替えボタン
 import '../../widgets/review/review_toggle_buttons.dart';
 
@@ -19,7 +19,8 @@ import '../../widgets/review/review_toggle_buttons.dart';
 const bool useDatabase = false;
 
 // プロバイダーの定義（データ取得を切り替え）
-final reviewStoreBeforeProvider = FutureProvider<List<ReviewStore>>((ref) async {
+final reviewStoreBeforeProvider =
+    FutureProvider<List<ReviewStore>>((ref) async {
   if (useDatabase) {
     return fetchReviewStoresBeforeFromDatabase();
   } else {
@@ -84,7 +85,7 @@ class ReviewBeforePage extends ConsumerWidget {
                 children: [
                   // レビューボタン（未レビュー・レビュー済み）
                   ReviewToggleButtons(
-                    onPendingPressed: (){}, // ここは無効化（未レビューのボタンは機能しない）
+                    onPendingPressed: () {}, // ここは無効化（未レビューのボタンは機能しない）
                     onReviewedPressed: () {
                       // レビュー後ページへ遷移
                       Navigator.push(
@@ -100,7 +101,8 @@ class ReviewBeforePage extends ConsumerWidget {
                         vertical: 12,
                         horizontal: 24,
                       ),
-                      textStyle: const TextStyle(fontSize: 14),
+                      textStyle:
+                          const TextStyle(fontFamily: 'uzura', fontSize: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -112,6 +114,7 @@ class ReviewBeforePage extends ConsumerWidget {
                         horizontal: 32,
                       ),
                       textStyle: const TextStyle(
+                        fontFamily: 'uzura',
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),

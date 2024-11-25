@@ -11,7 +11,9 @@ import '../../model/data_list.dart';
 // レビュー未のページ画面切り替え
 import './review_before.dart';
 // レビューリスト
-import './review_list.dart';
+import '../../widgets/review/review_list.dart';
+// レビューのページ画面切り替えボタン
+import '../../widgets/review/review_toggle_buttons.dart';
 
 // データベースを使用できるか
 const bool useDatabase = false;
@@ -75,7 +77,55 @@ class ReviewAfterPage extends ConsumerWidget {
                   ),
                 ),
               ),
-              ReviewList(stores: stores),
+              // メインのコンテンツ（列）
+              Column(
+                children: [
+                  // レビューボタン（未レビュー・レビュー済み）
+                  ReviewToggleButtons(
+                    onPendingPressed: () {
+                      // レビュー後ページへ遷移
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ReviewBeforePage(),
+                        ),
+                      );
+                    },
+                    onReviewedPressed: () {}, // ここは無効化（済みレビューのボタンは機能しない）
+                    // 未レビューのボタンスタイル
+                    pendingButtonStyle: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16,
+                        horizontal: 32,
+                      ),
+                      textStyle: const TextStyle(
+                        fontFamily: 'uzura',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    // レビュー済みボタンのスタイル
+                    reviewedButtonStyle: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 24,
+                      ),
+                      textStyle:
+                          const TextStyle(fontFamily: 'uzura', fontSize: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                  // レビューリストを表示（データを渡す）
+                  Expanded(
+                    child: ReviewList(stores: stores),
+                  ),
+                ],
+              ),
               // footer
               const Positioned(
                 bottom: -20, // フッターを少しだけ下に配置
@@ -93,5 +143,4 @@ class ReviewAfterPage extends ConsumerWidget {
       ),
     );
   }
-
 }

@@ -25,6 +25,15 @@ class MyApp extends StatelessWidget {
         fontFamily: 'uzura',
         // Material3のデザインを使用
         useMaterial3: true,
+        // ボタンのテーマ設定
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(
+              fontFamily: 'uzura', // ボタンに適用されるフォント
+              fontSize: 16,
+            ),
+          ),
+        ),
       ),
 
       // 起動時にホームに飛ばす
