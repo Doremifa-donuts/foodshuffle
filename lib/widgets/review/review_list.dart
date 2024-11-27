@@ -11,7 +11,7 @@ class ReviewList extends StatelessWidget {
   // データを受け取る
   final List<ReviewStore> stores;
 
-  const ReviewList({Key? key, required this.stores}) : super(key: key);
+  const ReviewList({super.key, required this.stores});
 
   // リスト表示
   @override

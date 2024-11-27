@@ -18,7 +18,6 @@ final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
     );
   });
 });
-
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
