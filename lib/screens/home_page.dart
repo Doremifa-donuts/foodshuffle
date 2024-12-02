@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
-import '../widgets/swipe_card.dart';
 import '../widgets/footer.dart';
 import '../model/data_list.dart';
 import '../model/color.dart';
+import '../widgets/swipe_handler.dart';
 
 final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
   return List.generate(30, (index) {
@@ -18,6 +18,7 @@ final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
     );
   });
 });
+
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
@@ -59,19 +60,9 @@ class _HomePageState extends ConsumerState<HomePage> {
             Positioned.fill(
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: AppinioSwiper(
+                child: SwipeHandler(
                   controller: _swiperController,
-                  cardCount: stores.length,
-                  cardBuilder: (context, index) {
-                    return SwipeCard(store: stores[index]);
-                  },
-                  onSwipeEnd: (previousIndex, targetIndex, direction) {
-                    debugPrint('Swiped from $previousIndex to $targetIndex');
-                    debugPrint('Swipe direction: $direction');
-                  },
-                  onEnd: () {
-                    debugPrint('Swipe ended');
-                  },
+                  stores: stores,
                 ),
               ),
             ),

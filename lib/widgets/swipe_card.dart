@@ -22,7 +22,7 @@ class SwipeCard extends StatelessWidget {
                 const BorderRadius.vertical(top: Radius.circular(12.0)),
             child: Image.asset(
               store.Images,
-              height: 200,
+              height: 100,
               width: double.infinity,
               fit: BoxFit.cover,
             ),

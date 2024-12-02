@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DragExample(),
-    );
-  }
-}
-
 class DragExample extends StatefulWidget {
   @override
   _DragExampleState createState() => _DragExampleState();
 }
 
 class _DragExampleState extends State<DragExample> {
+  
   double offsetX = 0.0;
   double offsetY = 0.0;
 
