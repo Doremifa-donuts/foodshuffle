@@ -85,8 +85,7 @@ class ReviewBeforePage extends ConsumerWidget {
                 children: [
                   // レビューボタン（未レビュー・レビュー済み）
                   ReviewToggleButtons(
-                    onPendingPressed: () {}, // ここは無効化（未レビューのボタンは機能しない）
-                    onReviewedPressed: () {
+                    onPendingPressed: () {
                       // レビュー後ページへ遷移
                       Navigator.push(
                         context,
@@ -94,7 +93,8 @@ class ReviewBeforePage extends ConsumerWidget {
                           builder: (context) => const ReviewAfterPage(),
                         ),
                       );
-                    },
+                    }, // ここは無効化（未レビューのボタンは機能しない）
+                    onReviewedPressed: () {},
                     // 未レビューのボタンスタイル
                     pendingButtonStyle: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
