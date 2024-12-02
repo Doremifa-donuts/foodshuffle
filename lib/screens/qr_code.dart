@@ -11,11 +11,11 @@ class QrScanView extends StatefulWidget {
   const QrScanView({super.key}); // コンストラクタ
 
   @override
-  _QrScanViewState createState() => _QrScanViewState();
+  QrScanViewState createState() => QrScanViewState();
 }
 
 // QrScanViewの状態を管理するクラス
-class _QrScanViewState extends State<QrScanView> {
+class QrScanViewState extends State<QrScanView> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR'); // QRコードビューを識別するキー
   QRViewController? controller; // QRコードスキャナーを制御するコントローラー
 
@@ -48,6 +48,7 @@ class _QrScanViewState extends State<QrScanView> {
           children: [
             buildBackground(), // 背景画像を構築
             _buildQrView(context), // QRコードビューを構築
+            // footer を表示
             const Positioned(
               bottom: 0,
               left: 0,
