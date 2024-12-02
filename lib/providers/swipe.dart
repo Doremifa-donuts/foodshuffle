@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DragExample extends StatefulWidget {
+  const DragExample({super.key});
+
   @override
   _DragExampleState createState() => _DragExampleState();
 }
