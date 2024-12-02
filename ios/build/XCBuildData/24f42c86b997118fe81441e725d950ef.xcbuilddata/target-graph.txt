@@ -1,0 +1,12 @@
+Target dependency graph (5 targets)
+Target 'Pods-RunnerTests' in project 'Pods'
+➜ Explicit dependency on target 'Pods-Runner' in project 'Pods'
+Target 'Pods-Runner' in project 'Pods'
+➜ Explicit dependency on target 'Flutter' in project 'Pods'
+➜ Explicit dependency on target 'MTBBarcodeScanner' in project 'Pods'
+➜ Explicit dependency on target 'qr_code_scanner' in project 'Pods'
+Target 'qr_code_scanner' in project 'Pods'
+➜ Explicit dependency on target 'Flutter' in project 'Pods'
+➜ Explicit dependency on target 'MTBBarcodeScanner' in project 'Pods'
+Target 'MTBBarcodeScanner' in project 'Pods' (no dependencies)
+Target 'Flutter' in project 'Pods' (no dependencies)
