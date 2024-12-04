@@ -5,6 +5,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart'; // QRコードスキャ�
 
 import '../widgets/footer.dart'; // フッターを表示するウィジェット
 import '../model/color.dart'; // カラーパス
+import '../screens/qr_after.dart'; // QRコードスキャン後のページ
 
 // 状態管理のためのステートを作成
 class QrScanView extends StatefulWidget {
@@ -100,9 +101,19 @@ class QrScanViewState extends State<QrScanView> {
     setState(() {
       this.controller = controller; // コントローラーを設定
     });
-    // スキャンされたデータをリアルタイムで取得
     controller.scannedDataStream.listen((scanData) async {
-      print(scanData.code); // スキャンしたQRコードのデータをコンソールに出力
+      // カメラを停止
+      controller.stopCamera();
+
+      // スキャン結果をログに出力
+      print(scanData.code);
+
+      // ArchivePageに遷移
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ArchivePage(),
+        ),
+      );
     });
   }
 
