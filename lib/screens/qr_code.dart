@@ -77,7 +77,7 @@ class QrScanViewState extends State<QrScanView> {
     // デバイスサイズに応じてスキャン領域のサイズを調整
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 150.0 // 小さいデバイスの場合
+        ? 280.0 // 小さいデバイスの場合
         : 300.0; // 通常サイズのデバイスの場合
 
     return QRView(

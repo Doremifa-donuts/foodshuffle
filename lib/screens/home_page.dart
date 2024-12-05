@@ -67,7 +67,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
             ),
             const Positioned(
-              bottom: 0,
+              bottom: -20,
               left: 0,
               right: 0,
               child: Footer(),

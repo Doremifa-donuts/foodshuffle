@@ -14,85 +14,95 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 150.0,
+        height: 170.0,
+        width: double.infinity, // 画面全体の幅に調整
         padding: const EdgeInsets.symmetric(horizontal: 2.0),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(unionImg), // 背景画像の指定
             fit: BoxFit.cover,
+            alignment: Alignment.center, // 画像を真ん中寄せ
           ),
         ),
         child: Column(
           children: [
-            _FooterIcon(
-                icon: Icons.store,
-                label: 'お店に着いたよ！',
-                isActive: false, // 現在のページに応じて変更
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => QrScanView()),
-                  );
-                }),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _FooterIcon(
-                    icon: Icons.rate_review,
-                    label: 'review',
-                    isActive: false, // 現在のページに応じて変更
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ReviewBeforePage()),
-                      );
-                    }),
-                _FooterIcon(
-                    icon: Icons.groups_2,
-                    label: 'groups',
-                    isActive: false, // 現在のページに応じて変更
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const GroupPage()),
-                      );
-                    }),
-                _FooterIcon(
-                    icon: Icons.home,
-                    label: 'home',
-                    isActive: true, // アクティブなページ
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                      );
-                    }),
-                _FooterIcon(
-                    icon: Icons.bookmark,
-                    label: 'archive',
-                    isActive: false,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ArchivePage()),
-                      );
-                    }),
-                _FooterIcon(
-                    icon: Icons.account_circle,
-                    label: 'my page',
-                    isActive: false,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const MyPage()),
-                      );
-                    }),
-              ],
+            Center(
+              child: _FooterIcon(
+                  icon: Icons.store,
+                  label: 'お店に着いたよ！',
+                  isActive: false, // 現在のページに応じて変更
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const QrScanView()),
+                    );
+                  }),
             ),
+
+            const SizedBox(height: 16), // 余白調整
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _FooterIcon(
+                      icon: Icons.rate_review,
+                      label: 'review',
+                      isActive: false, // 現在のページに応じて変更
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ReviewBeforePage()),
+                        );
+                      }),
+                  _FooterIcon(
+                      icon: Icons.groups_2,
+                      label: 'groups',
+                      isActive: false, // 現在のページに応じて変更
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const GroupPage()),
+                        );
+                      }),
+                  _FooterIcon(
+                      icon: Icons.home,
+                      label: 'home',
+                      isActive: true, // アクティブなページ
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                        );
+                      }),
+                  _FooterIcon(
+                      icon: Icons.bookmark,
+                      label: 'archive',
+                      isActive: false,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ArchivePage()),
+                        );
+                      }),
+                  _FooterIcon(
+                      icon: Icons.account_circle,
+                      label: 'my page',
+                      isActive: false,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MyPage()),
+                        );
+                      }),
+                ],
+              ),
+            )
           ],
         ));
   }
