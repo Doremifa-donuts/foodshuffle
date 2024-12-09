@@ -4,7 +4,7 @@ import 'package:foodshuffle/screens/archive_page.dart';
 import 'package:foodshuffle/screens/my_page.dart';
 import 'package:foodshuffle/screens/group_page.dart';
 import 'package:foodshuffle/screens/review/review_before.dart';
-import 'package:foodshuffle/screens/qr_code.dart';
+
 import '../model/color.dart';
 import '../model/images.dart';
 
@@ -35,7 +35,7 @@ class Footer extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const QrScanView()),
+                          builder: (context) => const  ReviewBeforePage()),
                     );
                   }),
             ),
