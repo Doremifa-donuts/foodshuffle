@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'screens/login.dart';
 import '../model/color.dart';
 
 // 立ち上げ時に実行
+
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterLocalNotificationsPlugin()
+    ..resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission()
+    ..initialize(const InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+      iOS: DarwinInitializationSettings(),
+    ));
+
+  runApp(const MyApp());
+}
+
+void showLocalNotification(String title, String message) {
+  const androidNotificationDetail = AndroidNotificationDetails(
+      'channel_id', // channel Id
+      'channel_name' // channel Name
+      );
+  const iosNotificationDetail = DarwinNotificationDetails();
+  const notificationDetails = NotificationDetails(
+    iOS: iosNotificationDetail,
+    android: androidNotificationDetail,
+  );
+  FlutterLocalNotificationsPlugin()
+      .show(0, title, message, notificationDetails);
 }
 
 // アプリケーションのエントリーポイント
