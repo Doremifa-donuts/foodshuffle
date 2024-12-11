@@ -14,9 +14,21 @@ import './review_after.dart';
 import '../../widgets/review/review_list.dart';
 // レビューのページ画面切り替えボタン
 import '../../widgets/review/review_toggle_buttons.dart';
+//httpリクエスト用のモジュール
+import 'package:http/http.dart' as http;
+// jsonDecodeを有効化
+import 'dart:convert';
+// Jtiトークンを使用するためのモジュール
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<String?> _getToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('token'); // 'auth_token'キーからトークンを取得
+}
+
 
 // データベースを使用できるか
-const bool useDatabase = false;
+const bool useDatabase = true;
 
 // プロバイダーの定義（データ取得を切り替え）
 final reviewStoreBeforeProvider =
@@ -44,7 +56,38 @@ Future<List<ReviewStore>> fetchDummyReviewStoresBefore() async {
 // 本番用（データベースから取得する処理）
 Future<List<ReviewStore>> fetchReviewStoresBeforeFromDatabase() async {
   await Future.delayed(const Duration(seconds: 2)); // 仮の遅延
-  return []; // データベースの中身を受け取る
+
+
+  final token = await _getToken();
+  if(token == null){
+    throw Exception('jti token is null');
+  } else {
+    //httpリクエストで訪れた店舗を取得
+    final response = await http.get(
+      Uri.parse('http://127.0.0.1:5678/v1/auth/users/restaurants/visited'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) { //httpリクエストに成功した場合
+      final jsonResponse = jsonDecode(response.body);
+      final List<dynamic> data = jsonResponse['Response']['Data'];
+      return data.map<ReviewStore>((item) {
+        return ReviewStore(
+          Images: (item['Images'] as List<dynamic>).isNotEmpty
+              ? (item['Images'] as List<dynamic>)[0] as String
+              : '',
+          RestaurantName: item['RestaurantName'] as String,
+          Tell: item['Tell'] as String,
+          Address: item['Address'] as String,
+        );
+      }).toList();
+    } else {
+      throw Exception('Failed to fetch stores from database');
+    }
+  }
 }
 
 // レビューのページ画面

@@ -7,6 +7,13 @@ import '../../screens/animation.dart';
 import '../model/images.dart';
 //httpリクエスト用のモジュール
 import 'package:http/http.dart' as http;
+// Jtiトークンを保持するためのモジュール
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<void> _saveJtiToken(String token) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('token', token); // 'oken'でJTIトークンを保存
+}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -112,6 +119,9 @@ class _LoginPageState extends State<LoginPage> {
                             final responseBody = jsonDecode(response.body);;
                             switch(responseBody['Response']['Status']) {
                               case 'OK': // ログイン成功(200)
+                              //トークンを保存
+                                final token = responseBody['Response']['Data']['JtiToken'];
+                                await _saveJtiToken(token);
                                 // ログイン処理成功時に遷移
                                 Navigator.push(
                                   context,
@@ -120,7 +130,6 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 break;
-
                               case 'Bad Request': // ログイン失敗(400)
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -128,7 +137,6 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 break;
-
                               case 'Unauthorized': // ログイン失敗(401)
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -136,7 +144,6 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 break;
-
                               case 'Internal Server Error': // ログイン失敗(500)
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -144,7 +151,6 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 break;
-
                               default : //今のところログイン失敗するとerrorのみ返ってくるのでdefaultにたどり着く
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

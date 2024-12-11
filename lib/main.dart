@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/login.dart';
 import '../model/color.dart';
 
@@ -17,7 +18,9 @@ void main() {
       iOS: DarwinInitializationSettings(),
     ));
 
-  runApp(const MyApp());
+  runApp(
+    ProviderScope(child: const MyApp())
+  );
 }
 
 void showLocalNotification(String title, String message) {
