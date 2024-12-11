@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // Riverpodをインポート
 import 'screens/login.dart';
 import '../model/color.dart';
 
 // 立ち上げ時に実行
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -17,7 +17,12 @@ void main() {
       iOS: DarwinInitializationSettings(),
     ));
 
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      // ProviderScopeでラップ
+      child: MyApp(),
+    ),
+  );
 }
 
 void showLocalNotification(String title, String message) {
