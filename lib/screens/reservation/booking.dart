@@ -1,146 +1,131 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart'; // 日付フォーマット用パッケージ
+import '../../model/color.dart';
+import '../../model/data_list.dart';
 
-class BookingScreen extends StatefulWidget {
-  const BookingScreen({Key? key}) : super(key: key);
+class ReservationPage extends StatefulWidget {
+  final ArchiveStore store; // 受け取るstore
+
+  const ReservationPage({Key? key, required this.store}) : super(key: key);
 
   @override
-  State<BookingScreen> createState() => _BookingScreenState();
+  _ReservationPageState createState() => _ReservationPageState();
 }
 
-class _BookingScreenState extends State<BookingScreen> {
-  // 選択された日付、時間、人数の初期値を設定
-  DateTime selectedDate = DateTime.now(); // デフォルトの日付（今日）
-  TimeOfDay selectedTime = const TimeOfDay(hour: 20, minute: 0); // デフォルトの時間
-  int selectNum = 0; // 選択された人数
-  final int limitNum = 10; // 最大予約可能人数
-  final int bookingNum = 0; // 現在の予約数（ダミーデータ）
+class _ReservationPageState extends State<ReservationPage> {
+  String selectedTime = '12:00';
+  DateTime? selectedDate;
+  int selectedPeople = 1;
+
+  // 日付フォーマット
+  String getFormattedDate(DateTime? date) {
+    if (date == null) return '未選択';
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
-    // 画面のテーマモードを取得（ライトモードかダークモードか）
-    final isLightMode =
-        MediaQuery.of(context).platformBrightness == Brightness.light;
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("予約画面"), // 画面タイトル
-        backgroundColor:
-            isLightMode ? Colors.white : Colors.black, // テーマに応じて色を変更
-      ),
+        title: const Text(
+          '予約ページ',
+          style: TextStyle(fontWeight: FontWeight.bold), // 太字のスタイル
+        ),
+        backgroundColor: const Color(mainColor),
+      ), // アプリバーの背景色（共通定義）
       body: Padding(
-        padding: const EdgeInsets.all(16.0), // 画面の余白
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 16), // 上部余白
-            ElevatedButton(
-              // 日付を選択するボタン
-              onPressed: () {
-                DatePicker.showDatePicker(
-                  context, // コンテキスト
-                  minTime: DateTime.now(), // 今日以降しか選択できない
-                  currentTime: selectedDate, // 現在の選択状態
-                  locale: LocaleType.jp, // 日本ロケール
-                  onConfirm: (date) {
-                    setState(() {
-                      selectedDate = date; // 選択された日付を更新
-                    });
-                  },
-                );
-              },
-              child: Text(
-                  "日付を選択: ${selectedDate.toString().substring(0, 10)}"), // 選択された日付を表示
-            ),
-            const SizedBox(height: 16), // 上部余白
-            ElevatedButton(
-              // 時間を選択するボタン
-              onPressed: () {
-                showTimePicker(
-                  context: context, // コンテキスト
-                  initialTime: selectedTime, // 現在の選択状態
-                ).then((value) {
-                  if (value != null) {
-                    setState(() {
-                      selectedTime = value; // 選択された時間を更新
-                    });
-                  }
+            const SizedBox(height: 16),
+            DropdownButtonFormField<String>(
+              decoration: const InputDecoration(labelText: '時間を選択'),
+              value: selectedTime,
+              items: ['12:00', '14:00', '16:00', '18:00', '20:00']
+                  .map((time) => DropdownMenuItem(
+                        value: time,
+                        child: Text(time),
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedTime = value!;
                 });
               },
-              child:
-                  Text("時間を選択: ${selectedTime.format(context)}"), // 選択された時間を表示
             ),
-            const SizedBox(height: 16), // 上部余白
+            const SizedBox(height: 16),
             Row(
-              // 人数選択のボタンと表示
-              mainAxisAlignment: MainAxisAlignment.center, // 中央に配置
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.remove), // マイナスアイコン
-                  onPressed: selectNum > 0
-                      ? () {
-                          setState(() {
-                            selectNum--; // 人数を減らす
-                          });
-                        }
-                      : null, // 無効状態
-                ),
                 Text(
-                  '$selectNum / ${(limitNum - bookingNum).clamp(0, limitNum)}', // 現在の人数と制限人数を表示
-                  style: const TextStyle(fontSize: 24), // テキストスタイル
+                  '日付: ${getFormattedDate(selectedDate)}',
+                  style: const TextStyle(fontSize: 16),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.add), // プラスアイコン
-                  onPressed: selectNum < (limitNum - bookingNum)
-                      ? () {
-                          setState(() {
-                            selectNum++; // 人数を増やす
-                          });
-                        }
-                      : null, // 無効状態
+                ElevatedButton(
+                  onPressed: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2100),
+                    );
+                    if (pickedDate != null) {
+                      setState(() {
+                        selectedDate = pickedDate;
+                      });
+                    }
+                  },
+                  child: const Text('日付を選択'),
                 ),
               ],
             ),
-            const SizedBox(height: 32), // 上部余白
-            ElevatedButton(
-              // 予約確定ボタン
-              onPressed: selectNum > 0
-                  ? () {
-                      // 確認メッセージを表示
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("予約確認"), // ダイアログタイトル
-                            content: Text(
-                              "以下の内容で予約を送信しますか？\n\n日付: ${selectedDate.toString().substring(0, 10)}\n"
-                              "時間: ${selectedTime.format(context)}\n"
-                              "人数: $selectNum",
-                            ), // 予約内容を表示
-                            actions: [
-                              TextButton(
-                                child: const Text("キャンセル"), // キャンセルボタン
-                                onPressed: () =>
-                                    Navigator.pop(context), // ダイアログを閉じる
-                              ),
-                              TextButton(
-                                child: const Text("送信"), // 送信ボタン
-                                onPressed: () {
-                                  Navigator.pop(context); // ダイアログを閉じる
-                                  Navigator.pop(context); // ホーム画面に戻る
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content:
-                                            Text("予約が送信されました")), // 成功メッセージを表示
-                                  );
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  : null, // 人数が選択されていない場合は無効化
-              child: const Text("予約する"), // ボタンのテキスト
+            const SizedBox(height: 16),
+            DropdownButtonFormField<int>(
+              decoration: const InputDecoration(labelText: '人数を選択'),
+              value: selectedPeople,
+              items: List.generate(10, (index) => index + 1)
+                  .map((people) => DropdownMenuItem(
+                        value: people,
+                        child: Text('$people 人'),
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedPeople = value!;
+                });
+              },
+            ),
+            const SizedBox(height: 32),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  if (selectedDate == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('日付を選択してください。'),
+                      ),
+                    );
+                    return;
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('予約完了'),
+                      content: Text(
+                          '予約が完了しました。\n時間: $selectedTime\n日付: ${getFormattedDate(selectedDate)}\n人数: $selectedPeople'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('閉じる'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child: const Text('予約を確定する'),
+              ),
             ),
           ],
         ),
