@@ -49,7 +49,7 @@ class ReviewList extends StatelessWidget {
       // カードの縁指定
       shape: RoundedRectangleBorder(
         side: const BorderSide(
-          color: Color(allListColor), // 縁の色を指定
+          color: Color.fromARGB(134, 202, 233, 167), // 縁の色を指定
           width: 2, // 縁の太さ
         ),
         borderRadius: BorderRadius.circular(15), // カードの角を丸くする

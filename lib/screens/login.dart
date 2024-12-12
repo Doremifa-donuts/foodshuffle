@@ -60,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: const InputDecoration(
                         labelText: 'メールアドレス',
                         hintText: 'example@example.com',
+                        hintStyle: TextStyle(fontSize: 16, color: Colors.grey), // ヒントのフォントサイズをグレーに
                         border: OutlineInputBorder(),
                         filled: true,
                         fillColor: Colors.white,
@@ -74,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: const InputDecoration(
                         labelText: 'パスワード',
                         hintText: '********',
+                        hintStyle: TextStyle(fontSize: 16, color: Colors.grey), // ヒントのフォントサイズをグレーに
                         border: OutlineInputBorder(),
                         filled: true,
                         fillColor: Colors.white,
