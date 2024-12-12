@@ -6,18 +6,11 @@ import '../model/data_list.dart';
 import '../model/color.dart';
 import '../widgets/swipe_handler.dart';
 import '../screens/reservation/booking.dart'; // 予約ページ
+import '../data/home.dart';
 
+// データを返すプロバイダ
 final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
-  return List.generate(30, (index) {
-    return HomeStore(
-      Images: 'images/store/store_1.png',
-      RestaurantName: 'Store ${String.fromCharCode(65 + index)}',
-      Address: 'Street ${index + 1}, City',
-      Comment: 'Fresh and delicious! ${index + 1}',
-      CreatedAt: '2024-11-${20 + index}',
-      goods: 120 + index,
-    );
-  });
+  return homeStoreList; // 別ファイルからデータを呼び出す
 });
 
 // 予約の状態を管理

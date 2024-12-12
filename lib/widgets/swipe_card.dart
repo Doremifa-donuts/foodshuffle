@@ -14,7 +14,7 @@ class SwipeCard extends StatelessWidget {
     return Card(
       elevation: 4.0, // カードの影の深さを設定
       margin: const EdgeInsets.only(
-          top: 80.0, bottom: 180.0, left: 10.0, right: 10.0), // カードの外側の余白を設定
+          top: 100.0, bottom: 180.0, left: 10.0, right: 10.0), // カードの外側の余白を設定
 
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0), // カードの角を丸くする
