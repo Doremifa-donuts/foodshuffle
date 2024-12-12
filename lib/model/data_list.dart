@@ -54,13 +54,12 @@ class ReviewStore {
 // ArchivePageのリスト要素
 // ArchiveStoreのデータクラス
 class ArchiveStore {
-  final String Images; // 店画像
-  final String RestaurantName; // 店名
-  final String CreatedAt; // 投稿日
-  final String Icon; // 投稿者のアイコン画像パス
-  final String Comment; // 口コミ
+  final String Images;
+  final String RestaurantName;
+  final String CreatedAt;
+  final String Icon;
+  final String Comment;
 
-  // コンストラクタで必要なデータを受け取る
   ArchiveStore({
     required this.Images,
     required this.RestaurantName,
@@ -68,6 +67,17 @@ class ArchiveStore {
     required this.Icon,
     required this.Comment,
   });
+
+  // HomeStore から変換するファクトリコンストラクタ
+  factory ArchiveStore.fromHomeStore(HomeStore homeStore) {
+    return ArchiveStore(
+      Images: homeStore.Images,
+      RestaurantName: homeStore.RestaurantName,
+      CreatedAt: homeStore.CreatedAt,
+      Icon: '', // 必要に応じて適切な値を設定
+      Comment: homeStore.Comment,
+    );
+  }
 }
 
 // UserPageのリスト要素

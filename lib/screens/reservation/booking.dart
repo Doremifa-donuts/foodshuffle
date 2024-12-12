@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // Riverpodのインポート
 import 'package:intl/intl.dart'; // 日付フォーマット用パッケージ
 import '../../model/color.dart';
 import '../../model/data_list.dart';
 
-class ReservationPage extends StatefulWidget {
+// ホームページ
+import '../home_page.dart';
+
+class ReservationPage extends ConsumerStatefulWidget {
+  // ConsumerStatefulWidgetに変更
   final ArchiveStore store; // 受け取るstore
 
   const ReservationPage({Key? key, required this.store}) : super(key: key);
 
   @override
-  _ReservationPageState createState() => _ReservationPageState();
+  ConsumerState<ReservationPage> createState() => _ReservationPageState();
 }
 
-class _ReservationPageState extends State<ReservationPage> {
+class _ReservationPageState extends ConsumerState<ReservationPage> {
+  // ConsumerStateに変更
   String selectedTime = '12:00';
   DateTime? selectedDate;
   int selectedPeople = 1;
@@ -109,16 +115,40 @@ class _ReservationPageState extends State<ReservationPage> {
                     return;
                   }
 
+                  // 確認ダイアログを表示
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
                       title: const Text('予約完了'),
                       content: Text(
-                          '予約が完了しました。\n時間: $selectedTime\n日付: ${getFormattedDate(selectedDate)}\n人数: $selectedPeople'),
+                          '予約が完了しました。\n店舗: ${widget.store.RestaurantName}\n時間: $selectedTime\n日付: ${getFormattedDate(selectedDate)}\n人数: $selectedPeople'),
                       actions: [
                         TextButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            Navigator.pop(context); // ダイアログを閉じる
+                          },
                           child: const Text('閉じる'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // 選択された情報を予約プロバイダに保存
+                            ref.read(reservationProvider.notifier).state = {
+                              'store': widget.store.RestaurantName,
+                              'time': selectedTime,
+                              'date': getFormattedDate(selectedDate),
+                              'people': selectedPeople.toString(),
+                            };
+
+                            // ホームページに遷移
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomePage(),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                          child: const Text('予約を確定'),
                         ),
                       ],
                     ),
