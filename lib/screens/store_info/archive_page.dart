@@ -4,12 +4,14 @@ import 'dart:math';
 // 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // footer 表示
-import '../widgets/footer.dart';
+import '../../widgets/footer.dart';
 // カラー、画像パス
-import '../model/color.dart';
-import '../model/images.dart';
+import '../../model/color.dart';
+import '../../model/images.dart';
 // 表示するデータを受け取るclass
-import '../model/data_list.dart';
+import '../../model/data_list.dart';
+// お店の詳細ページ
+import 'info.dart';
 
 // データベースを使用できるか
 const bool useDatabase = false;
@@ -121,82 +123,82 @@ class ArchivePage extends ConsumerWidget {
 
   // Storeの情報を元に、各ストアの詳細情報を表示するカードをビルド
   Widget _buildCard(BuildContext context, ArchiveStore store) {
-    return Card(
-      // カードのカラー
-      color: const Color(listColor),
-      // カードの縁指定
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(
-          color: Color(allListColor), // 縁の色を指定
-          width: 2, // 縁の太さ
+    return InkWell(
+      onTap: () {
+        // お店の詳細ページに遷移
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StoreDetailPage(store: store),
+          ),
+        );
+      },
+      child: Card(
+        color: const Color(listColor),
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(
+            color: Color(allListColor),
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(15),
         ),
-        borderRadius: BorderRadius.circular(15), // カードの角を丸くする
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10), // カードの内側の余白
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // 子ウィジェットを左揃え
-          children: [
-            Row(
-              children: [
-                Column(
-                  children: [
-                    // 店名を表示
-                    Text(
-                      store.RestaurantName,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold), // 店名を太字で表示
-                    ),
-                    const SizedBox(height: 8), // 店名と画像の間に余白
-                    // ストアの画像を表示
-                    Image.asset(
-                      store.Images,
-                      width: 120, // 画像の幅
-                      height: 100, // 画像の高さ
-                      fit: BoxFit.cover, // 画像のアスペクト比を維持
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 8), // 店名とメンバーアイコンの間に余白
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        // メンバーアイコンを表示
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(right: 8), // アイコンの右側に余白
-                          child: CircleAvatar(
-                            radius: 20, // アイコンの半径（大きさ）
-                            backgroundImage:
-                                AssetImage(store.Icon), // アイコン画像を設定
-                          ),
-                        ),
-                        // 投稿日時を表示
-                        Text(
-                          '投稿日: ${store.CreatedAt}',
-                          style: const TextStyle(
-                              fontSize: 16, color: Colors.grey), // 投稿日をグレー色で表示
-                        ),
-                      ],
-                    ),
-                    // コメントの表示（改行を許可して、長すぎるテキストは切り捨て）
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width -
-                          200, // 画像の幅分を引いて残りの幅を使う
-                      child: Text(
-                        store.Comment,
-                        style: const TextStyle(fontSize: 14), // コメントの文字サイズ
-                        maxLines: 3, // 最大3行に制限
-                        overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        store.RestaurantName,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
+                      const SizedBox(height: 8),
+                      Image.asset(
+                        store.Images,
+                        width: 120,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 8),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundImage: AssetImage(store.Icon),
+                            ),
+                          ),
+                          Text(
+                            '投稿日: ${store.CreatedAt}',
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 200,
+                        child: Text(
+                          store.Comment,
+                          style: const TextStyle(fontSize: 14),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

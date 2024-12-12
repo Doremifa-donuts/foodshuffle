@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/screens/home_page.dart';
-import 'package:foodshuffle/screens/archive_page.dart';
+import 'package:foodshuffle/screens/store_info/archive_page.dart';
 import 'package:foodshuffle/screens/my_page.dart';
 import 'package:foodshuffle/screens/group_page.dart';
 import 'package:foodshuffle/screens/review/review_before.dart';
@@ -35,7 +35,7 @@ class Footer extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const  ReviewBeforePage()),
+                          builder: (context) => const ReviewBeforePage()),
                     );
                   }),
             ),
