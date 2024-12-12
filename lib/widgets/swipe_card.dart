@@ -28,7 +28,7 @@ class SwipeCard extends StatelessWidget {
                 top: Radius.circular(12.0)), // 画像の上部を丸くする
             child: Image.asset(
               store.Images, // 画像パスをstoreから取得
-              height: 100, // 画像の高さを指定
+              height: 250, // 画像の高さを指定
               width: double.infinity, // 横幅を親要素いっぱいにする
               fit: BoxFit.cover, // 画像を切り取らずにフィットさせる
             ),

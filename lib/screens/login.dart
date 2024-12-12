@@ -97,20 +97,21 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             // HTTPリクエストを送信
                             final response = await http.post(
-                              Uri.parse('http://127.0.0.1:5678/v1/login'),
+                              Uri.parse('http://100.99.199.62:5678/v1/login'),
                               headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
-                                },
-                                // リクエストボディをJSON形式に変換し、emailとpasswordを含める
+                              },
+                              // リクエストボディをJSON形式に変換し、emailとpasswordを含める
                               body: jsonEncode({
                                 'MailAddress': email,
                                 'Password': password,
                               }),
                             );
                             // レスポンスボディをJSON形式に変換 {Response: {Data: {JtiToken:~~~}, Status: ~~~}}
-                            final responseBody = jsonDecode(response.body);;
-                            switch(responseBody['Response']['Status']) {
+                            final responseBody = jsonDecode(response.body);
+                            ;
+                            switch (responseBody['Response']['Status']) {
                               case 'OK': // ログイン成功(200)
                                 // ログイン処理成功時に遷移
                                 Navigator.push(
@@ -145,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                                 break;
 
-                              default : //今のところログイン失敗するとerrorのみ返ってくるのでdefaultにたどり着く
+                              default: //今のところログイン失敗するとerrorのみ返ってくるのでdefaultにたどり着く
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('メールアドレス、またはパスワードが正しくありません。'),
@@ -153,7 +154,8 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                                 break;
                             }
-                          } catch (e) { // 例外処理
+                          } catch (e) {
+                            // 例外処理
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('通信エラー'),

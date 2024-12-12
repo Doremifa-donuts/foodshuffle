@@ -2,7 +2,7 @@ import '../model/data_list.dart';
 
 List<HomeStore> homeStoreList = [
   HomeStore(
-    Images: 'images/home/image_1.png',
+    Images: 'images/home/image1.png',
     RestaurantName: 'おにぎりごりちゃん 中崎町本店',
     Address: '大阪府大阪市北区中崎1丁目5-20 TKビル1階',
     Comment: 'おにぎりが絶品で、店員さんの対応も素晴らしい。',
@@ -10,7 +10,7 @@ List<HomeStore> homeStoreList = [
     goods: 50,
   ),
   HomeStore(
-    Images: 'images/home/image_2.png',
+    Images: 'images/home/image2.png',
     RestaurantName: 'ラーメン大王 西中島店',
     Address: '大阪府大阪市淀川区西中島1丁目2-3',
     Comment: 'スープが濃厚で、麺ももちもち。大満足。',
@@ -18,7 +18,7 @@ List<HomeStore> homeStoreList = [
     goods: 35,
   ),
   HomeStore(
-    Images: 'images/home/image_3.png',
+    Images: 'images/home/image3.png',
     RestaurantName: 'カフェミルク 東梅田店',
     Address: '大阪府大阪市北区梅田3丁目1-3 グランフロント大阪',
     Comment: '落ち着いた雰囲気で、デザートが美味しい。',
@@ -26,7 +26,7 @@ List<HomeStore> homeStoreList = [
     goods: 42,
   ),
   HomeStore(
-    Images: 'images/home/image_4.png',
+    Images: 'images/home/image4.png',
     RestaurantName: 'お好み焼き たこ焼きや',
     Address: '大阪府大阪市浪速区難波中1丁目4-8',
     Comment: 'ボリューム満点で、味も抜群。',
@@ -34,7 +34,7 @@ List<HomeStore> homeStoreList = [
     goods: 68,
   ),
   HomeStore(
-    Images: 'images/home/image_5.png',
+    Images: 'images/home/image5.png',
     RestaurantName: 'カフェ・ド・パリ 心斎橋店',
     Address: '大阪府大阪市中央区心斎橋筋1丁目5-1',
     Comment: 'フレンチトーストが絶品。リラックスできるカフェ。',
@@ -42,7 +42,7 @@ List<HomeStore> homeStoreList = [
     goods: 29,
   ),
   HomeStore(
-    Images: 'images/home/image_6.png',
+    Images: 'images/home/image6.png',
     RestaurantName: '焼肉王 新大阪店',
     Address: '大阪府大阪市淀川区西中島3丁目12-1',
     Comment: 'お肉がとてもジューシーで、タレが絶妙。',
@@ -50,7 +50,7 @@ List<HomeStore> homeStoreList = [
     goods: 80,
   ),
   HomeStore(
-    Images: 'images/home/image_7.png',
+    Images: 'images/home/image7.png',
     RestaurantName: 'イタリアンダイニング ボンジョルノ',
     Address: '大阪府大阪市北区梅田4丁目2-2',
     Comment: 'ピザがとても美味しい。雰囲気も最高。',
@@ -58,7 +58,7 @@ List<HomeStore> homeStoreList = [
     goods: 45,
   ),
   HomeStore(
-    Images: 'images/home/image_8.png',
+    Images: 'images/home/image8.png',
     RestaurantName: '寿司 やすもり',
     Address: '大阪府大阪市中央区難波1丁目10-2',
     Comment: '新鮮な魚介を使った寿司が最高。',
@@ -66,7 +66,7 @@ List<HomeStore> homeStoreList = [
     goods: 70,
   ),
   HomeStore(
-    Images: 'images/home/image_9.png',
+    Images: 'images/home/image9.png',
     RestaurantName: 'カフェ ゆうき',
     Address: '大阪府大阪市天王寺区上本町6丁目4-7',
     Comment: '手作りのケーキが美味しい。',
@@ -74,7 +74,7 @@ List<HomeStore> homeStoreList = [
     goods: 38,
   ),
   HomeStore(
-    Images: 'images/home/image_10.png',
+    Images: 'images/home/image10.png',
     RestaurantName: 'ラーメン虎龍',
     Address: '大阪府大阪市西成区玉出西1丁目1-10',
     Comment: '濃厚なラーメンで、クセになる味。',
@@ -82,7 +82,7 @@ List<HomeStore> homeStoreList = [
     goods: 60,
   ),
   HomeStore(
-    Images: 'images/home/image_11.png',
+    Images: 'images/home/image11.png',
     RestaurantName: 'カフェ クロワッサン',
     Address: '大阪府大阪市東住吉区矢田3丁目7-11',
     Comment: 'クロワッサンがサクサクで美味しい。',
@@ -90,7 +90,7 @@ List<HomeStore> homeStoreList = [
     goods: 55,
   ),
   HomeStore(
-    Images: 'images/home/image_12.png',
+    Images: 'images/home/image12.png',
     RestaurantName: '和食 みやび',
     Address: '大阪府大阪市阿倍野区阿倍野筋1丁目3-20',
     Comment: '新鮮な魚を使った和食が最高。',
@@ -98,7 +98,7 @@ List<HomeStore> homeStoreList = [
     goods: 65,
   ),
   HomeStore(
-    Images: 'images/home/image_13.png',
+    Images: 'images/home/image13.png',
     RestaurantName: 'パンケーキカフェ スウィート',
     Address: '大阪府大阪市中央区本町4丁目7-12',
     Comment: 'フワフワのパンケーキが癖になる。',
@@ -106,7 +106,7 @@ List<HomeStore> homeStoreList = [
     goods: 30,
   ),
   HomeStore(
-    Images: 'images/home/image_14.png',
+    Images: 'images/home/image14.png',
     RestaurantName: '寿司 高瀬',
     Address: '大阪府大阪市北区天神橋5丁目8-1',
     Comment: '職人が握った寿司が絶品。',
@@ -114,7 +114,7 @@ List<HomeStore> homeStoreList = [
     goods: 72,
   ),
   HomeStore(
-    Images: 'images/home/image_15.png',
+    Images: 'images/home/image15.png',
     RestaurantName: 'ステーキ レッドスター',
     Address: '大阪府大阪市西区北堀江1丁目12-14',
     Comment: 'ジューシーなステーキがとても美味しい。',
@@ -122,7 +122,7 @@ List<HomeStore> homeStoreList = [
     goods: 82,
   ),
   HomeStore(
-    Images: 'images/home/image_16.png',
+    Images: 'images/home/image16.png',
     RestaurantName: 'カフェ グリーン',
     Address: '大阪府大阪市城東区関目4丁目9-13',
     Comment: 'ヘルシーなメニューが豊富。',
@@ -130,7 +130,7 @@ List<HomeStore> homeStoreList = [
     goods: 48,
   ),
   HomeStore(
-    Images: 'images/home/image_17.png',
+    Images: 'images/home/image17.png',
     RestaurantName: '韓国料理 チャングム',
     Address: '大阪府大阪市東住吉区長居2丁目7-9',
     Comment: '韓国料理が本場の味。',
@@ -138,7 +138,7 @@ List<HomeStore> homeStoreList = [
     goods: 56,
   ),
   HomeStore(
-    Images: 'images/home/image_18.png',
+    Images: 'images/home/image18.png',
     RestaurantName: 'イタリアン レストラン ダルビーノ',
     Address: '大阪府大阪市中央区心斎橋筋2丁目5-10',
     Comment: '本格的なイタリアンが楽しめる。',
@@ -146,7 +146,7 @@ List<HomeStore> homeStoreList = [
     goods: 62,
   ),
   HomeStore(
-    Images: 'images/home/image_19.png',
+    Images: 'images/home/image19.png',
     RestaurantName: 'フレンチレストラン ル・クール',
     Address: '大阪府大阪市西区江戸堀2丁目6-8',
     Comment: '料理のプレゼンテーションが美しい。',
@@ -154,7 +154,7 @@ List<HomeStore> homeStoreList = [
     goods: 49,
   ),
   HomeStore(
-    Images: 'images/home/image_20.png',
+    Images: 'images/home/image20.png',
     RestaurantName: 'うどん屋 つるきち',
     Address: '大阪府大阪市淀川区十三元今里3丁目11-15',
     Comment: '手打ちうどんが絶品。',
