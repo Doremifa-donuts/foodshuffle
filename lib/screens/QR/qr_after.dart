@@ -132,7 +132,6 @@ class StorePage extends ConsumerWidget {
        )
       ),
       ),
-      // カードの縁指定
       child: Padding(
         padding: const EdgeInsets.all(10), // カードの内の余白
         
