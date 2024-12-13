@@ -119,6 +119,8 @@ class StorePage extends ConsumerWidget {
     );
   }
 
+  
+
   // Storeの情報を元に、各ストアの詳細情報を表示するコンテナをビルド
   Widget _buildCard(BuildContext context, ArchiveStore store) {
     return Container(
