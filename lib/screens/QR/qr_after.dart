@@ -17,7 +17,7 @@ const bool useDatabase = false;
 final Random _random = Random();
 
 // プロバイダーの定義（データ取得を切り替え）
-final archiveStoreProvider = FutureProvider<List<ArchiveStore>>((ref) async {
+final StoreProvider = FutureProvider<List<ArchiveStore>>((ref) async {
   if (useDatabase) {
     return fetchArchiveStoresFromDatabase();
   } else {
@@ -56,13 +56,13 @@ Future<List<ArchiveStore>> fetchArchiveStoresFromDatabase() async {
 }
 
 // アーカイブページ画面
-class ArchivePage extends ConsumerWidget {
-  const ArchivePage({super.key});
+class StorePage extends ConsumerWidget {
+  const StorePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // アーカイブのデータを取得
-    final archiveStoreAsyncValue = ref.watch(archiveStoreProvider);
+    final archiveStoreAsyncValue = ref.watch(StoreProvider);
     return Scaffold(
       // アプリバー
       appBar: AppBar(
@@ -119,21 +119,21 @@ class ArchivePage extends ConsumerWidget {
     );
   }
 
-  // Storeの情報を元に、各ストアの詳細情報を表示するカードをビルド
+  // Storeの情報を元に、各ストアの詳細情報を表示するコンテナをビルド
   Widget _buildCard(BuildContext context, ArchiveStore store) {
-    return Card(
-      // カードのカラー
-      color: const Color(listColor),
-      // カードの縁指定
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(
-          color: Color(allListColor), // 縁の色を指定
-          width: 2, // 縁の太さ
-        ),
-        borderRadius: BorderRadius.circular(15), // カードの角を丸くする
+    return Container(
+      decoration: const BoxDecoration(
+       border: Border(
+       top: BorderSide(
+         color: Colors.black,
+         width: 1
+       )
       ),
+      ),
+      // カードの縁指定
       child: Padding(
-        padding: const EdgeInsets.all(10), // カードの内側の余白
+        padding: const EdgeInsets.all(10), // カードの内の余白
+        
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, // 子ウィジェットを左揃え
           children: [
