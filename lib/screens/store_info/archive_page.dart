@@ -12,6 +12,8 @@ import '../../model/images.dart';
 import '../../model/data_list.dart';
 // お店の詳細ページ
 import 'info.dart';
+// ダミーデータ（データベースがない場合に使用する固定データ）
+import '../../data/archive.dart';
 
 // データベースを使用できるか
 const bool useDatabase = false;
@@ -29,26 +31,7 @@ final archiveStoreProvider = FutureProvider<List<ArchiveStore>>((ref) async {
 
 // ダミーデータ（データベースがない場合に使用する固定データ）
 Future<List<ArchiveStore>> fetchDummyArchiveStores() async {
-  return List.generate(
-    10,
-    (index) {
-      // 1～12のランダムな画像を選択
-      List<String> allIcons = List.generate(
-        12,
-        (iconIndex) => 'images/icon/member_${iconIndex + 1}.png',
-      );
-      // ランダムでアイコンを1つ選択
-      String memberIcon = allIcons[_random.nextInt(12)]; // 12個の画像からランダムに選択
-
-      return ArchiveStore(
-          Images: 'images/store/store_1.png', // ストア画像を固定（仮の画像パス）
-          RestaurantName: "ストア ${index + 1}",
-          CreatedAt: "12/${(index + 10) % 30 + 1}",
-          Icon: memberIcon, // ランダムに選ばれたアイコン
-          Comment:
-              'オムライスの卵がふわふわでした、ミネストローネも野菜がたくさん入っていておいしかったです。リピートしようと思います。');
-    },
-  );
+  return archiveStoreList;
 }
 
 // 本番用（データベースから取得する処理）
@@ -147,54 +130,54 @@ class ArchivePage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              Column(
                 children: [
-                  Column(
+                  Text(
+                    store.RestaurantName,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
                     children: [
-                      Text(
-                        store.RestaurantName,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
                       Image.asset(
                         store.Images,
                         width: 120,
                         height: 100,
                         fit: BoxFit.cover,
                       ),
-                    ],
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    children: [
-                      Row(
+                      const SizedBox(width: 8),
+                      Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundImage: AssetImage(store.Icon),
-                            ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: CircleAvatar(
+                                  radius: 20,
+                                  backgroundImage: AssetImage(store.Icon),
+                                ),
+                              ),
+                              Text(
+                                '投稿日: ${store.CreatedAt}',
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.grey),
+                              ),
+                            ],
                           ),
-                          Text(
-                            '投稿日: ${store.CreatedAt}',
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.grey),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width - 200,
+                            child: Text(
+                              store.Comment,
+                              style: const TextStyle(fontSize: 14),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 200,
-                        child: Text(
-                          store.Comment,
-                          style: const TextStyle(fontSize: 14),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ],
