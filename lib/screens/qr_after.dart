@@ -10,6 +10,8 @@ import '../model/color.dart';
 import '../model/images.dart';
 // 表示するデータを受け取るclass
 import '../model/data_list.dart';
+// map
+import 'package:arcgis_maps/arcgis_maps.dart';
 
 // データベースを使用できるか
 const bool useDatabase = false;
