@@ -56,8 +56,8 @@ Future<List<ArchiveStore>> fetchArchiveStoresFromDatabase() async {
 }
 
 // アーカイブページ画面
-class StorePage extends ConsumerWidget {
-  const StorePage({super.key});
+class QrAfter extends ConsumerWidget {
+  const QrAfter({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,9 +66,9 @@ class StorePage extends ConsumerWidget {
     return Scaffold(
       // アプリバー
       appBar: AppBar(
-        title: const Text(
-          'アーカイブ', // アーカイブページのタイトル
-          style: TextStyle(fontWeight: FontWeight.bold), // 太字のスタイル
+        title: Text(
+          'お店ついたよ！', // アーカイブページのタイトル
+          style: TextStyle(fontWeight: FontWeight.bold, color: Color(textMainColor)), // 太字のスタイル
         ),
         backgroundColor: const Color(mainColor), // アプリバーの背景色（共通定義）
       ),
@@ -86,6 +86,17 @@ class StorePage extends ConsumerWidget {
                   ),
                 ),
               ),
+
+              Container(
+                width: double.infinity, // 横幅を画面いっぱいに
+                height: 400, // 高さを指定
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("../../images/map.png"), //map画像のpath
+                  )
+                ),
+              ),
+
               // スクロール要素
               Scrollbar(
                 thickness: 12, // スクロールバーの太さ
@@ -98,7 +109,7 @@ class StorePage extends ConsumerWidget {
                   itemCount: stores.length, // リストアイテムの数
                   // 各リストアイテム
                   itemBuilder: (context, index) {
-                    return _buildCard(context, stores[index]);
+                    return _buildContainer(context, stores[index]);
                   },
                 ),
               ),
@@ -119,10 +130,8 @@ class StorePage extends ConsumerWidget {
     );
   }
 
-  
-
   // Storeの情報を元に、各ストアの詳細情報を表示するコンテナをビルド
-  Widget _buildCard(BuildContext context, ArchiveStore store) {
+  Widget _buildContainer(BuildContext context, ArchiveStore store) {
     return Container(
       decoration: const BoxDecoration(
        border: Border(
@@ -145,9 +154,11 @@ class StorePage extends ConsumerWidget {
                     // 店名を表示
                     Text(
                       store.RestaurantName,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.bold), // 店名を太字で表示
+                          fontWeight: FontWeight.bold,
+                          color: Color(textMainColor) // 店名を太字で表示
+                      )
                     ),
                     const SizedBox(height: 8), // 店名と画像の間に余白
                     // ストアの画像を表示
@@ -188,7 +199,7 @@ class StorePage extends ConsumerWidget {
                           200, // 画像の幅分を引いて残りの幅を使う
                       child: Text(
                         store.Comment,
-                        style: const TextStyle(fontSize: 14), // コメントの文字サイズ
+                        style: TextStyle(fontSize: 14, color: Color(textMainColor)), // コメントの文字サイズ
                         maxLines: 3, // 最大3行に制限
                         overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て
                       ),
