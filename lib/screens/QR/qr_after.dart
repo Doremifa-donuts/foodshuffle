@@ -88,20 +88,53 @@ class QrAfter extends ConsumerWidget {
               ),
 
               Container(
-                width: double.infinity, // 横幅を画面いっぱいに
-                height: 400, // 高さを指定
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("../../images/map.png"), //map画像のpath
-                  )
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity, // 横幅を画面いっぱいに
+                      height: 200, // 高さを指定
+                      child: Image.asset(
+                        "../../images/map.png", //map画像のpath
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+
+                    Container(                    
+                      child:Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 10, 5, 0),
+                            width: 20,
+                            height: 20,
+                            child: Image.asset(
+                              "../../images/pin_drop.png", //map画像のpath
+                            )
+                          ),
+                          Container(                          
+                            margin: const EdgeInsets.fromLTRB(0, 10, 13, 0),
+                            child: Text(
+                            "行ったところマップ",
+                            style: TextStyle(color: Color(textMainColor)),
+                            ),
+                          ),
+                        ]
+                      )
+                      
+                    ),
+                  ],
                 ),
               ),
 
               // スクロール要素
-              Scrollbar(
+              Container(
+                margin: EdgeInsets.only(top: 240),
+                child: Scrollbar(
                 thickness: 12, // スクロールバーの太さ
                 radius: const Radius.circular(20), // スクロールバーの角を丸く
                 child: ListView.separated(
+                  
                   padding: const EdgeInsets.all(20), // リストのパディングを指定
                   // リスト要素
                   separatorBuilder: (context, index) =>
@@ -113,6 +146,8 @@ class QrAfter extends ConsumerWidget {
                   },
                 ),
               ),
+              ),
+
               // フッター部分を画面下部に配置
               const Positioned(
                 bottom: -20, // フッターを少しだけ下に配置
