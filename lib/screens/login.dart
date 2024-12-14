@@ -9,6 +9,8 @@ import '../model/images.dart';
 import 'package:http/http.dart' as http;
 // Jtiトークンを保持するためのモジュール
 import 'package:shared_preferences/shared_preferences.dart';
+//envファイルを読み込むためのモジュール
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> _saveJtiToken(String token) async {
   final prefs = await SharedPreferences.getInstance();
@@ -104,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             // HTTPリクエストを送信
                             final response = await http.post(
-                              Uri.parse('http://127.0.0.1:5678/v1/login'),
+                              Uri.parse('${dotenv.env['API_URL']}/login'),
                               headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -116,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                               }),
                             );
                             // レスポンスボディをJSON形式に変換 {Response: {Data: {JtiToken:~~~}, Status: ~~~}}
-                            final responseBody = jsonDecode(response.body);;
+                            final responseBody = jsonDecode(response.body);
                             switch(responseBody['Response']['Status']) {
                               case 'OK': // ログイン成功(200)
                               //トークンを保存

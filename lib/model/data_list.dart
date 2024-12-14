@@ -37,6 +37,7 @@ class Group {
 // ReviewPageのリスト要素
 // ReviewStoreのデータクラス
 class ReviewStore {
+  final String RestaurantUuid;  // 店UUID
   final String Images; // 店画像
   final String RestaurantName; // 店名
   final String Tell; // 電話番号
@@ -44,6 +45,7 @@ class ReviewStore {
 
   // コンストラクタで必要なデータを受け取る
   ReviewStore({
+    required this.RestaurantUuid,
     required this.Images,
     required this.RestaurantName,
     required this.Tell,

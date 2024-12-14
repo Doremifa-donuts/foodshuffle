@@ -3,11 +3,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/login.dart';
 import '../model/color.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // 立ち上げ時に実行
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "../.env");
 
   FlutterLocalNotificationsPlugin()
     ..resolvePlatformSpecificImplementation<

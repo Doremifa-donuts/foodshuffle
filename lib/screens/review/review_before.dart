@@ -45,6 +45,7 @@ Future<List<ReviewStore>> fetchDummyReviewStoresBefore() async {
   return List.generate(
     10,
     (index) => ReviewStore(
+      RestaurantUuid: '1',
       Images: 'images/store/store_1.png',
       RestaurantName: 'おにぎりごりちゃん 中崎町本店',
       Tell: '000-000-000',
@@ -76,6 +77,7 @@ Future<List<ReviewStore>> fetchReviewStoresBeforeFromDatabase() async {
       final List<dynamic> data = jsonResponse['Response']['Data'];
       return data.map<ReviewStore>((item) {
         return ReviewStore(
+          RestaurantUuid: item['RestaurantUuid'] as String,
           Images: (item['Images'] as List<dynamic>).isNotEmpty
               ? (item['Images'] as List<dynamic>)[0] as String
               : '',
