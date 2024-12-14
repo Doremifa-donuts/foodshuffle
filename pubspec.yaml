@@ -79,9 +79,6 @@ flutter:
     - images/icon/
     - images/store/
     - images/animation/
-    - rs_images/
-    - rs_images/store/
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -20,6 +20,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 // Jtiトークンを使用するためのモジュール
 import 'package:shared_preferences/shared_preferences.dart';
+//envファイルを読み込むためのモジュール
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<String?> _getToken() async {
   final prefs = await SharedPreferences.getInstance();
@@ -65,7 +67,7 @@ Future<List<ReviewStore>> fetchReviewStoresBeforeFromDatabase() async {
   } else {
     //httpリクエストで訪れた店舗を取得
     final response = await http.get(
-      Uri.parse('http://127.0.0.1:5678/v1/auth/users/restaurants/visited'),
+      Uri.parse('${dotenv.env['API_URL']}/auth/users/restaurants/visited'),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

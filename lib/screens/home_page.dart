@@ -5,6 +5,14 @@ import '../widgets/footer.dart';
 import '../model/data_list.dart';
 import '../model/color.dart';
 import '../widgets/swipe_handler.dart';
+// httpリクエスト用のモジュール
+import 'package:http/http.dart' as http;
+// jsonDecodeを有効化
+import 'dart:convert';
+// Jtiトークンを使用するためのモジュール
+import 'package:shared_preferences/shared_preferences.dart';
+//envファイルを読み込むためのモジュール
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
   return List.generate(30, (index) {
@@ -17,6 +25,50 @@ final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
       goods: 120 + index,
     );
   });
+});
+
+Future<String?> _getToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('token'); // 'auth_token'キーからトークンを取得
+}
+
+final swipeAsyncNotifierProviderByDatabase = FutureProvider<List<HomeStore>>((ref) async {
+  final token = await _getToken();
+  if(token == null){
+    throw Exception('jti token is null');
+  } else {
+    //httpリクエストでレビューを取得
+    final response = await http.get(
+      Uri.parse('${dotenv.env['API_URL']}/auth/users/reviews/recieves'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    //httpリクエストに成功した場合
+    if (response.statusCode == 200) {
+      //レスポンスをJSON形式に変換
+      final data = json.decode(response.body);
+
+      if (data['Response']['Data'] == null || data['Response']['Data'] is! List) {
+        return []; // データが空の場合は空リストを返す
+      }
+      //レスポンスから店舗情報を取得
+      return List.generate(data['Response']['Data'].length, (index) {
+        return HomeStore(
+          Images: data['Response']['Data'][index]['Images'] ?? 'images/store/store_1.png', // 画像がない場合デフォルトの画像を使用
+          RestaurantName: data['Response']['Data'][index]['RestaurantName'],
+          Address: data['Response']['Data'][index]['Address'],
+          Comment: data['Response']['Data'][index]['Comment'],
+          CreatedAt: data['Response']['Data'][index]['PostedAt'],
+          goods: data['Response']['Data'][index]['Goods'],
+        );
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 });
 
 class HomePage extends ConsumerStatefulWidget {
@@ -43,7 +95,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final asyncValue = ref.watch(swipeAsyncNotifierProvider);
+    final asyncValue = ref.watch(swipeAsyncNotifierProviderByDatabase);
 
     return Scaffold(
       appBar: AppBar(
