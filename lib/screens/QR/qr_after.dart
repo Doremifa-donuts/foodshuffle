@@ -68,7 +68,9 @@ class QrAfter extends ConsumerWidget {
       appBar: AppBar(
         title: Text(
           'お店ついたよ！', // アーカイブページのタイトル
-          style: TextStyle(fontWeight: FontWeight.bold, color: Color(textMainColor)), // 太字のスタイル
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Color(textMainColor)), // 太字のスタイル
         ),
         backgroundColor: const Color(mainColor), // アプリバーの背景色（共通定義）
       ),
@@ -87,42 +89,37 @@ class QrAfter extends ConsumerWidget {
                 ),
               ),
 
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       width: double.infinity, // 横幅を画面いっぱいに
                       height: 200, // 高さを指定
                       child: Image.asset(
-                        "../../images/map.png", //map画像のpath
+                        "images/map.png", //map画像のpath
                         fit: BoxFit.fill,
                       ),
                     ),
-
-                    Container(                    
-                      child:Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
+                    Container(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
                           Container(
-                            margin: const EdgeInsets.fromLTRB(0, 10, 5, 0),
-                            width: 20,
-                            height: 20,
-                            child: Image.asset(
-                              "../../images/pin_drop.png", //map画像のpath
-                            )
-                          ),
-                          Container(                          
+                              margin: const EdgeInsets.fromLTRB(0, 10, 5, 0),
+                              width: 20,
+                              height: 20,
+                              child: Image.asset(
+                                "images/pin_drop.png", //map画像のpath
+                              )),
+                          Container(
                             margin: const EdgeInsets.fromLTRB(0, 10, 13, 0),
                             child: Text(
-                            "行ったところマップ",
-                            style: TextStyle(color: Color(textMainColor)),
+                              "行ったところマップ",
+                              style: TextStyle(color: Color(textMainColor)),
                             ),
                           ),
-                        ]
-                      )
-                      
-                    ),
+                        ])),
                   ],
                 ),
               ),
@@ -131,21 +128,20 @@ class QrAfter extends ConsumerWidget {
               Container(
                 margin: EdgeInsets.only(top: 240),
                 child: Scrollbar(
-                thickness: 12, // スクロールバーの太さ
-                radius: const Radius.circular(20), // スクロールバーの角を丸く
-                child: ListView.separated(
-                  
-                  padding: const EdgeInsets.all(20), // リストのパディングを指定
-                  // リスト要素
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 8), // 各リストアイテム間のスペース
-                  itemCount: stores.length, // リストアイテムの数
-                  // 各リストアイテム
-                  itemBuilder: (context, index) {
-                    return _buildContainer(context, stores[index]);
-                  },
+                  thickness: 12, // スクロールバーの太さ
+                  radius: const Radius.circular(20), // スクロールバーの角を丸く
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(20), // リストのパディングを指定
+                    // リスト要素
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 8), // 各リストアイテム間のスペース
+                    itemCount: stores.length, // リストアイテムの数
+                    // 各リストアイテム
+                    itemBuilder: (context, index) {
+                      return _buildContainer(context, stores[index]);
+                    },
+                  ),
                 ),
-              ),
               ),
 
               // フッター部分を画面下部に配置
@@ -169,16 +165,11 @@ class QrAfter extends ConsumerWidget {
   Widget _buildContainer(BuildContext context, ArchiveStore store) {
     return Container(
       decoration: const BoxDecoration(
-       border: Border(
-       top: BorderSide(
-         color: Colors.black,
-         width: 1
-       )
-      ),
+        border: Border(top: BorderSide(color: Colors.black, width: 1)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10), // カードの内の余白
-        
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, // 子ウィジェットを左揃え
           children: [
@@ -187,14 +178,12 @@ class QrAfter extends ConsumerWidget {
                 Column(
                   children: [
                     // 店名を表示
-                    Text(
-                      store.RestaurantName,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(textMainColor) // 店名を太字で表示
-                      )
-                    ),
+                    Text(store.RestaurantName,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(textMainColor) // 店名を太字で表示
+                            )),
                     const SizedBox(height: 8), // 店名と画像の間に余白
                     // ストアの画像を表示
                     Image.asset(
@@ -234,7 +223,9 @@ class QrAfter extends ConsumerWidget {
                           200, // 画像の幅分を引いて残りの幅を使う
                       child: Text(
                         store.Comment,
-                        style: TextStyle(fontSize: 14, color: Color(textMainColor)), // コメントの文字サイズ
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Color(textMainColor)), // コメントの文字サイズ
                         maxLines: 3, // 最大3行に制限
                         overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て
                       ),
