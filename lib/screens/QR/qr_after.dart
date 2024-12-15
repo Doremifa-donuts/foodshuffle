@@ -142,15 +142,6 @@ class QrAfter extends ConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    store.RestaurantName,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color(textMainColor),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
                   Image.asset(
                     store.Images,
                     width: 120,
@@ -164,27 +155,29 @@ class QrAfter extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage: AssetImage(store.Icon),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '投稿日: ${store.CreatedAt}',
-                          style:
-                              const TextStyle(fontSize: 16, color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
                     Text(
                       store.Comment,
                       style: const TextStyle(
                           fontSize: 14, color: Color(textMainColor)),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const SizedBox(width: 8),
+                        Text(
+                          '投稿日: ${store.CreatedAt}',
+                          style:
+                              const TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        const SizedBox(width: 8),
+                        // いいねぼたん
+                        const Icon(Icons.thumb_up, size: 18), // いいねアイコンを表示
+                        const SizedBox(width: 4), // アイコンとテキストの間隔を設定
+                        Text('${store.goods}',
+                            style: const TextStyle(fontSize: 14)), // いいねの数を表示
+                      ],
                     ),
                   ],
                 ),

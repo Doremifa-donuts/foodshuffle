@@ -104,7 +104,6 @@ class QrStore {
   final String Images;
   final String RestaurantName;
   final String CreatedAt;
-  final String Icon;
   final String Comment;
   final int goods;
 
@@ -112,7 +111,6 @@ class QrStore {
     required this.Images,
     required this.RestaurantName,
     required this.CreatedAt,
-    required this.Icon,
     required this.Comment,
     required this.goods,
   });
@@ -123,7 +121,6 @@ class QrStore {
       Images: homeStore.Images,
       RestaurantName: homeStore.RestaurantName,
       CreatedAt: homeStore.CreatedAt,
-      Icon: '', // 必要に応じて適切な値を設定
       Comment: homeStore.Comment,
       goods: homeStore.goods,
     );
