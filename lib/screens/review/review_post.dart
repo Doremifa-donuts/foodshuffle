@@ -1,14 +1,48 @@
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 // データリスト
 import '../../model/data_list.dart';
+// httpリクエスト用のモジュール
+import 'package:http/http.dart' as http;
+// jsonDecodeを有効化
+import 'dart:convert';
+// Jtiトークンを使用するためのモジュール
+import 'package:shared_preferences/shared_preferences.dart';
+//画像を複数選択するためのモジュール
+import 'package:image_picker/image_picker.dart';
+//envファイルを読み込むためのモジュール
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-// レビュー書き込み画面
-class ReviewWritePage extends StatelessWidget {
-  // 選択された店舗情報を受け取る
+class ReviewWritePage extends StatefulWidget {
   final ReviewStore store;
 
-  const ReviewWritePage({required this.store, super.key});
+  const ReviewWritePage({required this.store, Key? key}) : super(key: key);
+
+  @override
+  _ReviewWritePageState createState() => _ReviewWritePageState();
+}
+
+// レビュー書き込み画面
+class _ReviewWritePageState extends State<ReviewWritePage> {
+  final TextEditingController _reviewController = TextEditingController();
+  List<XFile> _selectedImages = [];
+
+  Future<void> _pickImages() async {
+    final ImagePicker picker = ImagePicker();
+    final List<XFile>? images = await picker.pickMultiImage();
+    if (images != null) {
+      setState(() {
+        _selectedImages.addAll(images);
+      });
+    }
+  }
+
+  Future<String?> _getToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('token'); // 'auth_token'キーからトークンを取得
+}
 
   // レビュー書き込み画面を表示
   @override
@@ -16,7 +50,7 @@ class ReviewWritePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         // ページタイトルに店舗名を表示
-        title: Text('レビューを書く: ${store.RestaurantName}'),
+        title: Text('レビューを書く: ${widget.store.RestaurantName}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0), // 余白を設定
@@ -25,16 +59,17 @@ class ReviewWritePage extends StatelessWidget {
           children: [
             // 店舗名を表示
             Text(
-              '店舗名: ${store.RestaurantName}',
+              '店舗名: ${widget.store.RestaurantName}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8), // 縦方向の余白
             // 店舗住所を表示
-            Text('住所: ${store.Address}'),
+            Text('住所: ${widget.store.Address}'),
             const SizedBox(height: 16),
             // レビュー入力用のテキストフィールド
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: _reviewController,
+              decoration:const InputDecoration(
                 labelText: 'レビュー内容', // ラベルテキスト
                 border: OutlineInputBorder(), // 枠線を設定
               ),
@@ -43,9 +78,83 @@ class ReviewWritePage extends StatelessWidget {
             const SizedBox(height: 16),
             // 保存ボタン
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // 保存処理（後で実装）をここに記述
-                Navigator.pop(context); // 保存後、前のページに戻る
+                if(_reviewController.text.isEmpty){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('レビュー内容を入力してください'),
+                    ),
+                  );
+                  return;
+                }
+                try {
+                  final token = await _getToken();
+
+                  if(token == null){
+                    throw Exception('token is null');
+                  }else {
+                    // httpリクエストでレビューを書き込む
+                    final request = http.MultipartRequest('POST', Uri.parse('${dotenv.env['API_URL']}/auth/users/reviews/post'));
+
+                    // リクエストヘッダー
+                    request.headers.addAll({
+                      'Authorization': 'Bearer $token',
+                      'Accept': 'application/json',
+                    });
+
+                    // リクエストボディ
+                    final Map<String, dynamic> data = {
+                      'RestaurantUuid': widget.store.RestaurantUuid,
+                      'Comment': _reviewController.text,
+                    };
+                    request.fields['data'] = jsonEncode(data);
+                    // 画像を追加
+                    for(XFile image in _selectedImages){
+                      request.files.add( await http.MultipartFile.fromPath(
+                        'images[]',
+                        image.path,
+                      ));
+                    }
+                    // リクエストを送信
+                    final response = await request.send();
+
+                    // レスポンスを処理(JSONに変換)
+                    final responseBody = await response.stream.bytesToString();
+                    final responseJson = jsonDecode(responseBody);
+
+                    switch(responseJson['Response']['Status']){
+                      case 'OK':
+                        //共有するレビューを指定(今回は投稿したレビューを指定)
+                        final shareReviewResponse = await http.put(
+                          Uri.parse('${dotenv.env['API_URL']}/auth/users/reviews/set'),
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer $token',
+                          },
+                          body: jsonEncode({
+                            'FirstReviewUuid': responseJson['Response']['Data']['ReviewUuid'],
+                          }),
+                        );
+                        final shareReviewResponseBody = jsonDecode(shareReviewResponse.body);
+                        if (shareReviewResponseBody['Response']['Status'] == 'OK') {
+                          Navigator.pop(context); // 保存後、前のページに戻る
+                          break;
+                        }
+                      default:  //接続に失敗した場合
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('通信エラー'),
+                          ),
+                        );
+                        break;
+                    }
+                  }
+                } catch (e) {
+                  print(e);
+                }
+
               },
               child: const Text('保存'),
             ),

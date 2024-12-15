@@ -8,6 +8,15 @@ import '../../screens/animation.dart';
 import '../model/images.dart';
 //httpリクエスト用のモジュール
 import 'package:http/http.dart' as http;
+// Jtiトークンを保持するためのモジュール
+import 'package:shared_preferences/shared_preferences.dart';
+//envファイルを読み込むためのモジュール
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+Future<void> _saveJtiToken(String token) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('token', token); // 'oken'でJTIトークンを保存
+}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -98,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             // HTTPリクエストを送信
                             final response = await http.post(
-                              Uri.parse('http://localhost:5678/v1/login'),
+                              Uri.parse('${dotenv.env['API_URL']}/login'),
                               headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -111,9 +120,11 @@ class _LoginPageState extends State<LoginPage> {
                             );
                             // レスポンスボディをJSON形式に変換 {Response: {Data: {JtiToken:~~~}, Status: ~~~}}
                             final responseBody = jsonDecode(response.body);
-                            ;
-                            switch (responseBody['Response']['Status']) {
+                            switch(responseBody['Response']['Status']) {
                               case 'OK': // ログイン成功(200)
+                              //トークンを保存
+                                final token = responseBody['Response']['Data']['JtiToken'];
+                                await _saveJtiToken(token);
                                 // websocketの接続確立
                                 debugPrint(responseBody['Response']['Data']
                                     ['JtiToken']);
@@ -128,7 +139,6 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 break;
-
                               case 'Bad Request': // ログイン失敗(400)
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -136,7 +146,6 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 break;
-
                               case 'Unauthorized': // ログイン失敗(401)
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -144,7 +153,6 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 break;
-
                               case 'Internal Server Error': // ログイン失敗(500)
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -152,8 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 break;
-
-                              default: //今のところログイン失敗するとerrorのみ返ってくるのでdefaultにたどり着く
+                              default : //今のところログイン失敗するとerrorのみ返ってくるのでdefaultにたどり着く
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('メールアドレス、またはパスワードが正しくありません。'),

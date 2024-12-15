@@ -32,6 +32,7 @@ Future<List<ReviewStore>> fetchDummyReviewStoresAfter() async {
   return List.generate(
     10,
     (index) => ReviewStore(
+      RestaurantUuid: '2',
       Images: 'images/store/store_2.png',
       RestaurantName: 'おひつごはん四六時中 ヨドバシ梅田店',
       Tell: '000-000-000',
