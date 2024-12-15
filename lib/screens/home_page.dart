@@ -177,4 +177,8 @@ class _HomePageState extends ConsumerState<HomePage> {
       ref.read(reservationProvider.notifier).state = result;
     }
   }
+
+  // WebSocketを確立し、位置情報の送信を行う
+  // FIXME: Websocketによる位置情報の通信はすべての画面で行われるべき
+  
 }
