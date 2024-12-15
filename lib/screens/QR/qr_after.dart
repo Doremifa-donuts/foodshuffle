@@ -1,256 +1,197 @@
 import 'package:flutter/material.dart';
-// ランダム関数
-import 'dart:math';
-// 動的に状態把握
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-// footer 表示
-import '../../widgets/footer.dart';
-// カラー、画像パス
-import '../../model/color.dart';
-import '../../model/images.dart';
-// 表示するデータを受け取るclass
-import '../../model/data_list.dart';
-// レビューページへの遷移
-import '../../screens/review/review_post.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // 状態管理
+import '../../widgets/footer.dart'; // フッター表示
+import '../../model/color.dart'; // カラー設定
+import '../../model/images.dart'; // 画像パス設定
+import '../../model/data_list.dart'; // データモデル
+import '../../screens/review/review_post.dart'; // レビューページへの遷移
+import '../../data/review.dart'; // ダミーデータ
 
-// データベースを使用できるか
-const bool useDatabase = false;
-// ランダム関数
-final Random _random = Random();
+const bool useDatabase = false; // データベース使用フラグ
 
-// プロバイダーの定義（データ取得を切り替え）
-final StoreProvider = FutureProvider<List<ArchiveStore>>((ref) async {
-  if (useDatabase) {
-    return fetchArchiveStoresFromDatabase();
-  } else {
-    return fetchDummyArchiveStores();
-  }
+// プロバイダーの定義
+final storeProvider = FutureProvider<List<QrStore>>((ref) async {
+  return useDatabase
+      ? fetchArchiveStoresFromDatabase()
+      : fetchDummyArchiveStores();
 });
 
-// ダミーデータ（データベースがない場合に使用する固定データ）
-Future<List<ArchiveStore>> fetchDummyArchiveStores() async {
-  return List.generate(
-    10,
-    (index) {
-      // 1～12のランダムな画像を選択
-      List<String> allIcons = List.generate(
-        12,
-        (iconIndex) => 'images/icon/member_${iconIndex + 1}.png',
-      );
-      // ランダムでアイコンを1つ選択
-      String memberIcon = allIcons[_random.nextInt(12)]; // 12個の画像からランダムに選択
-
-      return ArchiveStore(
-          Images: 'images/store/store_1.png', // ストア画像を固定（仮の画像パス）
-          RestaurantName: "ストア ${index + 1}",
-          CreatedAt: "12/${(index + 10) % 30 + 1}",
-          Icon: memberIcon, // ランダムに選ばれたアイコン
-          Comment:
-              'オムライスの卵がふわふわでした、ミネストローネも野菜がたくさん入っていておいしかったです。リピートしようと思います。');
-    },
-  );
+// ダミーデータ取得
+Future<List<QrStore>> fetchDummyArchiveStores() async {
+  return qrStoreList;
 }
 
-// 本番用（データベースから取得する処理）
-Future<List<ArchiveStore>> fetchArchiveStoresFromDatabase() async {
-  await Future.delayed(const Duration(seconds: 2)); // 仮の遅延
-  return []; // データベースの中身を受け取る
+// データベースからデータ取得
+Future<List<QrStore>> fetchArchiveStoresFromDatabase() async {
+  await Future.delayed(const Duration(seconds: 2));
+  return []; // データベースの結果を返却
 }
 
-// アーカイブページ画面
+// アーカイブページ
 class QrAfter extends ConsumerWidget {
   const QrAfter({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // アーカイブのデータを取得
-    final archiveStoreAsyncValue = ref.watch(StoreProvider);
+    final archiveStoreAsyncValue = ref.watch(storeProvider);
+
     return Scaffold(
-      // アプリバー
       appBar: AppBar(
-        title: Text(
-          'お店ついたよ！', // アーカイブページのタイトル
+        title: const Text(
+          'お店ついたよ！',
           style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Color(textMainColor)), // 太字のスタイル
+              fontWeight: FontWeight.bold, color: Color(textMainColor)),
         ),
         actions: [
           IconButton(
-              onPressed: () => {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const ReviewWritePage(
-                    //             store: Store,
-                    //           )),
-                    // )
-                  },
-              icon: const Icon(Icons.add)),
+            onPressed: () => {},
+            icon: const Icon(Icons.add),
+          ),
         ],
         backgroundColor: const Color(mainColor),
       ),
-      // body
       body: archiveStoreAsyncValue.when(
-        data: (stores) {
-          return Stack(
-            children: [
-              // 背景画像
-              Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(backImg),
-                    fit: BoxFit.cover, // 画像を画面いっぱいに表示
-                  ),
-                ),
-              ),
-
-              SizedBox(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity, // 横幅を画面いっぱいに
-                      height: 200, // 高さを指定
-                      child: Image.asset(
-                        "images/map.png", //map画像のpath
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Container(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                          Container(
-                              margin: const EdgeInsets.fromLTRB(0, 10, 5, 0),
-                              width: 20,
-                              height: 20,
-                              child: Image.asset(
-                                "images/pin_drop.png", //map画像のpath
-                              )),
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(0, 10, 13, 0),
-                            child: Text(
-                              "行ったところマップ",
-                              style: TextStyle(color: Color(textMainColor)),
-                            ),
-                          ),
-                        ])),
-                  ],
-                ),
-              ),
-
-              // スクロール要素
-              Container(
-                margin: EdgeInsets.only(top: 240),
-                child: Scrollbar(
-                  thickness: 12, // スクロールバーの太さ
-                  radius: const Radius.circular(20), // スクロールバーの角を丸く
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(20), // リストのパディングを指定
-                    // リスト要素
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 8), // 各リストアイテム間のスペース
-                    itemCount: stores.length, // リストアイテムの数
-                    // 各リストアイテム
-                    itemBuilder: (context, index) {
-                      return _buildContainer(context, stores[index]);
-                    },
-                  ),
-                ),
-              ),
-
-              // フッター部分を画面下部に配置
-              const Positioned(
-                bottom: -20, // フッターを少しだけ下に配置
-                left: 0,
-                right: 0,
-                child: Footer(), // フッターウィジェット
-              ),
-            ],
-          );
-        },
-        loading: () =>
-            const Center(child: CircularProgressIndicator()), // 読み込み中
-        error: (err, stack) => Center(child: Text('エラーが発生しました: $err')), // エラー時
+        data: (stores) => Stack(
+          children: [
+            _buildBackgroundImage(),
+            Column(
+              children: [
+                _buildMapImage(),
+                _buildMapTitle(),
+                Expanded(child: _buildStoreList(context, stores)),
+              ],
+            ),
+            const Positioned(bottom: -20, left: 0, right: 0, child: Footer()),
+          ],
+        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('エラーが発生しました: $err')),
       ),
     );
   }
 
-  // Storeの情報を元に、各ストアの詳細情報を表示するコンテナをビルド
-  Widget _buildContainer(BuildContext context, ArchiveStore store) {
+  // 背景画像
+  Widget _buildBackgroundImage() {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(backImg),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  // マップ画像
+  Widget _buildMapImage() {
+    return SizedBox(
+      width: double.infinity,
+      height: 200,
+      child: Image.asset(
+        "images/map.png",
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+
+  // マップタイトル
+  Widget _buildMapTitle() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, right: 13),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Image.asset("images/pin_drop.png", width: 20, height: 20),
+          const SizedBox(width: 5),
+          const Text(
+            "行ったところマップ",
+            style: TextStyle(color: Color(textMainColor)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 店舗リスト
+  Widget _buildStoreList(BuildContext context, List<QrStore> stores) {
+    return Scrollbar(
+      thickness: 12,
+      radius: const Radius.circular(20),
+      child: ListView.separated(
+        padding: const EdgeInsets.all(20),
+        itemCount: stores.length,
+        separatorBuilder: (context, index) => const SizedBox(height: 8),
+        itemBuilder: (context, index) =>
+            _buildStoreItem(context, stores[index]),
+      ),
+    );
+  }
+
+  // 店舗アイテム
+  Widget _buildStoreItem(BuildContext context, QrStore store) {
     return Container(
       decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: Colors.black, width: 1)),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(10), // カードの内の余白
-
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // 子ウィジェットを左揃え
-          children: [
-            Row(
-              children: [
-                Column(
-                  children: [
-                    // 店名を表示
-                    Text(store.RestaurantName,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color(textMainColor) // 店名を太字で表示
-                            )),
-                    const SizedBox(height: 8), // 店名と画像の間に余白
-                    // ストアの画像を表示
-                    Image.asset(
-                      store.Images,
-                      width: 120, // 画像の幅
-                      height: 100, // 画像の高さ
-                      fit: BoxFit.cover, // 画像のアスペクト比を維持
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    store.RestaurantName,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(textMainColor),
                     ),
-                  ],
-                ),
-                const SizedBox(width: 8), // 店名とメンバーアイコンの間に余白
-                Column(
+                  ),
+                  const SizedBox(height: 8),
+                  Image.asset(
+                    store.Images,
+                    width: 120,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ],
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        // メンバーアイコンを表示
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(right: 8), // アイコンの右側に余白
-                          child: CircleAvatar(
-                            radius: 20, // アイコンの半径（大きさ）
-                            backgroundImage:
-                                AssetImage(store.Icon), // アイコン画像を設定
-                          ),
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundImage: AssetImage(store.Icon),
                         ),
-                        // 投稿日時を表示
+                        const SizedBox(width: 8),
                         Text(
                           '投稿日: ${store.CreatedAt}',
-                          style: const TextStyle(
-                              fontSize: 16, color: Colors.grey), // 投稿日をグレー色で表示
+                          style:
+                              const TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                       ],
                     ),
-                    // コメントの表示（改行を許可して、長すぎるテキストは切り捨て）
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width -
-                          200, // 画像の幅分を引いて残りの幅を使う
-                      child: Text(
-                        store.Comment,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color(textMainColor)), // コメントの文字サイズ
-                        maxLines: 3, // 最大3行に制限
-                        overflow: TextOverflow.ellipsis, // 長すぎる場合は「...」で切り捨て
-                      ),
+                    const SizedBox(height: 8),
+                    Text(
+                      store.Comment,
+                      style: const TextStyle(
+                          fontSize: 14, color: Color(textMainColor)),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
-                )
-              ],
-            ),
-          ],
-        ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

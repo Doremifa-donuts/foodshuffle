@@ -78,6 +78,7 @@ flutter:
     - images/store/
     - images/animation/
     - images/home/
+    - images/qr/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
