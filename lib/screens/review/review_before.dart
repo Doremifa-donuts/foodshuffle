@@ -78,12 +78,16 @@ Future<List<ReviewStore>> fetchReviewStoresBeforeFromDatabase() async {
       final jsonResponse = jsonDecode(response.body);
       final List<dynamic> data = jsonResponse['Response']['Data'];
       return data.map<ReviewStore>((item) {
+        //データベースから正しい画像パスを取得できないためコメントアウト
+          // final imageList = item['Images'] as List<dynamic>?;
+          // final image = (imageList != null && imageList.isNotEmpty)
+          // ? imageList[0] as String
+          // : 'images/store/store_1.png'; // 代替画像のパス
         return ReviewStore(
           RestaurantUuid: item['RestaurantUuid'] as String,
-          Images: (item['Images'] as List<dynamic>).isNotEmpty
-              ? (item['Images'] as List<dynamic>)[0] as String
-              : '',
           RestaurantName: item['RestaurantName'] as String,
+          // Images: image,
+          Images: 'images/store/store_1.png',
           Tell: item['Tell'] as String,
           Address: item['Address'] as String,
         );

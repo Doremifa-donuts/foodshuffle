@@ -85,6 +85,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
     _swiperController = AppinioSwiperController();
+
+    Future.microtask((){
+      ref.refresh(swipeAsyncNotifierProviderByDatabase);
+    });
   }
 
   @override

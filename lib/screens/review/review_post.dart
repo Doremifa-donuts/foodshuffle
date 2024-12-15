@@ -125,8 +125,23 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
 
                     switch(responseJson['Response']['Status']){
                       case 'OK':
-                        Navigator.pop(context); // 保存後、前のページに戻る
-                        break;
+                        //共有するレビューを指定(今回は投稿したレビューを指定)
+                        final shareReviewResponse = await http.put(
+                          Uri.parse('${dotenv.env['API_URL']}/auth/users/reviews/set'),
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer $token',
+                          },
+                          body: jsonEncode({
+                            'FirstReviewUuid': responseJson['Response']['Data']['ReviewUuid'],
+                          }),
+                        );
+                        final shareReviewResponseBody = jsonDecode(shareReviewResponse.body);
+                        if (shareReviewResponseBody['Response']['Status'] == 'OK') {
+                          Navigator.pop(context); // 保存後、前のページに戻る
+                          break;
+                        }
                       default:  //接続に失敗した場合
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
