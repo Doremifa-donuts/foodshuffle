@@ -4,7 +4,7 @@ import '../../widgets/footer.dart'; // フッター表示
 import '../../model/color.dart'; // カラー設定
 import '../../model/images.dart'; // 画像パス設定
 import '../../model/data_list.dart'; // データモデル
-import '../../screens/review/review_post.dart'; // レビューページへの遷移
+import '../../screens/QR/review_post.dart'; // レビューページへの遷移
 import '../../data/review.dart'; // ダミーデータ
 
 const bool useDatabase = false; // データベース使用フラグ
@@ -62,7 +62,13 @@ class QrAfter extends ConsumerWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ReviewWritePage()),
+              );
+            },
             icon: const Icon(Icons.add),
           ),
         ],
