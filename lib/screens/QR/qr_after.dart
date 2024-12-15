@@ -10,6 +10,8 @@ import '../../model/color.dart';
 import '../../model/images.dart';
 // 表示するデータを受け取るclass
 import '../../model/data_list.dart';
+// レビューページへの遷移
+import '../../screens/review/review_post.dart';
 
 // データベースを使用できるか
 const bool useDatabase = false;
@@ -72,7 +74,20 @@ class QrAfter extends ConsumerWidget {
               fontWeight: FontWeight.bold,
               color: Color(textMainColor)), // 太字のスタイル
         ),
-        backgroundColor: const Color(mainColor), // アプリバーの背景色（共通定義）
+        actions: [
+          IconButton(
+              onPressed: () => {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const ReviewWritePage(
+                    //             store: Store,
+                    //           )),
+                    // )
+                  },
+              icon: const Icon(Icons.add)),
+        ],
+        backgroundColor: const Color(mainColor),
       ),
       // body
       body: archiveStoreAsyncValue.when(
