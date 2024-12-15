@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:foodshuffle/api/websocket.dart';
 // アニメーションを挟む
 import '../../screens/animation.dart';
 // 画像パスを管理するクラス
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             // HTTPリクエストを送信
                             final response = await http.post(
-                              Uri.parse('http://100.99.199.62:5678/v1/login'),
+                              Uri.parse('http://localhost:5678/v1/login'),
                               headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -113,6 +114,12 @@ class _LoginPageState extends State<LoginPage> {
                             ;
                             switch (responseBody['Response']['Status']) {
                               case 'OK': // ログイン成功(200)
+                                // websocketの接続確立
+                                debugPrint(responseBody['Response']['Data']
+                                    ['JtiToken']);
+                                WebSocketService().connect(
+                                    responseBody['Response']['Data']
+                                        ['JtiToken']);
                                 // ログイン処理成功時に遷移
                                 Navigator.push(
                                   context,
