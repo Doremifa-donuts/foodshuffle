@@ -98,3 +98,33 @@ class User {
     required this.store,
   });
 }
+
+// QRPageのリスト要素
+class QrStore {
+  final String Images;
+  final String RestaurantName;
+  final String CreatedAt;
+  final String Comment;
+  int goods;
+  bool isLiked;
+
+  QrStore({
+    required this.Images,
+    required this.RestaurantName,
+    required this.CreatedAt,
+    required this.Comment,
+    required this.goods,
+    this.isLiked = false,
+  });
+
+  // HomeStore から変換するファクトリコンストラクタ
+  factory QrStore.fromHomeStore(HomeStore homeStore) {
+    return QrStore(
+      Images: homeStore.Images,
+      RestaurantName: homeStore.RestaurantName,
+      CreatedAt: homeStore.CreatedAt,
+      Comment: homeStore.Comment,
+      goods: homeStore.goods,
+    );
+  }
+}
