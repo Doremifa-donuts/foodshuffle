@@ -2,6 +2,7 @@ import '../model/data_list.dart';
 
 List<HomeStore> homeStoreList = [
   HomeStore(
+    RestaurantUuid: '908e8073-d9d2-40f7-aac7-2433dba5d62f',
     Images: 'images/home/image1.png',
     RestaurantName: 'おにぎりごりちゃん 中崎町本店',
     Address: '大阪府大阪市北区中崎1丁目5-20 TKビル1階',
@@ -10,6 +11,7 @@ List<HomeStore> homeStoreList = [
     goods: 50,
   ),
   HomeStore(
+    RestaurantUuid: 'f012cd8b-19aa-46d7-9773-954d6fff805a',
     Images: 'images/home/image2.png',
     RestaurantName: 'ラーメン大王 西中島店',
     Address: '大阪府大阪市淀川区西中島1丁目2-3',
@@ -18,6 +20,7 @@ List<HomeStore> homeStoreList = [
     goods: 35,
   ),
   HomeStore(
+    RestaurantUuid: '117ba627-71d8-497c-a946-3069621670d8',
     Images: 'images/home/image3.png',
     RestaurantName: 'カフェミルク 東梅田店',
     Address: '大阪府大阪市北区梅田3丁目1-3 グランフロント大阪',
@@ -26,6 +29,7 @@ List<HomeStore> homeStoreList = [
     goods: 42,
   ),
   HomeStore(
+    RestaurantUuid: 'ebcf98e3-ea59-404e-966b-a0d58aefc271',
     Images: 'images/home/image4.png',
     RestaurantName: 'お好み焼き たこ焼きや',
     Address: '大阪府大阪市浪速区難波中1丁目4-8',
@@ -34,6 +38,7 @@ List<HomeStore> homeStoreList = [
     goods: 68,
   ),
   HomeStore(
+    RestaurantUuid: '4c1a67e0-2c03-407a-999b-b733e70c1c1b',
     Images: 'images/home/image5.png',
     RestaurantName: 'カフェ・ド・パリ 心斎橋店',
     Address: '大阪府大阪市中央区心斎橋筋1丁目5-1',
@@ -42,6 +47,7 @@ List<HomeStore> homeStoreList = [
     goods: 29,
   ),
   HomeStore(
+    RestaurantUuid: 'e2a3171b-e8a7-4749-ac2e-c3e653fad3ad',
     Images: 'images/home/image6.png',
     RestaurantName: '焼肉王 新大阪店',
     Address: '大阪府大阪市淀川区西中島3丁目12-1',
@@ -50,6 +56,7 @@ List<HomeStore> homeStoreList = [
     goods: 80,
   ),
   HomeStore(
+    RestaurantUuid: '54fc4e31-8888-47b5-a400-99ce8f4f1cb5',
     Images: 'images/home/image7.png',
     RestaurantName: 'イタリアンダイニング ボンジョルノ',
     Address: '大阪府大阪市北区梅田4丁目2-2',
@@ -58,6 +65,7 @@ List<HomeStore> homeStoreList = [
     goods: 45,
   ),
   HomeStore(
+    RestaurantUuid: '55c93b60-89cc-49bb-9ded-50b1109fb39a',
     Images: 'images/home/image8.png',
     RestaurantName: '寿司 やすもり',
     Address: '大阪府大阪市中央区難波1丁目10-2',
@@ -66,6 +74,7 @@ List<HomeStore> homeStoreList = [
     goods: 70,
   ),
   HomeStore(
+    RestaurantUuid: 'a3b1b2ea-35b8-4450-bb62-e5d95b745860',
     Images: 'images/home/image9.png',
     RestaurantName: 'カフェ ゆうき',
     Address: '大阪府大阪市天王寺区上本町6丁目4-7',
@@ -74,6 +83,7 @@ List<HomeStore> homeStoreList = [
     goods: 38,
   ),
   HomeStore(
+    RestaurantUuid: 'a12ba81d-bb12-40d7-8f6e-9152d1b2e3f6',
     Images: 'images/home/image10.png',
     RestaurantName: 'ラーメン虎龍',
     Address: '大阪府大阪市西成区玉出西1丁目1-10',
@@ -82,6 +92,7 @@ List<HomeStore> homeStoreList = [
     goods: 60,
   ),
   HomeStore(
+    RestaurantUuid: '64f7be38-b126-4124-941f-97040deec5ed',
     Images: 'images/home/image11.png',
     RestaurantName: 'カフェ クロワッサン',
     Address: '大阪府大阪市東住吉区矢田3丁目7-11',
@@ -90,6 +101,7 @@ List<HomeStore> homeStoreList = [
     goods: 55,
   ),
   HomeStore(
+    RestaurantUuid: 'af898d72-f330-4078-a719-9161d7ed8014',
     Images: 'images/home/image12.png',
     RestaurantName: '和食 みやび',
     Address: '大阪府大阪市阿倍野区阿倍野筋1丁目3-20',
@@ -98,6 +110,7 @@ List<HomeStore> homeStoreList = [
     goods: 65,
   ),
   HomeStore(
+    RestaurantUuid: '3035e1e8-4a52-4533-b271-09999a49f7e9',
     Images: 'images/home/image13.png',
     RestaurantName: 'パンケーキカフェ スウィート',
     Address: '大阪府大阪市中央区本町4丁目7-12',
@@ -106,6 +119,7 @@ List<HomeStore> homeStoreList = [
     goods: 30,
   ),
   HomeStore(
+    RestaurantUuid: '0e7e9593-b301-4bb8-9ac4-94a1ec8ae7a2',
     Images: 'images/home/image14.png',
     RestaurantName: '寿司 高瀬',
     Address: '大阪府大阪市北区天神橋5丁目8-1',
@@ -114,6 +128,7 @@ List<HomeStore> homeStoreList = [
     goods: 72,
   ),
   HomeStore(
+    RestaurantUuid: '3b7556c0-06bd-4ce3-a577-645b5b6ec107',
     Images: 'images/home/image15.png',
     RestaurantName: 'ステーキ レッドスター',
     Address: '大阪府大阪市西区北堀江1丁目12-14',
@@ -122,6 +137,7 @@ List<HomeStore> homeStoreList = [
     goods: 82,
   ),
   HomeStore(
+    RestaurantUuid: '7461aeb9-131e-458f-9649-483ae9beb61a',
     Images: 'images/home/image16.png',
     RestaurantName: 'カフェ グリーン',
     Address: '大阪府大阪市城東区関目4丁目9-13',
@@ -130,6 +146,7 @@ List<HomeStore> homeStoreList = [
     goods: 48,
   ),
   HomeStore(
+    RestaurantUuid: '06a4a234-ef87-4f5f-81e4-cfc73ed4bb1b',
     Images: 'images/home/image17.png',
     RestaurantName: '韓国料理 チャングム',
     Address: '大阪府大阪市東住吉区長居2丁目7-9',
@@ -138,6 +155,7 @@ List<HomeStore> homeStoreList = [
     goods: 56,
   ),
   HomeStore(
+    RestaurantUuid: '033da9b7-ee21-4d55-a843-093dbecb0ba3',
     Images: 'images/home/image18.png',
     RestaurantName: 'イタリアン レストラン ダルビーノ',
     Address: '大阪府大阪市中央区心斎橋筋2丁目5-10',
@@ -146,6 +164,7 @@ List<HomeStore> homeStoreList = [
     goods: 62,
   ),
   HomeStore(
+    RestaurantUuid: 'b02b79c1-e41f-478c-b4f0-e98950a88bbc',
     Images: 'images/home/image19.png',
     RestaurantName: 'フレンチレストラン ル・クール',
     Address: '大阪府大阪市西区江戸堀2丁目6-8',
@@ -154,6 +173,7 @@ List<HomeStore> homeStoreList = [
     goods: 49,
   ),
   HomeStore(
+    RestaurantUuid: '4f105618-a006-4f34-b5e8-bb7fc6dbc811',
     Images: 'images/home/image20.png',
     RestaurantName: 'うどん屋 つるきち',
     Address: '大阪府大阪市淀川区十三元今里3丁目11-15',

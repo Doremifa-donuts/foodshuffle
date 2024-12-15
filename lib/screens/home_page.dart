@@ -56,6 +56,7 @@ final swipeAsyncNotifierProviderByDatabase = FutureProvider<List<HomeStore>>((re
       //レスポンスから店舗情報を取得
       return List.generate(data['Response']['Data'].length, (index) {
         return HomeStore(
+          RestaurantUuid: data['Response']['Data'][index]['RestaurantUuid'],
           Images: data['Response']['Data'][index]['Images'] ?? 'images/store/store_1.png', // 画像がない場合デフォルトの画像を使用
           RestaurantName: data['Response']['Data'][index]['RestaurantName'],
           Address: data['Response']['Data'][index]['Address'],

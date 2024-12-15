@@ -3,6 +3,7 @@ import '../model/data_list.dart';
 // レビューのダミーデータ
 List<QrStore> qrStoreList = [
   QrStore(
+    RestaurantUuid: '2e720e0e-ce92-4d6b-b830-7b5b165fa3e8',
     Images: 'images/qr/image1.png',
     RestaurantName: 'かごの屋 三国本町店',
     Comment: 'とても美味しい料理でした。特に天ぷらがサクサクで最高でした！',
@@ -10,6 +11,7 @@ List<QrStore> qrStoreList = [
     goods: 15,
   ),
   QrStore(
+    RestaurantUuid: '2e720e0e-ce92-4d6b-b830-7b5b165fa3e8',
     Images: 'images/qr/image2.png',
     RestaurantName: 'かごの屋 三国本町店',
     Comment: '店員さんがとても親切で、また行きたいと思いました。',
@@ -17,6 +19,7 @@ List<QrStore> qrStoreList = [
     goods: 23,
   ),
   QrStore(
+    RestaurantUuid: '2e720e0e-ce92-4d6b-b830-7b5b165fa3e8',
     Images: 'images/qr/image3.png',
     RestaurantName: 'かごの屋 三国本町店',
     Comment: '雰囲気がとても良かったです。ただ、少し待ち時間が長かったかな。',
@@ -24,6 +27,7 @@ List<QrStore> qrStoreList = [
     goods: 10,
   ),
   QrStore(
+    RestaurantUuid: '2e720e0e-ce92-4d6b-b830-7b5b165fa3e8',
     Images: 'images/qr/image4.png',
     RestaurantName: 'かごの屋 三国本町店',
     Comment: 'メニューが豊富でどれも美味しかったです。また行きたいです！',
@@ -31,6 +35,7 @@ List<QrStore> qrStoreList = [
     goods: 30,
   ),
   QrStore(
+    RestaurantUuid: '2e720e0e-ce92-4d6b-b830-7b5b165fa3e8',
     Images: 'images/qr/image5.png',
     RestaurantName: 'かごの屋 三国本町店',
     Comment: 'リーズナブルで量も満足できました。コスパが良いと思います。',
@@ -38,6 +43,7 @@ List<QrStore> qrStoreList = [
     goods: 18,
   ),
   QrStore(
+    RestaurantUuid: '2e720e0e-ce92-4d6b-b830-7b5b165fa3e8',
     Images: 'images/qr/image6.png',
     RestaurantName: 'かごの屋 三国本町店',
     Comment: 'デザートが美味しくて感動しました。特に抹茶アイスが絶品！',

@@ -7,7 +7,7 @@ class Urls {
   static const _ws = "ws://";
 
   // ホスト
-  static const String _host = "localhost";
+  static const String _host = "172.20.10.12";
 
   // ポート
   static const int _port = 5678;

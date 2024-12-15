@@ -1,6 +1,7 @@
 // HomePageのリスト要素
 // homeReviewのデータクラス
 class HomeStore {
+  final String RestaurantUuid;
   final String Images; // 店画像
   final String RestaurantName; // 店名
   final String Address; // 住所
@@ -10,6 +11,7 @@ class HomeStore {
 
   // コンストラクタで必要なデータを受け取る
   HomeStore({
+    required this.RestaurantUuid,
     required this.Images,
     required this.RestaurantName,
     required this.Address,
@@ -44,7 +46,7 @@ class ReviewStore {
   final String Address; // 住所
 
   // コンストラクタで必要なデータを受け取る
-  ReviewStore({
+  const ReviewStore({
     required this.RestaurantUuid,
     required this.Images,
     required this.RestaurantName,
@@ -103,6 +105,7 @@ class User {
 
 // QRPageのリスト要素
 class QrStore {
+  final String RestaurantUuid;
   final String Images;
   final String RestaurantName;
   final String CreatedAt;
@@ -111,6 +114,7 @@ class QrStore {
   bool isLiked;
 
   QrStore({
+    required this.RestaurantUuid,
     required this.Images,
     required this.RestaurantName,
     required this.CreatedAt,
@@ -122,6 +126,7 @@ class QrStore {
   // HomeStore から変換するファクトリコンストラクタ
   factory QrStore.fromHomeStore(HomeStore homeStore) {
     return QrStore(
+      RestaurantUuid: homeStore.RestaurantUuid,
       Images: homeStore.Images,
       RestaurantName: homeStore.RestaurantName,
       CreatedAt: homeStore.CreatedAt,

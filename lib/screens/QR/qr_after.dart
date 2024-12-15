@@ -9,6 +9,14 @@ import '../../data/review.dart'; // ダミーデータ
 
 const bool useDatabase = false; // データベース使用フラグ
 
+final dummyQrStore = ReviewStore(
+  RestaurantUuid: '2e720e0e-ce92-4d6b-b830-7b5b165fa3e8',
+  Images: 'images/store/a0b48d6a-dc15-4c34-9dab-f923b8bfa398.png',
+  RestaurantName: 'かごの屋 三国本町店',
+  Tell: '06-1234-5678',
+  Address: '大阪府大阪市西区三国本町2-3-4',
+);
+
 // 状態管理用のStateNotifier
 final storeListProvider =
     StateNotifierProvider<StoreListNotifier, List<QrStore>>((ref) {
@@ -66,7 +74,9 @@ class QrAfter extends ConsumerWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewWritePage()),
+                    builder: (context) => ReviewWritePage(
+                      reviewStore: dummyQrStore,
+                    )),
               );
             },
             icon: const Icon(Icons.add),
