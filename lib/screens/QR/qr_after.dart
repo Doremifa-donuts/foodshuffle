@@ -9,22 +9,38 @@ import '../../data/review.dart'; // ダミーデータ
 
 const bool useDatabase = false; // データベース使用フラグ
 
-// プロバイダーの定義
-final storeProvider = FutureProvider<List<QrStore>>((ref) async {
-  return useDatabase
-      ? fetchArchiveStoresFromDatabase()
-      : fetchDummyArchiveStores();
+// 状態管理用のStateNotifier
+final storeListProvider =
+    StateNotifierProvider<StoreListNotifier, List<QrStore>>((ref) {
+  return StoreListNotifier(fetchDummyArchiveStores());
 });
+
+class StoreListNotifier extends StateNotifier<List<QrStore>> {
+  StoreListNotifier(Future<List<QrStore>> stores) : super([]) {
+    _loadStores(stores);
+  }
+
+  Future<void> _loadStores(Future<List<QrStore>> stores) async {
+    state = await stores;
+  }
+
+  void toggleLike(int index) {
+    final updatedStore = state[index];
+    updatedStore.isLiked = !updatedStore.isLiked;
+    updatedStore.goods += updatedStore.isLiked ? 1 : -1;
+
+    state = [
+      ...state.sublist(0, index),
+      updatedStore,
+      ...state.sublist(index + 1),
+    ];
+  }
+}
 
 // ダミーデータ取得
 Future<List<QrStore>> fetchDummyArchiveStores() async {
+  await Future.delayed(const Duration(seconds: 1));
   return qrStoreList;
-}
-
-// データベースからデータ取得
-Future<List<QrStore>> fetchArchiveStoresFromDatabase() async {
-  await Future.delayed(const Duration(seconds: 2));
-  return []; // データベースの結果を返却
 }
 
 // アーカイブページ
@@ -33,39 +49,37 @@ class QrAfter extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final archiveStoreAsyncValue = ref.watch(storeProvider);
+    final stores = ref.watch(storeListProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'お店ついたよ！',
           style: TextStyle(
-              fontWeight: FontWeight.bold, color: Color(textMainColor)),
+            fontWeight: FontWeight.bold,
+            color: Color(textMainColor),
+          ),
         ),
         actions: [
           IconButton(
-            onPressed: () => {},
+            onPressed: () {},
             icon: const Icon(Icons.add),
           ),
         ],
         backgroundColor: const Color(mainColor),
       ),
-      body: archiveStoreAsyncValue.when(
-        data: (stores) => Stack(
-          children: [
-            _buildBackgroundImage(),
-            Column(
-              children: [
-                _buildMapImage(),
-                _buildMapTitle(),
-                Expanded(child: _buildStoreList(context, stores)),
-              ],
-            ),
-            const Positioned(bottom: -20, left: 0, right: 0, child: Footer()),
-          ],
-        ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('エラーが発生しました: $err')),
+      body: Stack(
+        children: [
+          _buildBackgroundImage(),
+          Column(
+            children: [
+              _buildMapImage(),
+              _buildMapTitle(),
+              Expanded(child: _buildStoreList(context, stores, ref)),
+            ],
+          ),
+          const Positioned(bottom: -20, left: 0, right: 0, child: Footer()),
+        ],
       ),
     );
   }
@@ -113,7 +127,8 @@ class QrAfter extends ConsumerWidget {
   }
 
   // 店舗リスト
-  Widget _buildStoreList(BuildContext context, List<QrStore> stores) {
+  Widget _buildStoreList(
+      BuildContext context, List<QrStore> stores, WidgetRef ref) {
     return Scrollbar(
       thickness: 12,
       radius: const Radius.circular(20),
@@ -121,14 +136,17 @@ class QrAfter extends ConsumerWidget {
         padding: const EdgeInsets.all(20),
         itemCount: stores.length,
         separatorBuilder: (context, index) => const SizedBox(height: 8),
-        itemBuilder: (context, index) =>
-            _buildStoreItem(context, stores[index]),
+        itemBuilder: (context, index) {
+          final store = stores[index];
+          return _buildStoreItem(context, store, index, ref);
+        },
       ),
     );
   }
 
   // 店舗アイテム
-  Widget _buildStoreItem(BuildContext context, QrStore store) {
+  Widget _buildStoreItem(
+      BuildContext context, QrStore store, int index, WidgetRef ref) {
     return Container(
       decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: Colors.black, width: 1)),
@@ -165,18 +183,31 @@ class QrAfter extends ConsumerWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        const SizedBox(width: 8),
                         Text(
                           '投稿日: ${store.CreatedAt}',
                           style:
                               const TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                         const SizedBox(width: 8),
-                        // いいねぼたん
-                        const Icon(Icons.thumb_up, size: 18), // いいねアイコンを表示
-                        const SizedBox(width: 4), // アイコンとテキストの間隔を設定
-                        Text('${store.goods}',
-                            style: const TextStyle(fontSize: 14)), // いいねの数を表示
+                        IconButton(
+                          icon: Icon(
+                            store.isLiked
+                                ? Icons.thumb_up
+                                : Icons.thumb_up_off_alt,
+                            size: 18,
+                            color: store.isLiked ? Colors.black : Colors.grey,
+                          ),
+                          onPressed: () {
+                            ref
+                                .read(storeListProvider.notifier)
+                                .toggleLike(index);
+                          },
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${store.goods}',
+                          style: const TextStyle(fontSize: 14),
+                        ),
                       ],
                     ),
                   ],

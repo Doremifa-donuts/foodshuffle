@@ -105,7 +105,8 @@ class QrStore {
   final String RestaurantName;
   final String CreatedAt;
   final String Comment;
-  final int goods;
+  int goods;
+  bool isLiked;
 
   QrStore({
     required this.Images,
@@ -113,6 +114,7 @@ class QrStore {
     required this.CreatedAt,
     required this.Comment,
     required this.goods,
+    this.isLiked = false,
   });
 
   // HomeStore から変換するファクトリコンストラクタ
