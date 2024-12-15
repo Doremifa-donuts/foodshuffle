@@ -13,18 +13,17 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 //envファイルを読み込むためのモジュール
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../screens/reservation/booking.dart'; // 予約ページ
+import '../data/home.dart';
 
+// データを返すプロバイダ
 final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
-  return List.generate(30, (index) {
-    return HomeStore(
-      Images: 'images/store/store_1.png',
-      RestaurantName: 'Store ${String.fromCharCode(65 + index)}',
-      Address: 'Street ${index + 1}, City',
-      Comment: 'Fresh and delicious! ${index + 1}',
-      CreatedAt: '2024-11-${20 + index}',
-      goods: 120 + index,
-    );
-  });
+  return homeStoreList; // 別ファイルからデータを呼び出す
+});
+
+// 予約の状態を管理
+final reservationProvider = StateProvider<Map<String, String?>>((ref) {
+  return {}; // 店舗名と予約時間の情報を保持
 });
 
 Future<String?> _getToken() async {
@@ -72,7 +71,9 @@ final swipeAsyncNotifierProviderByDatabase = FutureProvider<List<HomeStore>>((re
 });
 
 class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+  });
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
@@ -100,6 +101,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final asyncValue = ref.watch(swipeAsyncNotifierProviderByDatabase);
+    final reservation = ref.watch(reservationProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -113,6 +115,8 @@ class _HomePageState extends ConsumerState<HomePage> {
         data: (stores) => Stack(
           children: [
             _buildBackground(),
+            _buildReservationInfo(reservation),
+            // お店の表示カード
             Positioned.fill(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -152,4 +156,85 @@ class _HomePageState extends ConsumerState<HomePage> {
       ),
     );
   }
+
+  // 予約情報の表示
+  Widget _buildReservationInfo(Map<String, String?> reservation) {
+    if (reservation.isEmpty || reservation['store'] == null) {
+      return Positioned(
+        top: 10,
+        left: 20,
+        right: 20,
+        child: Card(
+          color: const Color(listColor),
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(
+              color: Color(allListColor),
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              '予約はありません',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Positioned(
+        top: 30,
+        left: 20,
+        right: 20,
+        child: Card(
+          color: const Color(listColor),
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(
+              color: Color(allListColor),
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '予約店舗: ${reservation['store']}',
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '予約時間: ${reservation['time']}',
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  // 予約ページへの遷移処理
+  Future<void> navigateToReservation(HomeStore store) async {
+    final archiveStore = ArchiveStore.fromHomeStore(store);
+
+    final result = await Navigator.push<Map<String, String?>>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ReservationPage(store: archiveStore),
+      ),
+    );
+
+    if (result != null) {
+      ref.read(reservationProvider.notifier).state = result;
+    }
+  }
+
+  // WebSocketを確立し、位置情報の送信を行う
+  // FIXME: Websocketによる位置情報の通信はすべての画面で行われるべき
+  
 }

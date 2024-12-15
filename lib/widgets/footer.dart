@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/screens/home_page.dart';
-import 'package:foodshuffle/screens/archive_page.dart';
+import 'package:foodshuffle/screens/store_info/archive_page.dart';
 import 'package:foodshuffle/screens/my_page.dart';
 import 'package:foodshuffle/screens/group_page.dart';
 import 'package:foodshuffle/screens/review/review_before.dart';
+import 'package:foodshuffle/screens/QR/qr_after.dart';
 
 import '../model/color.dart';
 import '../model/images.dart';
@@ -20,11 +21,13 @@ class Footer extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(unionImg), // 背景画像の指定
-            fit: BoxFit.cover,
-            alignment: Alignment.center, // 画像を真ん中寄せ
+            fit: BoxFit.fill, // 画面全体の幅に調整
+            alignment: Alignment.bottomCenter, // 画像を真ん中寄せ
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start, // 画像を真ん中寄せ
+          mainAxisSize: MainAxisSize.max, // 画像を真ん中寄せ: ,
           children: [
             Center(
               child: _FooterIcon(
@@ -35,7 +38,7 @@ class Footer extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const  ReviewBeforePage()),
+                          builder: (context) => const QrAfter()),
                     );
                   }),
             ),

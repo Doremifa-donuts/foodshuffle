@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:foodshuffle/api/websocket.dart';
 // アニメーションを挟む
 import '../../screens/animation.dart';
 // 画像パスを管理するクラス
@@ -110,8 +111,8 @@ class _LoginPageState extends State<LoginPage> {
                               headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
-                                },
-                                // リクエストボディをJSON形式に変換し、emailとpasswordを含める
+                              },
+                              // リクエストボディをJSON形式に変換し、emailとpasswordを含める
                               body: jsonEncode({
                                 'MailAddress': email,
                                 'Password': password,
@@ -124,6 +125,12 @@ class _LoginPageState extends State<LoginPage> {
                               //トークンを保存
                                 final token = responseBody['Response']['Data']['JtiToken'];
                                 await _saveJtiToken(token);
+                                // websocketの接続確立
+                                debugPrint(responseBody['Response']['Data']
+                                    ['JtiToken']);
+                                WebSocketService().connect(
+                                    responseBody['Response']['Data']
+                                        ['JtiToken']);
                                 // ログイン処理成功時に遷移
                                 Navigator.push(
                                   context,
@@ -161,7 +168,8 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                                 break;
                             }
-                          } catch (e) { // 例外処理
+                          } catch (e) {
+                            // 例外処理
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('通信エラー'),
