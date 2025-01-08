@@ -2,12 +2,12 @@ import '../model/data_list.dart';
 
 List<HomeStore> homeStoreList = [
   HomeStore(
-    Images: 'images/home/image1.png',
-    RestaurantName: 'おにぎりごりちゃん 中崎町本店',
-    Address: '大阪府大阪市北区中崎1丁目5-20 TKビル1階',
-    Comment: 'おにぎりが絶品で、店員さんの対応も素晴らしい。',
-    CreatedAt: '2024-12-01',
-    goods: 50,
+    Images: 'images/qr/image1.png',
+    RestaurantName: 'かごの屋 三国本町店',
+    Address: '大阪府大阪市淀川区三国本町２丁目１３−９',
+    Comment: 'しゃぶしゃぶが美味しい',
+    CreatedAt: '2024-12-14',
+    goods: 0,
   ),
   HomeStore(
     Images: 'images/home/image2.png',

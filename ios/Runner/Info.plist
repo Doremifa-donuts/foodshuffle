@@ -46,8 +46,12 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>io.flutter.embedded_views_preview</key>
-<true/>
-<key>NSCameraUsageDescription</key>
-<string>This app needs camera access to scan QR codes(カメラの使用許可のための文言)</string>
+	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>写真ライブラリから画像を選択するために使用します。</string>
+	<key>NSCameraUsageDescription</key>
+	<string>カメラで写真を撮影するために使用します。</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>写真をライブラリに保存するために使用します。</string>
 </dict>
 </plist>

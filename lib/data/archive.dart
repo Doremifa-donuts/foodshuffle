@@ -2,11 +2,11 @@ import '../model/data_list.dart';
 
 List<ArchiveStore> archiveStoreList = [
   ArchiveStore(
-    Images: 'images/home/image1.png',
-    RestaurantName: 'おにぎりごりちゃん 中崎町本店',
+    Images: 'images/qr/image1.png',
+    RestaurantName: 'かごの屋 三国本町店',
     Icon: 'images/icon/member_1.png',
-    Comment: 'おにぎりが絶品で、店員さんの対応も素晴らしい。',
-    CreatedAt: '2024-12-01',
+    Comment: 'しゃぶしゃぶが美味しい',
+    CreatedAt: '2024-12-14',
   ),
   ArchiveStore(
     Images: 'images/home/image2.png',

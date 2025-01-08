@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 // アニメーションを挟む
 import '../../screens/animation.dart';
 // 画像パスを管理するクラス
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             // HTTPリクエストを送信
                             final response = await http.post(
-                              Uri.parse('http://100.99.199.62:5678/v1/login'),
+                              Uri.parse('${dotenv.env['API_URL']}/login'),
                               headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
