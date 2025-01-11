@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
+import 'package:foodshuffle/model/review_card/review_card.dart';
 import 'package:foodshuffle/widgets/swipe_card.dart';
-import 'package:foodshuffle/model/data_list.dart';
 
 class SwipeHandler extends StatelessWidget {
   final AppinioSwiperController controller;
-  final List<HomeStore> stores;
+  final List<ReviewCard> stores;
 
   const SwipeHandler({
     super.key,
@@ -19,7 +19,7 @@ class SwipeHandler extends StatelessWidget {
       controller: controller,
       cardCount: stores.length,
       cardBuilder: (context, index) {
-        return SwipeCard(store: stores[index]);
+        return SwipeCard(reviewCard: stores[index]);
       },
       onSwipeEnd: (previousIndex, targetIndex, direction) {
         debugPrint('Swiped from $previousIndex to $targetIndex');

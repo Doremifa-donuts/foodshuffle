@@ -37,7 +37,7 @@ class Group {
 // ReviewPageのリスト要素
 // ReviewStoreのデータクラス
 class ReviewStore {
-  final String RestaurantUuid;  // 店UUID
+  final String RestaurantUuid; // 店UUID
   final String Images; // 店画像
   final String RestaurantName; // 店名
   final String Tell; // 電話番号

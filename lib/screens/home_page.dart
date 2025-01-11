@@ -1,73 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
+import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/urls.dart';
+import 'package:foodshuffle/model/data_list.dart';
+import 'package:foodshuffle/model/review_card/review_card.dart';
 import '../widgets/footer.dart';
-import '../model/data_list.dart';
 import '../model/color.dart';
 import '../widgets/swipe_handler.dart';
-// httpリクエスト用のモジュール
-import 'package:http/http.dart' as http;
-// jsonDecodeを有効化
-import 'dart:convert';
-// Jtiトークンを使用するためのモジュール
-import 'package:shared_preferences/shared_preferences.dart';
-//envファイルを読み込むためのモジュール
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../screens/reservation/booking.dart'; // 予約ページ
-import '../data/home.dart';
 
 // データを返すプロバイダ
-final swipeAsyncNotifierProvider = FutureProvider<List<HomeStore>>((ref) async {
-  return homeStoreList; // 別ファイルからデータを呼び出す
+final swipeAsyncNotifierProvider =
+    FutureProvider<List<ReviewCard>>((ref) async {
+  try {
+    final data =
+        await Http.request(endpoint: Urls.receives, method: HttpMethod.get);
+
+    List<ReviewCard> cards = [];
+    for (var item in data) {
+      debugPrint(item.toString());
+      final card = ReviewCard.fromJson(item);
+      debugPrint(card.toString());
+      cards.add(ReviewCard.fromJson(item));
+    }
+    return cards;
+  } catch (e) {
+    return [];
+  }
 });
 
 // 予約の状態を管理
 final reservationProvider = StateProvider<Map<String, String?>>((ref) {
   return {}; // 店舗名と予約時間の情報を保持
-});
-
-Future<String?> _getToken() async {
-  final prefs = await SharedPreferences.getInstance();
-  return prefs.getString('token'); // 'auth_token'キーからトークンを取得
-}
-
-final swipeAsyncNotifierProviderByDatabase = FutureProvider<List<HomeStore>>((ref) async {
-  final token = await _getToken();
-  if(token == null){
-    throw Exception('jti token is null');
-  } else {
-    //httpリクエストでレビューを取得
-    final response = await http.get(
-      Uri.parse('${dotenv.env['API_URL']}/auth/users/reviews/recieves'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-    //httpリクエストに成功した場合
-    if (response.statusCode == 200) {
-      //レスポンスをJSON形式に変換
-      final data = json.decode(response.body);
-
-      if (data['Response']['Data'] == null || data['Response']['Data'] is! List) {
-        return []; // データが空の場合は空リストを返す
-      }
-      //レスポンスから店舗情報を取得
-      return List.generate(data['Response']['Data'].length, (index) {
-        return HomeStore(
-          Images: data['Response']['Data'][index]['Images'] ?? 'images/store/store_1.png', // 画像がない場合デフォルトの画像を使用
-          RestaurantName: data['Response']['Data'][index]['RestaurantName'],
-          Address: data['Response']['Data'][index]['Address'],
-          Comment: data['Response']['Data'][index]['Comment'],
-          CreatedAt: data['Response']['Data'][index]['PostedAt'],
-          goods: data['Response']['Data'][index]['Goods'],
-        );
-      });
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
 });
 
 class HomePage extends ConsumerStatefulWidget {
@@ -87,9 +52,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
     _swiperController = AppinioSwiperController();
 
-    Future.microtask((){
-      ref.refresh(swipeAsyncNotifierProviderByDatabase);
-    });
+    // Future.microtask(() {
+    //   ref.refresh(swipeAsyncNotifierProvider);
+    // });
   }
 
   @override
@@ -100,7 +65,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final asyncValue = ref.watch(swipeAsyncNotifierProviderByDatabase);
+    final asyncValue = ref.watch(swipeAsyncNotifierProvider);
     final reservation = ref.watch(reservationProvider);
 
     return Scaffold(
@@ -137,7 +102,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
           child: Text(
-            'エラーが発生しました。\n詳細: $error',
+            'エラーが発生しました。\n詳細: $error\n$stack',
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.red),
           ),
@@ -236,5 +201,4 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   // WebSocketを確立し、位置情報の送信を行う
   // FIXME: Websocketによる位置情報の通信はすべての画面で行われるべき
-  
 }

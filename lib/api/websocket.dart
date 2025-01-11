@@ -85,11 +85,8 @@ class WebSocketService {
     LocationData currentLocation = await getPosition();
     double? latitude = currentLocation.latitude;
     double? longitude = currentLocation.longitude;
-    debugPrint('latitude:$latitude');
-    debugPrint('longitude:$longitude');
 
     _channel?.sink.add('$latitude\n$longitude');
-    debugPrint("位置情報を送信した");
   }
 
   // 接続状態の確認

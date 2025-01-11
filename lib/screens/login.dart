@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             // HTTPリクエストを送信
                             final response = await http.post(
-                              Uri.parse('${dotenv.env['API_URL']}/login'),
+                              Uri.parse('http://M2.local:5678/v1/login'),
                               headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
@@ -120,10 +120,11 @@ class _LoginPageState extends State<LoginPage> {
                             );
                             // レスポンスボディをJSON形式に変換 {Response: {Data: {JtiToken:~~~}, Status: ~~~}}
                             final responseBody = jsonDecode(response.body);
-                            switch(responseBody['Response']['Status']) {
+                            switch (responseBody['Response']['Status']) {
                               case 'OK': // ログイン成功(200)
-                              //トークンを保存
-                                final token = responseBody['Response']['Data']['JtiToken'];
+                                //トークンを保存
+                                final token = responseBody['Response']['Data']
+                                    ['JtiToken'];
                                 await _saveJtiToken(token);
                                 // websocketの接続確立
                                 debugPrint(responseBody['Response']['Data']
@@ -160,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                                 break;
-                              default : //今のところログイン失敗するとerrorのみ返ってくるのでdefaultにたどり着く
+                              default: //今のところログイン失敗するとerrorのみ返ってくるのでdefaultにたどり着く
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('メールアドレス、またはパスワードが正しくありません。'),
