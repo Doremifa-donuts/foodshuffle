@@ -19,9 +19,7 @@ final swipeAsyncNotifierProvider =
 
     List<ReviewCard> cards = [];
     for (var item in data) {
-      debugPrint(item.toString());
       final card = ReviewCard.fromJson(item);
-      debugPrint(card.toString());
       cards.add(ReviewCard.fromJson(item));
     }
     return cards;
@@ -52,9 +50,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
     _swiperController = AppinioSwiperController();
 
-    // Future.microtask(() {
-    //   ref.refresh(swipeAsyncNotifierProvider);
-    // });
+    Future.microtask(() {
+      ref.refresh(swipeAsyncNotifierProvider);
+    });
   }
 
   @override

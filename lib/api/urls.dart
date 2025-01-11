@@ -25,4 +25,13 @@ class Urls {
       '$_ws$_host:$_port$_versionOne/auth/users/locations';
   static const String receives = '$_baseUrl/auth/users/reviews/recieves';
   static const String images = '$_baseUrl/auth/images/';
+  // レビューをいいねする
+  static String likeReview(String reviewUuid) =>
+      '$_baseUrl/auth/users/reviews/$reviewUuid/status/liked';
+  // レビューを興味ありにする (アーカイブ)
+  static String interestedReview(String reviewUuid) =>
+      '$_baseUrl/auth/users/reviews/$reviewUuid/status/interested';
+  // レビューを興味なしにする
+  static String notInterestedReview(String reviewUuid) =>
+      '$_baseUrl/auth/users/reviews/$reviewUuid/status/not_interested';
 }
