@@ -34,4 +34,12 @@ class Urls {
   // レビューを興味なしにする
   static String notInterestedReview(String reviewUuid) =>
       '$_baseUrl/auth/users/reviews/$reviewUuid/status/not_interested';
+
+  // 訪問済みでレビューをしていない店舗
+  static String beforeReview = '$_baseUrl/auth/users/restaurants/visited';
+  // レビュー投稿済みの店舗
+  static String afterReview = '$_baseUrl/auth/users/restaurants/reviewed';
+
+  // レビューを投稿する
+  static String postReview = '$_baseUrl/auth/users/reviews/post';
 }

@@ -7,10 +7,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthImage extends StatefulWidget {
   final String imagePath;
-  const AuthImage({
-    Key? key,
-    required this.imagePath,
-  }) : super(key: key);
+  final double height;
+  final double width;
+
+  const AuthImage(
+      {Key? key,
+      required this.imagePath,
+      required this.height,
+      required this.width})
+      : super(key: key);
 
   @override
   _AuthImageState createState() => _AuthImageState();
@@ -52,8 +57,8 @@ class _AuthImageState extends State<AuthImage> {
     return imageData != null
         ? Image.memory(
             imageData!,
-            height: 250, // 画像の高さを指定
-            width: double.infinity, // 横幅を親要素いっぱいにする
+            height: widget.height, // 画像の高さを指定
+            width: widget.width, // 横幅を親要素いっぱいにする
             fit: BoxFit.cover, // 画像を切り取らずにフィットさせる
           )
         : const Center(child: CircularProgressIndicator());

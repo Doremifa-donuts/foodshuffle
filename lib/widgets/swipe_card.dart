@@ -30,6 +30,8 @@ class SwipeCard extends StatelessWidget {
                   top: Radius.circular(12.0)), // 画像の上部を丸くする
               child: AuthImage(
                 imagePath: reviewCard.Images[0],
+                height: 250,
+                width: double.infinity,
               )),
           // テキストとその他の情報を表示するウィジェット
           Padding(
