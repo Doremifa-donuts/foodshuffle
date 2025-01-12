@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:foodshuffle/utils/errors.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,12 +47,12 @@ class Http {
         final decodedJson = jsonDecode(response.body) as Map<String, dynamic>;
         return decodedJson['Response']['Data'];
       } else {
-        throw Exception(
-            'Failed to load data with status: ${response.statusCode}');
+        // HTTPのステータスコードをエラーに詰めてハンドリングできるようにする
+        throw Errors('HTTP request exception', errorCode: response.statusCode);
       }
     } catch (ex) {
       debugPrint(ex.toString());
-      throw Exception('Failed to connect server');
+      rethrow;
     }
   }
 }
