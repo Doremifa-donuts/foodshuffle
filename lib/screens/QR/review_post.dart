@@ -59,76 +59,78 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
       body: Stack(
         children: [
           // 背景画像
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backImg),
-                fit: BoxFit.cover,
-              ),
+          Positioned.fill(
+            child: Image.asset(
+              backImg,
+              fit: BoxFit.cover,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 画像選択ボタン
-                const Text(
-                  '画像を選択:',
-                  style: TextStyle(fontSize: 18, color: Color(textMainColor)),
-                ),
-                GestureDetector(
-                  onTap: _pickImage,
-                  child: Container(
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: _selectedImage == null
-                        ? const Center(
-                            child: Icon(
-                              Icons.camera_alt,
-                              size: 40,
-                              color: Colors.grey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 画像選択ボタン
+                  const Text(
+                    '画像を選択:',
+                    style: TextStyle(fontSize: 18, color: Color(textMainColor)),
+                  ),
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: Container(
+                      width: double.infinity,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: _selectedImage == null
+                          ? const Center(
+                              child: Icon(
+                                Icons.camera_alt,
+                                size: 40,
+                                color: Colors.grey,
+                              ),
+                            )
+                          : Image.file(
+                              File(_selectedImage!.path),
+                              fit: BoxFit.cover,
                             ),
-                          )
-                        : Image.file(
-                            File(_selectedImage!.path),
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // 感想入力
-                const Text(
-                  '感想:',
-                  style: TextStyle(fontSize: 18, color: Color(textMainColor)),
-                ),
-                TextField(
-                  controller: _commentController,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    hintText: 'お店の感想を入力してください',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // 投稿ボタン
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _submitReview,
-                    child: const Text('レビューを投稿'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(mainColor),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 16),
+
+                  // 感想入力
+                  const Text(
+                    '感想:',
+                    style: TextStyle(fontSize: 18, color: Color(textMainColor)),
+                  ),
+                  TextField(
+                    controller: _commentController,
+                    maxLines: 5,
+                    decoration: const InputDecoration(
+                      hintText: 'お店の感想を入力してください',
+                      border: OutlineInputBorder(),
+                      filled: true, // 入力背景色を明示的に設定
+                      fillColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // 投稿ボタン
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _submitReview,
+                      child: const Text('レビューを投稿'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(mainColor),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
