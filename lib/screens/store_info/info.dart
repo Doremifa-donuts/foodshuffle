@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:foodshuffle/model/review_card/review_card.dart';
+import 'package:foodshuffle/widgets/auth_icon.dart';
+import 'package:foodshuffle/widgets/auth_image.dart';
+import 'package:intl/intl.dart';
 import '../../model/color.dart';
-import '../../model/data_list.dart';
 import '../reservation/booking.dart'; // 予約ページ
 
 class StoreDetailPage extends StatelessWidget {
-  final ArchiveStore store;
-
+  final ReviewCard store;
   const StoreDetailPage({Key? key, required this.store}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,12 +23,17 @@ class StoreDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Image.asset(
-                  store.Images,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: 200,
-                  fit: BoxFit.cover,
+              SizedBox(
+                height: 200,
+                child: PageView.builder(
+                  itemCount: store.Images.length,
+                  itemBuilder: (context, index) {
+                    return AuthImage(
+                      imagePath: store.Images[index],
+                      height: 200,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 16),
@@ -39,10 +45,6 @@ class StoreDetailPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                '投稿日: ${store.CreatedAt}',
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
-              ),
               const SizedBox(height: 16),
               Text(
                 store.Comment,
@@ -53,11 +55,12 @@ class StoreDetailPage extends StatelessWidget {
                 children: [
                   const Text('投稿者:', style: TextStyle(fontSize: 16)),
                   const SizedBox(width: 8),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage(store.Icon),
-                  ),
+                  AuthIcon(imagePath: store.Icon)
                 ],
+              ),
+              Text(
+                '投稿日: ${DateFormat("yyyy/MM/dd hh:mm").format(store.CreatedAt)}',
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
               const SizedBox(height: 32),
               Center(
