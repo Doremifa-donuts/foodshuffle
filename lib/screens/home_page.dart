@@ -7,15 +7,15 @@ import 'package:foodshuffle/model/data_list.dart';
 import 'package:foodshuffle/model/review_card/review_card.dart';
 import '../widgets/footer.dart';
 import '../model/color.dart';
-import '../widgets/swipe_handler.dart';
+import '../widgets/swipe_card/swipe_handler.dart';
 import '../screens/reservation/booking.dart'; // 予約ページ
 
 // データを返すプロバイダ
 final swipeAsyncNotifierProvider =
     FutureProvider<List<ReviewCard>>((ref) async {
   try {
-    final data =
-        await Http.request(endpoint: Urls.receives, method: HttpMethod.get);
+    final data = await Http.request(
+        endpoint: Urls.receivesReview, method: HttpMethod.get);
 
     List<ReviewCard> cards = [];
     for (var item in data) {
@@ -182,13 +182,13 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   // 予約ページへの遷移処理
-  Future<void> navigateToReservation(HomeStore store) async {
-    final archiveStore = ArchiveStore.fromHomeStore(store);
-
+  Future<void> navigateToReservation(ReviewCard store) async {
+    // final archiveStore = ArchiveStore.fromHomeStore(store);
+  
     final result = await Navigator.push<Map<String, String?>>(
       context,
       MaterialPageRoute(
-        builder: (context) => ReservationPage(store: archiveStore),
+        builder: (context) => ReservationPage(store: store),
       ),
     );
 
@@ -197,6 +197,5 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
   }
 
-  // WebSocketを確立し、位置情報の送信を行う
-  // FIXME: Websocketによる位置情報の通信はすべての画面で行われるべき
+
 }

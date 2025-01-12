@@ -3,7 +3,8 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:foodshuffle/api/http_req.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/model/review_card/review_card.dart';
-import 'package:foodshuffle/widgets/swipe_card.dart';
+import 'package:foodshuffle/screens/store_info/info.dart';
+import 'package:foodshuffle/widgets/swipe_card/swipe_card.dart';
 
 class SwipeHandler extends StatelessWidget {
   final AppinioSwiperController controller;
@@ -45,6 +46,14 @@ class SwipeHandler extends StatelessWidget {
           }
         } else if (direction.end!.dy < 0) {
           debugPrint("上へ移動した");
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  StoreDetailPage(store: stores[previousIndex]),
+            ),
+          );
           //TODO: レビュー詳細画面への遷移
         }
       },

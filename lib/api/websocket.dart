@@ -52,6 +52,7 @@ class WebSocketService {
 
   // 位置情報送信を一定間隔毎に行う
   void _startSendingLocation() {
+    debugPrint('タイマーを開始');
     _timer = Timer.periodic(const Duration(seconds: 5), sendLocation);
   }
 
@@ -82,9 +83,11 @@ class WebSocketService {
 
   // 位置情報を送信する
   void sendLocation(timer) async {
+    debugPrint("送信開始");
     LocationData currentLocation = await getPosition();
     double? latitude = currentLocation.latitude;
     double? longitude = currentLocation.longitude;
+    debugPrint('位置情報$latitude $longitude');
 
     _channel?.sink.add('$latitude\n$longitude');
   }

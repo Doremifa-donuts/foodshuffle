@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // Riverpodのインポート
+import 'package:foodshuffle/model/review_card/review_card.dart';
 import 'package:intl/intl.dart'; // 日付フォーマット用パッケージ
 import '../../model/color.dart';
-import '../../model/data_list.dart';
 
 // ホームページ
 import '../home_page.dart';
 
 class ReservationPage extends ConsumerStatefulWidget {
   // ConsumerStatefulWidgetに変更
-  final ArchiveStore store; // 受け取るstore
-
+  final ReviewCard store; // 受け取るstore
   const ReservationPage({Key? key, required this.store}) : super(key: key);
 
   @override
