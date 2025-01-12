@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/websocket.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // アニメーションを挟む
 import '../../screens/animation.dart';
 // 画像パスを管理するクラス
@@ -9,9 +10,7 @@ import '../model/images.dart';
 //httpリクエスト用のモジュール
 import 'package:http/http.dart' as http;
 // Jtiトークンを保持するためのモジュール
-import 'package:shared_preferences/shared_preferences.dart';
 //envファイルを読み込むためのモジュール
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> _saveJtiToken(String token) async {
   final prefs = await SharedPreferences.getInstance();

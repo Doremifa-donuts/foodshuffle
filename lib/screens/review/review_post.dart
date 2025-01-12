@@ -11,8 +11,6 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 //画像を複数選択するためのモジュール
 import 'package:image_picker/image_picker.dart';
-//envファイルを読み込むためのモジュール
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ReviewWritePage extends StatefulWidget {
   final VisitedStore store;
@@ -126,8 +124,7 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
                       case 'OK':
                         //共有するレビューを指定(今回は投稿したレビューを指定)
                         final shareReviewResponse = await http.put(
-                          Uri.parse(
-                              '${dotenv.env['API_URL']}/auth/users/reviews/set'),
+                          Uri.parse(Urls.setReview),
                           headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',

@@ -1,9 +1,13 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '12.0'
-require 'dotenv'
 
-# .envファイルを読み込む
-Dotenv.load(File.join(__dir__, '..', '.env'))
+begin
+  require 'dotenv'
+  Dotenv.load(File.join(__dir__, '..', '.env')) # .envをロード
+rescue LoadError
+  puts 'Dotenv is not installed. Skipping environment variable loading.'
+end
+
 # Flutter SDK に関連するコードをインクルード
 ENV['FLUTTER_ROOT'] ||= '/Users/haruna/development/flutter'
 load File.join(ENV['FLUTTER_ROOT'], 'packages', 'flutter_tools', 'bin', 'podhelper.rb')

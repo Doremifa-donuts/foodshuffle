@@ -46,4 +46,6 @@ class Urls {
   static String afterReview = '$_baseUrl/auth/users/restaurants/reviewed';
   // レビューを投稿する
   static String postReview = '$_baseUrl/auth/users/reviews/post';
+  // 共有するレビューを設定する
+  static String setReview = '$_baseUrl/auth/users/reviews/set';
 }
