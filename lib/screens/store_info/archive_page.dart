@@ -3,42 +3,42 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 // 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/urls.dart';
+import 'package:foodshuffle/model/review_card/review_card.dart';
+import 'package:foodshuffle/widgets/auth_icon.dart';
+import 'package:foodshuffle/widgets/auth_image.dart';
+import 'package:intl/intl.dart';
 // footer 表示
 import '../../widgets/footer.dart';
 // カラー、画像パス
 import '../../model/color.dart';
 import '../../model/images.dart';
-// 表示するデータを受け取るclass
-import '../../model/data_list.dart';
 // お店の詳細ページ
 import 'info.dart';
 // ダミーデータ（データベースがない場合に使用する固定データ）
 import '../../data/archive.dart';
 
-// データベースを使用できるか
-const bool useDatabase = false;
 // ランダム関数
 final Random _random = Random();
 
 // プロバイダーの定義（データ取得を切り替え）
-final archiveStoreProvider = FutureProvider<List<ArchiveStore>>((ref) async {
-  if (useDatabase) {
-    return fetchArchiveStoresFromDatabase();
-  } else {
-    return fetchDummyArchiveStores();
-  }
+final archiveStoreProvider = FutureProvider<List<ReviewCard>>((ref) async {
+  return fetchArchiveStores();
 });
 
-// ダミーデータ（データベースがない場合に使用する固定データ）
-Future<List<ArchiveStore>> fetchDummyArchiveStores() async {
-  return archiveStoreList;
+// 本番用（データベースから取得する処理）
+Future<List<ReviewCard>> fetchArchiveStores() async {
+  final data =
+      await Http.request(endpoint: Urls.archivesReview, method: HttpMethod.get);
+  List<ReviewCard> cards = [];
+  for (var item in data) {
+    cards.add(ReviewCard.fromJson(item));
+  }
+  return cards;
 }
 
-// 本番用（データベースから取得する処理）
-Future<List<ArchiveStore>> fetchArchiveStoresFromDatabase() async {
-  await Future.delayed(const Duration(seconds: 2)); // 仮の遅延
-  return []; // データベースの中身を受け取る
-}
+// アイコン取得用
 
 // アーカイブページ画面
 class ArchivePage extends ConsumerWidget {
@@ -71,23 +71,33 @@ class ArchivePage extends ConsumerWidget {
                   ),
                 ),
               ),
-              // スクロール要素
-              Scrollbar(
-                thickness: 12, // スクロールバーの太さ
-                radius: const Radius.circular(20), // スクロールバーの角を丸く
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(20), // リストのパディングを指定
-                  // リスト要素
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 8), // 各リストアイテム間のスペース
-                  itemCount: stores.length, // リストアイテムの数
-                  // 各リストアイテム
-                  itemBuilder: (context, index) {
-                    return _buildCard(context, stores[index]);
-                  },
-                ),
+              Column(
+                children: [
+                  Expanded(
+                    child:
+                        // スクロール要素
+                        Scrollbar(
+                      thickness: 12, // スクロールバーの太さ
+                      radius: const Radius.circular(20), // スクロールバーの角を丸く
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(20), // リストのパディングを指定
+                        // リスト要素
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 8), // 各リストアイテム間のスペース
+                        itemCount: stores.length, // リストアイテムの数
+                        // 各リストアイテム
+                        itemBuilder: (context, index) {
+                          return _buildCard(context, stores[index]);
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 155,
+                  )
+                ],
               ),
-              // フッター部分を画面下部に配置
+
               const Positioned(
                 bottom: -20, // フッターを少しだけ下に配置
                 left: 0,
@@ -105,9 +115,10 @@ class ArchivePage extends ConsumerWidget {
   }
 
   // Storeの情報を元に、各ストアの詳細情報を表示するカードをビルド
-  Widget _buildCard(BuildContext context, ArchiveStore store) {
+  Widget _buildCard(BuildContext context, ReviewCard store) {
     return InkWell(
       onTap: () {
+        debugPrint('写真の数${store.Images}');
         // お店の詳細ページに遷移
         Navigator.push(
           context,
@@ -125,61 +136,57 @@ class ArchivePage extends ConsumerWidget {
           ),
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.all(10),
+          height: 180,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Column(
+              Text(
+                store.RestaurantName,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    store.RestaurantName,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Image.asset(
-                        store.Images,
-                        width: 120,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(width: 8),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
+                  AuthImage(
+                      imagePath: store.Images[0], height: 120, width: 100),
+                  Container(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
                                 padding: const EdgeInsets.only(right: 8),
-                                child: CircleAvatar(
-                                  radius: 20,
-                                  backgroundImage: AssetImage(store.Icon),
-                                ),
-                              ),
-                              Text(
-                                '投稿日: ${store.CreatedAt}',
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width - 200,
-                            child: Text(
-                              store.Comment,
-                              style: const TextStyle(fontSize: 14),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
+                                child: AuthIcon(imagePath: store.Icon)),
+                            Text(
+                              // '投稿日: ${store.CreatedAt}',
+                              '投稿日: ${DateFormat("yyyy/MM/dd").format(store.CreatedAt)}',
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.grey),
                             ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 200,
+                          child: Text(
+                            store.Comment,
+                            style: const TextStyle(fontSize: 14),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   )
                 ],
-              ),
+              )
             ],
           ),
         ),

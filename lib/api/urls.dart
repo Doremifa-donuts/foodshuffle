@@ -23,8 +23,13 @@ class Urls {
   // 位置情報共有をするエンドポイント
   static const String location =
       '$_ws$_host:$_port$_versionOne/auth/users/locations';
-  static const String receives = '$_baseUrl/auth/users/reviews/recieves';
   static const String images = '$_baseUrl/auth/images/';
+
+  // 受け取ったレビューを選別するために取得
+  static const String receivesReview = '$_baseUrl/auth/users/reviews/recieves';
+  // 興味ありに設定したレビューを取得 (アーカイブ)
+  static const String archivesReview = '$_baseUrl/auth/users/reviews/interests';
+
   // レビューをいいねする
   static String likeReview(String reviewUuid) =>
       '$_baseUrl/auth/users/reviews/$reviewUuid/status/liked';
@@ -39,7 +44,6 @@ class Urls {
   static String beforeReview = '$_baseUrl/auth/users/restaurants/visited';
   // レビュー投稿済みの店舗
   static String afterReview = '$_baseUrl/auth/users/restaurants/reviewed';
-
   // レビューを投稿する
   static String postReview = '$_baseUrl/auth/users/reviews/post';
 }
