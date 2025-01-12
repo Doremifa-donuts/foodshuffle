@@ -120,11 +120,10 @@ class QrScanViewState extends State<QrScanView> {
             endpoint: Urls.checkIn(scanData.code!),
             method: HttpMethod.post,
             body: {
-              // "Location": {
-              //   "Latitude": location.latitude,
-              //   "Longitude": location.longitude
-              // }
-              "Location": {"Latitude": 35.685175, "Longitude": 139.7528}
+              "Location": {
+                "Latitude": location.latitude,
+                "Longitude": location.longitude
+              }
             });
         // カメラを停止
         controller.stopCamera();
