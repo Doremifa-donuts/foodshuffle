@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/urls.dart';
+import 'package:foodshuffle/utils/errors.dart';
+import 'package:foodshuffle/utils/geolocator.dart';
 import 'dart:developer'; // ログ出力用
 import 'dart:io'; // プラットフォーム判別用 (Android, iOSの確認)
 import 'package:qr_code_scanner/qr_code_scanner.dart'; // QRコードスキャナー用ライブラリ
@@ -102,18 +106,61 @@ class QrScanViewState extends State<QrScanView> {
       this.controller = controller; // コントローラーを設定
     });
     controller.scannedDataStream.listen((scanData) async {
-      // カメラを停止
-      controller.stopCamera();
-
       // スキャン結果をログに出力
       print(scanData.code);
 
-      // ArchivePageに遷移
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const QrAfter(),
-        ),
-      );
+      try {
+        // カメラを一時停止する
+        controller.pauseCamera();
+        // 位置情報の取得
+        final location = await Geolocator.getPosition();
+
+        // チェックイン可否を通信
+        await Http.request(
+            endpoint: Urls.checkIn(scanData.code!),
+            method: HttpMethod.post,
+            body: {
+              // "Location": {
+              //   "Latitude": location.latitude,
+              //   "Longitude": location.longitude
+              // }
+              "Location": {"Latitude": 35.685175, "Longitude": 139.7528}
+            });
+        // カメラを停止
+        controller.stopCamera();
+        controller.dispose();
+        // カメラの停止処理が終わるのを待機
+        await Future.delayed(Duration(milliseconds: 200)); // 0.2秒待機
+        // ArchivePageに遷移
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const QrAfter(),
+          ),
+        );
+      } catch (e) {
+        String errorText = "QRコードが正しく読み取れませんでした";
+        // エラーをカスタムエラーとしてキャストできるか確認する
+        if (e is Errors) {
+          if (e.errorCode == 422) errorText = 'お店からの距離が遠すぎます';
+        }
+
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(title: Text(errorText), actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context); // ダイアログを閉じる
+                await Future.delayed(Duration(milliseconds: 200)); // 0.2秒待機
+                // カメラを再開
+                controller.resumeCamera();
+              },
+              child: const Text('閉じる'),
+            ),
+          ]),
+        );
+
+        debugPrint(e.toString());
+      }
     });
   }
 

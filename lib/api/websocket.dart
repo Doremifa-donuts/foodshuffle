@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/main.dart';
+import 'package:foodshuffle/utils/geolocator.dart';
 import 'package:location/location.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -56,13 +57,6 @@ class WebSocketService {
     _timer = Timer.periodic(const Duration(seconds: 5), sendLocation);
   }
 
-  // 位置情報の取得を行う
-  //FIXME: 位置情報に関する処理は位置情報のクラスに切り出すべき 権限のリクエストもしていない
-  static Future<LocationData> getPosition() async {
-    final currentLocation = await Location().getLocation();
-    return currentLocation;
-  }
-
   // メッセージ受信時の処理
   void _onMessageReceived(String message) {
     showLocalNotification("Food Shuffle", message);
@@ -83,8 +77,7 @@ class WebSocketService {
 
   // 位置情報を送信する
   void sendLocation(timer) async {
-    debugPrint("送信開始");
-    LocationData currentLocation = await getPosition();
+    LocationData currentLocation = await Geolocator.getPosition();
     double? latitude = currentLocation.latitude;
     double? longitude = currentLocation.longitude;
     debugPrint('位置情報$latitude $longitude');

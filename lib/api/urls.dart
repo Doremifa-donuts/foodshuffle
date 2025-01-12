@@ -40,6 +40,10 @@ class Urls {
   static String notInterestedReview(String reviewUuid) =>
       '$_baseUrl/auth/users/reviews/$reviewUuid/status/not_interested';
 
+  // チェックインする
+  static String checkIn(String restaurantUuid) =>
+      '$_baseUrl/auth/users/restaurants/$restaurantUuid/checkin';
+
   // 訪問済みでレビューをしていない店舗
   static String beforeReview = '$_baseUrl/auth/users/restaurants/visited';
   // レビュー投稿済みの店舗
