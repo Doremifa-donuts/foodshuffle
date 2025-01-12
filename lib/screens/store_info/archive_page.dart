@@ -8,6 +8,7 @@ import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/model/review_card/review_card.dart';
 import 'package:foodshuffle/widgets/auth_icon.dart';
 import 'package:foodshuffle/widgets/auth_image.dart';
+import 'package:foodshuffle/widgets/page_template.dart';
 import 'package:intl/intl.dart';
 // footer 表示
 import '../../widgets/footer.dart';
@@ -123,6 +124,7 @@ class ArchivePage extends ConsumerWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
+            // builder: (context) => PageTemplate(child: Container()),
             builder: (context) => StoreDetailPage(store: store),
           ),
         );
