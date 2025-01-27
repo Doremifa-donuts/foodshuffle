@@ -88,66 +88,62 @@ class MyPage extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 20),
                     // ユーザーアイコン
                     CircleAvatar(
-                      backgroundImage: AssetImage(user.UserName), // ユーザーアイコン画像
-                      radius: 40, // アイコンの半径
+                      backgroundImage: AssetImage(user.Icon), // ユーザーアイコン画像
+                      radius: 50, // アイコンの半径
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // ユーザー名
+                        Text(
+                          user.UserName,
+                          style: const TextStyle(
+                            backgroundColor: Color(listColor),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.edit),
+                          color: Colors.black,
+                        ),
+                      ],
                     ),
 
-                    // ユーザー名
-                    Text(
-                      user.UserName,
-                      style: const TextStyle(
-                        backgroundColor: Color(listColor),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
+                    const SizedBox(height: 20),
 
                     Container(
-                      padding: const EdgeInsets.all(4), // 全体の内側余白
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.black, width: 2), // 外枠のボーダー
-                        borderRadius: BorderRadius.circular(8), // 角丸
-                      ),
-                      child: Stack(
-                        alignment: Alignment.center, // 中央揃え
+                      padding: const EdgeInsets.all(16), // 全体の内側余白
+
+                      child: Column(
                         children: [
-                          Column(
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
-                                '累計',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 16), // 累計を重ねた部分の余白調整
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              Column(
                                 children: [
-                                  Column(
-                                    children: [
-                                      const Text('いいね'),
-                                      Text(user.goods.toString()),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 40),
-                                  Column(
-                                    children: [
-                                      const Text('共有距離（km）'),
-                                      Text(user.store.toString()),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 40),
-                                  Column(
-                                    children: [
-                                      const Text('お店'),
-                                      Text(user.goods.toString()),
-                                    ],
-                                  ),
+                                  const Icon(Icons.thumb_up,
+                                      color: Colors.orange),
+                                  const SizedBox(height: 4),
+                                  const Text('いいね'),
+                                  Text(user.goods.toString()),
+                                ],
+                              ),
+                              const SizedBox(width: 40),
+                              Column(
+                                children: [
+                                  const Icon(Icons.store, color: Colors.green),
+                                  const SizedBox(height: 4),
+                                  const Text('お店'),
+                                  Text(user.store.toString()),
                                 ],
                               ),
                             ],
@@ -155,61 +151,42 @@ class MyPage extends ConsumerWidget {
                         ],
                       ),
                     ),
-
-                    // 共有するレビュー表示ボタン
-                    ElevatedButton(
-                      onPressed: () {
-                        // サインアウト後にログインページに遷移
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          ListTile(
+                            leading:
+                                const Icon(Icons.share, color: Colors.black),
+                            title: const Text('共有するレビュー'),
+                            onTap: () {},
                           ),
-                        );
-                      },
-                      child: const Text('共有するレビュー'),
-                    ),
-
-                    // 行ったところ表示ボタン
-                    ElevatedButton(
-                      onPressed: () {
-                        // サインアウト後にログインページに遷移
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
+                          ListTile(
+                            leading: const Icon(Icons.map, color: Colors.black),
+                            title: const Text('行ったところマップ'),
+                            onTap: () {},
                           ),
-                        );
-                      },
-                      child: const Text('行ったところマップ'),
-                    ),
-
-                    // いいねしたレビュー表示ボタン
-                    ElevatedButton(
-                      onPressed: () {
-                        // サインアウト後にログインページに遷移
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
+                          ListTile(
+                            leading:
+                                const Icon(Icons.thumb_up, color: Colors.black),
+                            title: const Text('いいね'),
+                            onTap: () {},
                           ),
-                        );
-                      },
-                      child: const Text('いいね'),
-                    ),
-
-                    // サインアウトボタン
-                    ElevatedButton(
-                      onPressed: () {
-                        // サインアウト後にログインページに遷移
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
+                          ListTile(
+                            leading:
+                                const Icon(Icons.logout, color: Colors.black),
+                            title: const Text('ログアウト'),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginPage(),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                      child: const Text('サインアウト'),
+                        ],
+                      ),
                     ),
                   ],
                 ),
