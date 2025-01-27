@@ -6,6 +6,9 @@ import '../model/images.dart';
 import '../model/data_list.dart';
 import 'login.dart';
 
+// レビュー済みのページに飛ばす
+import '../screens/review/review_able.dart';
+
 const bool useDatabase = false;
 
 // ユーザーデータの状態管理
@@ -85,7 +88,7 @@ class MyPage extends ConsumerWidget {
             ),
           ],
         ),
-      );
+      ).whenComplete(() => controller.dispose());
     }
 
     return Scaffold(
@@ -106,103 +109,106 @@ class MyPage extends ConsumerWidget {
               ),
             ),
           ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                CircleAvatar(
-                  backgroundImage: AssetImage(user.Icon),
-                  radius: 50,
-                ),
-                const SizedBox(height: 10),
-                Row(
+          Column(
+            children: [
+              const SizedBox(height: 20),
+              CircleAvatar(
+                backgroundImage: AssetImage(user.Icon),
+                radius: 50,
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    user.UserName,
+                    style: const TextStyle(
+                      backgroundColor: Color(listColor),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: _showEditNameDialog,
+                    icon: const Icon(Icons.edit),
+                    color: Colors.black,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      user.UserName,
-                      style: const TextStyle(
-                        backgroundColor: Color(listColor),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
+                    Column(
+                      children: [
+                        const Icon(Icons.thumb_up, color: Colors.orange),
+                        const SizedBox(height: 4),
+                        const Text('いいね'),
+                        Text(user.goods.toString()),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    IconButton(
-                      onPressed: _showEditNameDialog,
-                      icon: const Icon(Icons.edit),
-                      color: Colors.black,
+                    const SizedBox(width: 40),
+                    Column(
+                      children: [
+                        const Icon(Icons.store, color: Colors.green),
+                        const SizedBox(height: 4),
+                        const Text('お店'),
+                        Text(user.store.toString()),
+                      ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            children: [
-                              const Icon(Icons.thumb_up, color: Colors.orange),
-                              const SizedBox(height: 4),
-                              const Text('いいね'),
-                              Text(user.goods.toString()),
-                            ],
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.share, color: Colors.black),
+                      title: const Text(
+                        '共有するレビュー',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReviewBeforePage(),
                           ),
-                          const SizedBox(width: 40),
-                          Column(
-                            children: [
-                              const Icon(Icons.store, color: Colors.green),
-                              const SizedBox(height: 4),
-                              const Text('お店'),
-                              Text(user.store.toString()),
-                            ],
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.map, color: Colors.black),
+                      title: const Text(
+                        '行ったところマップ',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                      onTap: () {},
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.logout, color: Colors.black),
+                      title: const Text(
+                        'ログアウト',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      ListTile(
-                        leading: const Icon(Icons.share, color: Colors.black),
-                        title: const Text('共有するレビュー'),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.map, color: Colors.black),
-                        title: const Text('行ったところマップ'),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        leading:
-                            const Icon(Icons.thumb_up, color: Colors.black),
-                        title: const Text('いいね'),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.logout, color: Colors.black),
-                        title: const Text('ログアウト'),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
           const Positioned(
             bottom: -20,
