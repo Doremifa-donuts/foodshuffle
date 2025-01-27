@@ -17,8 +17,8 @@ import '../../model/color.dart';
 import '../../model/images.dart';
 // お店の詳細ページ
 import 'info.dart';
-// ダミーデータ（データベースがない場合に使用する固定データ）
-import '../../data/archive.dart';
+// // ダミーデータ（データベースがない場合に使用する固定データ）
+// import '../../data/archive.dart';
 
 // ランダム関数
 final Random _random = Random();
@@ -75,23 +75,25 @@ class ArchivePage extends ConsumerWidget {
               Column(
                 children: [
                   Expanded(
-                    child:
+                    child: stores.isEmpty
+                        ? Center(child: Text("新しいレビューはありません！"))
+                        :
                         // スクロール要素
                         Scrollbar(
-                      thickness: 12, // スクロールバーの太さ
-                      radius: const Radius.circular(20), // スクロールバーの角を丸く
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(20), // リストのパディングを指定
-                        // リスト要素
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 8), // 各リストアイテム間のスペース
-                        itemCount: stores.length, // リストアイテムの数
-                        // 各リストアイテム
-                        itemBuilder: (context, index) {
-                          return _buildCard(context, stores[index]);
-                        },
-                      ),
-                    ),
+                            thickness: 12, // スクロールバーの太さ
+                            radius: const Radius.circular(20), // スクロールバーの角を丸く
+                            child: ListView.separated(
+                              padding: const EdgeInsets.all(20), // リストのパディングを指定
+                              // リスト要素
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 8), // 各リストアイテム間のスペース
+                              itemCount: stores.length, // リストアイテムの数
+                              // 各リストアイテム
+                              itemBuilder: (context, index) {
+                                return _buildCard(context, stores[index]);
+                              },
+                            ),
+                          ),
                   ),
                   SizedBox(
                     height: 155,

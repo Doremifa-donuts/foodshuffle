@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/model/review_card/review_card.dart';
 import 'package:foodshuffle/widgets/auth_image.dart';
@@ -6,9 +8,13 @@ import 'package:intl/intl.dart'; // Flutterのマテリアルデザイン用パ�
 // SwipeCardクラスはStatelessWidgetを継承
 class SwipeCard extends StatelessWidget {
   final ReviewCard reviewCard; // HomeStore型のプロパティを定義
-
+  // final String images;
   // コンストラクタでstoreを必須パラメータとして受け取る
-  const SwipeCard({super.key, required this.reviewCard});
+  const SwipeCard({
+    super.key,
+    required this.reviewCard,
+    // required this.images,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +31,16 @@ class SwipeCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start, // 子ウィジェットを左寄せで配置
         children: [
           // 画像を表示するためのウィジェット
-          ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(12.0)), // 画像の上部を丸くする
-              child: AuthImage(
-                imagePath: reviewCard.Images[0],
-                height: 250,
-                width: double.infinity,
-              )),
+          RepaintBoundary(
+            child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(12.0)), // 画像の上部を丸くする
+                child: AuthImage(
+                  imagePath: reviewCard.Images[0],
+                  height: 250,
+                  width: double.infinity,
+                )),
+          ),
           // テキストとその他の情報を表示するウィジェット
           Padding(
             padding: const EdgeInsets.all(16.0), // 内側の余白を設定
@@ -49,8 +57,11 @@ class SwipeCard extends StatelessWidget {
                 // 住所を表示するテキスト
                 Text(
                   reviewCard.Address, // 住所をstoreから取得
+                  maxLines: 1,
                   style: const TextStyle(
-                      fontSize: 16, color: Colors.grey), // 色を灰色に設定
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ), // 色を灰色に設定
                 ),
                 const SizedBox(height: 8), // 上下の余白を追加
                 // コメントを表示するテキスト
@@ -76,7 +87,7 @@ class SwipeCard extends StatelessWidget {
                       children: [
                         const Icon(Icons.thumb_up, size: 18), // いいねアイコンを表示
                         const SizedBox(width: 4), // アイコンとテキストの間隔を設定
-                        Text('${reviewCard.Good}',
+                        Text(reviewCard.Good.toString(),
                             style: const TextStyle(fontSize: 14)), // いいねの数を表示
                       ],
                     ),
