@@ -8,6 +8,8 @@ import 'login.dart';
 
 // レビュー済みのページに飛ばす
 import '../screens/review/review_able.dart';
+// 行ったところマップに飛ばす
+import '../screens/map.dart';
 
 const bool useDatabase = false;
 
@@ -188,7 +190,14 @@ class MyPage extends ConsumerWidget {
                         '行ったところマップ',
                         style: TextStyle(fontSize: 24),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MapPage(),
+                          ),
+                        );
+                      },
                     ),
                     ListTile(
                       leading: const Icon(Icons.logout, color: Colors.black),

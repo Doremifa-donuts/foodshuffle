@@ -1,0 +1,83 @@
+import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+
+import '../model/color.dart'; // 色指定
+import '../widgets/footer.dart'; // フッターウィジェット
+
+// Google Mapsを表示するメイン画面のステートフルウィジェット
+class MapPage extends StatefulWidget {
+  @override
+  State<MapPage> createState() => MapSampleState(); // ステートを生成
+}
+
+// MapSampleの状態を管理するクラス
+class MapSampleState extends State<MapPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          '行ったところマップ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: const Color(mainColor),
+      ),
+      body: Stack(
+        children: [
+          FlutterMap(
+            // 現在地として表示される場所
+            options: MapOptions(
+              // 名古屋駅の緯度経度
+              initialCenter: LatLng(35.170915, 136.881537),
+              initialZoom: 10.0,
+              maxZoom: 12.0,
+              minZoom: 8.0,
+              initialRotation: 0.0, // 初期回転角度
+            ),
+            children: [
+              // 表示される画面
+              TileLayer(
+                urlTemplate:
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                subdomains: ['a', 'b', 'c'],
+              ),
+              // ピンを表示
+              MarkerLayer(
+                markers: [
+                  Marker(
+                      point: LatLng(35.170915, 136.881537), // ピンの位置
+                      width: 50.0, // ピンの幅
+                      height: 50.0, // ピンの高さ
+                      child: Icon(
+                        Icons.location_on,
+                        color: Colors.red,
+                        size: 50.0,
+                      )),
+                  Marker(
+                      point: LatLng(20.170915, 136.881537), // ピンの位置
+                      width: 50.0, // ピンの幅
+                      height: 50.0, // ピンの高さ
+                      child: Icon(
+                        Icons.location_on,
+                        color: Colors.blue,
+                        size: 50.0,
+                      )),
+                ],
+              ),
+            ],
+          ),
+          const Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Footer(),
+          ),
+        ],
+      ),
+    );
+  }
+}
