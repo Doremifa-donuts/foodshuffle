@@ -12,7 +12,7 @@ import '../widgets/footer.dart'; // フッターウィジェット
 // ピンデータを保存するプロパイダー
 final pinProvider = FutureProvider<List<Marker>>((ref) async {
   try {
-    final pins = await Http.request(
+    final pins = await Http.requestWithAuth(
         endpoint: Urls.wentPlace, method: HttpMethod.get);
 
     List<Marker> addPins = [];
@@ -79,8 +79,8 @@ class MapPage extends ConsumerWidget {
               // 表示される画面
               TileLayer(
                 urlTemplate:
-                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                subdomains: ['a', 'b', 'c'],
+                    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                // subdomains: ['a', 'b', 'c'],
               ),
               // ピンを表示
               pinAsyncVlaue.when(
