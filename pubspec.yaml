@@ -86,7 +86,6 @@ flutter:
         - images/animation/
         - images/home/
         - images/qr/
-        - images/review/
 
 # アイコンに設定する画像を指定
 flutter_icons:
