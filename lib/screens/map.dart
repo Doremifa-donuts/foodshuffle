@@ -59,7 +59,7 @@ class MapSampleState extends State<MapPage> {
                       size: 50.0,
                     ),
                     //  マップを回転させた時にピンも回転するようにする
-                    rotate: true,
+                    rotate: false,
                   ),
                 ],
               ),
