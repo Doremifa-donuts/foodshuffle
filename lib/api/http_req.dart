@@ -42,7 +42,6 @@ class Http {
               await http.delete(uri, headers: headers, body: jsonEncode(body));
           break;
       }
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         final decodedJson = jsonDecode(response.body) as Map<String, dynamic>;
         return decodedJson['Response']['Data'];

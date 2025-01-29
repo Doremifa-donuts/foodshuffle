@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// ランダム関数
-import 'dart:math';
 // 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodshuffle/api/http_req.dart';
@@ -10,36 +8,29 @@ import 'package:foodshuffle/widgets/auth_icon.dart';
 import 'package:foodshuffle/widgets/auth_image.dart';
 import 'package:foodshuffle/widgets/page_template.dart';
 import 'package:intl/intl.dart';
-// footer 表示
-import '../../widgets/footer.dart';
 // カラー、画像パス
 import '../../model/color.dart';
-import '../../model/images.dart';
 // お店の詳細ページ
 import 'info.dart';
-// // ダミーデータ（データベースがない場合に使用する固定データ）
-// import '../../data/archive.dart';
-
-// ランダム関数
-final Random _random = Random();
 
 // プロバイダーの定義（データ取得を切り替え）
 final archiveStoreProvider = FutureProvider<List<ReviewCard>>((ref) async {
-  return fetchArchiveStores();
+  try {
+    final data = await Http.request(
+        endpoint: Urls.archivesReview, method: HttpMethod.get);
+    List<ReviewCard> cards = [];
+
+    for (var item in data) {
+      cards.add(ReviewCard.fromJson(item));
+    }
+    return cards;
+  } catch (e) {
+    return [];
+  }
 });
 
 // 本番用（データベースから取得する処理）
-Future<List<ReviewCard>> fetchArchiveStores() async {
-  final data =
-      await Http.request(endpoint: Urls.archivesReview, method: HttpMethod.get);
-  List<ReviewCard> cards = [];
-  for (var item in data) {
-    cards.add(ReviewCard.fromJson(item));
-  }
-  return cards;
-}
-
-// アイコン取得用
+// Future<List<ReviewCard>> fetchArchiveStores() async {}
 
 // アーカイブページ画面
 class ArchivePage extends ConsumerWidget {
@@ -49,71 +40,49 @@ class ArchivePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // アーカイブのデータを取得
     final archiveStoreAsyncValue = ref.watch(archiveStoreProvider);
-    return Scaffold(
-      // アプリバー
-      appBar: AppBar(
-        title: const Text(
-          'アーカイブ', // アーカイブページのタイトル
-          style: TextStyle(fontWeight: FontWeight.bold), // 太字のスタイル
-        ),
-        backgroundColor: const Color(mainColor), // アプリバーの背景色（共通定義）
-      ),
-      // body
-      body: archiveStoreAsyncValue.when(
-        data: (stores) {
-          return Stack(
-            children: [
-              // 背景画像
-              Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(backImg),
-                    fit: BoxFit.cover, // 画像を画面いっぱいに表示
-                  ),
-                ),
-              ),
-              Column(
-                children: [
-                  Expanded(
-                    child: stores.isEmpty
-                        ? Center(child: Text("新しいレビューはありません！"))
-                        :
-                        // スクロール要素
-                        Scrollbar(
-                            thickness: 12, // スクロールバーの太さ
-                            radius: const Radius.circular(20), // スクロールバーの角を丸く
-                            child: ListView.separated(
-                              padding: const EdgeInsets.all(20), // リストのパディングを指定
-                              // リスト要素
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 8), // 各リストアイテム間のスペース
-                              itemCount: stores.length, // リストアイテムの数
-                              // 各リストアイテム
-                              itemBuilder: (context, index) {
-                                return _buildCard(context, stores[index]);
-                              },
-                            ),
+    return PageTemplate(
+      pageTitle: 'アーカイブ',
+      onInit: () {
+        ref.invalidate(archiveStoreProvider);
+      },
+      child: archiveStoreAsyncValue.when(
+          data: (stores) {
+            return stores.isEmpty
+                ? const Center(child: Text("アーカイブしたレビューはありません！"))
+                : Column(
+                    children: [
+                      Expanded(
+                        child:
+                            // スクロール要素
+                            Scrollbar(
+                          thickness: 12, // スクロールバーの太さ
+                          radius: const Radius.circular(20), // スクロールバーの角を丸く
+                          child: ListView.separated(
+                            padding: const EdgeInsets.all(20), // リストのパディングを指定
+                            // リスト要素
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 8), // 各リストアイテム間のスペース
+                            itemCount: stores.length, // リストアイテムの数
+                            // 各リストアイテム
+                            itemBuilder: (context, index) {
+                              return _buildCard(context, stores[index]);
+                            },
                           ),
-                  ),
-                  SizedBox(
-                    height: 155,
-                  )
-                ],
-              ),
-
-              const Positioned(
-                bottom: -20, // フッターを少しだけ下に配置
-                left: 0,
-                right: 0,
-                child: Footer(), // フッターウィジェット
-              ),
-            ],
-          );
-        },
-        loading: () =>
-            const Center(child: CircularProgressIndicator()), // 読み込み中
-        error: (err, stack) => Center(child: Text('エラーが発生しました: $err')), // エラー時
-      ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 155,
+                      )
+                    ],
+                  );
+          },
+          loading: () =>
+              const Center(child: CircularProgressIndicator()), // 読み込み中
+          error: (err, stack) {
+            debugPrint(err.toString());
+            debugPrint(stack.toString());
+            return Center(child: Text('エラーが発生しました: $err')); // エラー時
+          }),
     );
   }
 
