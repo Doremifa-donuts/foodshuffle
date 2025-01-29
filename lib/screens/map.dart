@@ -31,10 +31,11 @@ class MapSampleState extends State<MapPage> {
           FlutterMap(
             // 現在地として表示される場所
             options: MapOptions(
-              // 名古屋駅の緯度経度
-              initialCenter: LatLng(35.170915, 136.881537),
-              initialZoom: 10.0,
-              maxZoom: 12.0,
+              initialCenter: LatLng(34.706463, 135.503209),
+              // 最初に表示されるサイズ
+              initialZoom: 15.0,
+
+              maxZoom: 18.0,
               minZoom: 8.0,
               initialRotation: 0.0, // 初期回転角度
             ),
@@ -49,7 +50,7 @@ class MapSampleState extends State<MapPage> {
               MarkerLayer(
                 markers: [
                   Marker(
-                      point: LatLng(35.170915, 136.881537), // ピンの位置
+                      point: LatLng(34.704091, 135.500419), // ピンの位置
                       width: 50.0, // ピンの幅
                       height: 50.0, // ピンの高さ
                       child: Icon(
@@ -58,12 +59,21 @@ class MapSampleState extends State<MapPage> {
                         size: 50.0,
                       )),
                   Marker(
-                      point: LatLng(20.170915, 136.881537), // ピンの位置
+                      point: LatLng(34.805832, 135.534434), // ピンの位置
                       width: 50.0, // ピンの幅
                       height: 50.0, // ピンの高さ
                       child: Icon(
                         Icons.location_on,
-                        color: Colors.blue,
+                        color: Colors.red,
+                        size: 50.0,
+                      )),
+                  Marker(
+                      point: LatLng(34.702327, 135.502169), // ピンの位置
+                      width: 50.0, // ピンの幅
+                      height: 50.0, // ピンの高さ
+                      child: Icon(
+                        Icons.location_on,
+                        color: Colors.red,
                         size: 50.0,
                       )),
                 ],
