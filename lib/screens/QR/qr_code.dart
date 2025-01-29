@@ -110,14 +110,18 @@ class QrScanViewState extends State<QrScanView> {
       print(scanData.code);
 
       try {
+        if (scanData.code == null) {
+          return;
+        }
+        final restaurantUuid = scanData.code!;
         // カメラを一時停止する
         controller.pauseCamera();
         // 位置情報の取得
         final location = await Geolocator.getPosition();
 
         // チェックイン可否を通信
-        await Http.request(
-            endpoint: Urls.checkIn(scanData.code!),
+        await Http.requestWithAuth(
+            endpoint: Urls.checkIn(restaurantUuid),
             method: HttpMethod.post,
             body: {
               "Location": {
@@ -133,7 +137,7 @@ class QrScanViewState extends State<QrScanView> {
         // ArchivePageに遷移
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const QrAfter(),
+            builder: (context) => QrAfter(restaurantUuid: restaurantUuid),
           ),
         );
       } catch (e) {

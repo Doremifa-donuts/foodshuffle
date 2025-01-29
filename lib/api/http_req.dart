@@ -8,23 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum HttpMethod { get, post, put, delete }
 
 class Http {
-  static Future<dynamic> request(
+  Future<dynamic> _request(
       {required String endpoint,
       required HttpMethod method,
+      required Map<String, String> headers,
       Map<String, dynamic>? body}) async {
-    late http.Response response;
-
-    final pref = await SharedPreferences.getInstance();
-    final token = pref.getString('token');
-
-    final headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-
     final uri = Uri.parse(endpoint);
     try {
+      late http.Response response;
+
       switch (method) {
         case HttpMethod.get:
           response = await http.get(uri, headers: headers);
@@ -51,6 +43,48 @@ class Http {
       }
     } catch (ex) {
       debugPrint(ex.toString());
+      rethrow;
+    }
+  }
+
+  static Future<dynamic> requestWithOutAuth(
+      {required String endpoint,
+      required HttpMethod method,
+      Map<String, dynamic>? body}) async {
+    //レスポンスを受け取る変数
+    late http.Response response;
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    try {
+      final HttpReq = Http();
+      return await HttpReq._request(
+          endpoint: endpoint, method: method, headers: headers, body: body);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<dynamic> requestWithAuth(
+      {required String endpoint,
+      required HttpMethod method,
+      Map<String, dynamic>? body}) async {
+    late http.Response response;
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString('token');
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    try {
+      final HttpReq = Http();
+      return await HttpReq._request(
+          endpoint: endpoint, method: method, headers: headers, body: body);
+    } catch (e) {
       rethrow;
     }
   }

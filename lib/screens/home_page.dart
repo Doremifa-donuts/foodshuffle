@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:foodshuffle/api/http_req.dart';
 import 'package:foodshuffle/api/urls.dart';
-import 'package:foodshuffle/model/data_list.dart';
 import 'package:foodshuffle/model/review_card/review_card.dart';
 import '../widgets/footer.dart';
 import '../model/color.dart';
@@ -14,7 +13,7 @@ import '../screens/reservation/booking.dart'; // 予約ページ
 final swipeAsyncNotifierProvider =
     FutureProvider<List<ReviewCard>>((ref) async {
   try {
-    final data = await Http.request(
+    final data = await Http.requestWithAuth(
         endpoint: Urls.receivesReview, method: HttpMethod.get);
 
     List<ReviewCard> cards = [];
@@ -195,6 +194,4 @@ class _HomePageState extends ConsumerState<HomePage> {
       ref.read(reservationProvider.notifier).state = result;
     }
   }
-
-
 }

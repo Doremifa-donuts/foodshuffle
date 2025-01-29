@@ -6,7 +6,7 @@ import '../../model/color.dart'; // カラー設定
 import '../../model/images.dart'; // 画像パス設定
 
 class ReviewWritePage extends StatefulWidget {
-  const ReviewWritePage({Key? key}) : super(key: key);
+  const ReviewWritePage({super.key});
 
   @override
   _ReviewWritePageState createState() => _ReviewWritePageState();
@@ -123,10 +123,10 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _submitReview,
-                      child: const Text('レビューを投稿'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(mainColor),
                       ),
+                      child: const Text('レビューを投稿'),
                     ),
                   ),
                 ],

@@ -7,7 +7,7 @@ class Urls {
   static const _ws = "ws://";
 
   // ホスト
-  static const String _host = "localhost";
+  static const String _host = "M2.local";
 
   // ポート
   static const int _port = 5678;
@@ -19,7 +19,8 @@ class Urls {
   static const String _baseUrl = '$_http$_host:$_port$_versionOne';
 
   // 各種エンドポイント
-
+  // ログインするエンドポイント
+  static const String login = '$_baseUrl/login';
   // 位置情報共有をするエンドポイント
   static const String location =
       '$_ws$_host:$_port$_versionOne/auth/users/locations';

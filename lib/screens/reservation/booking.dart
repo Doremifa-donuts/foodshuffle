@@ -10,7 +10,7 @@ import '../home_page.dart';
 class ReservationPage extends ConsumerStatefulWidget {
   // ConsumerStatefulWidgetに変更
   final ReviewCard store; // 受け取るstore
-  const ReservationPage({Key? key, required this.store}) : super(key: key);
+  const ReservationPage({super.key, required this.store});
 
   @override
   ConsumerState<ReservationPage> createState() => _ReservationPageState();

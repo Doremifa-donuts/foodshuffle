@@ -31,7 +31,8 @@ Future<List<VisitedStore>> fetchReviewStores(bool isPending) async {
   }
 
   try {
-    final data = await Http.request(endpoint: url, method: HttpMethod.get);
+    final data =
+        await Http.requestWithAuth(endpoint: url, method: HttpMethod.get);
     List<VisitedStore> stores = [];
 
     for (var item in data) {
@@ -48,7 +49,7 @@ Future<List<VisitedStore>> fetchReviewStores(bool isPending) async {
 
 // レビューのページ画面
 class ReviewBeforePage extends ConsumerWidget {
-  ReviewBeforePage({super.key});
+  const ReviewBeforePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

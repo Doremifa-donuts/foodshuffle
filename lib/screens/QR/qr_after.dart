@@ -45,7 +45,8 @@ Future<List<QrStore>> fetchDummyArchiveStores() async {
 
 // アーカイブページ
 class QrAfter extends ConsumerWidget {
-  const QrAfter({super.key});
+  final String restaurantUuid;
+  const QrAfter({super.key, required this.restaurantUuid});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

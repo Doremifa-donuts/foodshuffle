@@ -27,11 +27,11 @@ class AuthImage extends StatefulWidget {
   final double width;
 
   const AuthImage({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.height,
     required this.width,
-  }) : super(key: key);
+  });
 
   @override
   _AuthImageState createState() => _AuthImageState();

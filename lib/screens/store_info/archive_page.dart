@@ -16,7 +16,7 @@ import 'info.dart';
 // プロバイダーの定義（データ取得を切り替え）
 final archiveStoreProvider = FutureProvider<List<ReviewCard>>((ref) async {
   try {
-    final data = await Http.request(
+    final data = await Http.requestWithAuth(
         endpoint: Urls.archivesReview, method: HttpMethod.get);
     List<ReviewCard> cards = [];
 
