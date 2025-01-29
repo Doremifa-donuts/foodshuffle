@@ -29,7 +29,9 @@ class Urls {
   static const String receivesReview = '$_baseUrl/auth/users/reviews/recieves';
   // 興味ありに設定したレビューを取得 (アーカイブ)
   static const String archivesReview = '$_baseUrl/auth/users/reviews/interests';
-
+  // 訪問済みの店舗の位置情報一覧を取得
+  static const String wentPlace = '$_baseUrl/auth/users/places';
+  
   // レビューをいいねする
   static String likeReview(String reviewUuid) =>
       '$_baseUrl/auth/users/reviews/$reviewUuid/status/liked';

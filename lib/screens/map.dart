@@ -1,58 +1,69 @@
-import 'dart:async';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/urls.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../model/color.dart'; // 色指定
+import '../widgets/page_template.dart';
+
 import '../widgets/footer.dart'; // フッターウィジェット
 
-// Google Mapsを表示するメイン画面のステートフルウィジェット
-class MapPage extends StatefulWidget {
-  @override
-  State<MapPage> createState() => MapSampleState(); // ステートを生成
-}
+// ピンデータを保存するプロパイダー
+final pinProvider = FutureProvider<List<Marker>>((ref) async {
+  try {
+    final pins = await Http.request(
+        endpoint: Urls.wentPlace, method: HttpMethod.get);
 
-// MapSampleの状態を管理するクラス
-class MapSampleState extends State<MapPage> {
-  // マップのピンのlist
-  List<Marker> addPins = [];
+    List<Marker> addPins = [];
+    // 所得したデータをマーカーに変換
+    for (var item in pins) {
+      debugPrint(item.toString());
+      final latitude = item['Latitude']; // 緯度
+      final longitude = item['Longitude']; // 経度
+      final name = item['RestaurantName']; // 店舗名
 
   // ピンを追加する関数
-  // 引数は緯度軽度とお店の名前
-  void addPin(LatLng latlng, String name) {
-    // setStateでマップを更新している
-    setState(() {
       addPins.add(
-        // ピンのテンプレート
         Marker(
-          point: LatLng(34.704091, 135.500419), // ピンの位置
-          width: 50.0, // ピンの幅
-          height: 50.0, // ピンの高さ
-          child: Icon(
-            Icons.location_on,
-            color: Colors.red,
-            size: 50.0,
+          point: LatLng(latitude, longitude),
+          width: 50.0,
+          height: 50.0,
+          child: Tooltip(
+            message: name, // 店名をツールチップに表示
+            child: Icon(
+              Icons.location_on,
+              color: Colors.red,
+              size: 50.0,
+            ),
           ),
-          //  マップを回転させた時にピンも回転するようにする
+          // マップを回転した時にピンも回転するように
           rotate: false,
         ),
       );
-    });
+    }
+    return addPins;
+  } catch (e) {
+    return [];
   }
+});
+
+// MapSampleの状態を管理するクラス
+class MapPage extends ConsumerWidget {
+  const MapPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '行ったところマップ',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: const Color(mainColor),
-      ),
-      body: Stack(
+  Widget build(BuildContext context, WidgetRef ref) {
+    // ピンのデータを非同期に所得
+    final pinAsyncVlaue = ref.watch(pinProvider);
+
+    return PageTemplate(
+      pageTitle: '行ったところマップ',
+      onInit: () {
+        ref.invalidate(pinProvider); // マップを開いたときにピンを再取得
+      },
+      isExpanded: true,
+      child: Stack(
         children: [
           FlutterMap(
             // 現在地として表示される場所
@@ -72,16 +83,13 @@ class MapSampleState extends State<MapPage> {
                 subdomains: ['a', 'b', 'c'],
               ),
               // ピンを表示
-              MarkerLayer(
-                markers: addPins,
+              pinAsyncVlaue.when(
+                data: (pins) => MarkerLayer(markers: pins),
+                error: (err, stack) =>
+                    const Center(child: Text("ピンの取得に失敗しました")),
+                loading: () => const Center(child: CircularProgressIndicator()),
               ),
             ],
-          ),
-          const Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Footer(),
           ),
         ],
       ),
