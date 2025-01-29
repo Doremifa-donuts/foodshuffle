@@ -31,16 +31,21 @@ void main() async {
   );
 }
 
+// ローカル通知を実行する
 void showLocalNotification(String title, String message) {
+  // android用の通知を生成する
   const androidNotificationDetail = AndroidNotificationDetails(
       'channel_id', // channel Id
       'channel_name' // channel Name
       );
+  //ios用の通知を生成する
   const iosNotificationDetail = DarwinNotificationDetails();
+  // 通知をまとめる
   const notificationDetails = NotificationDetails(
     iOS: iosNotificationDetail,
     android: androidNotificationDetail,
   );
+  // 通知を実行する
   FlutterLocalNotificationsPlugin()
       .show(0, title, message, notificationDetails);
 }

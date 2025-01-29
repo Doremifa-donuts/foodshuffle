@@ -19,7 +19,6 @@ final swipeAsyncNotifierProvider =
 
     List<ReviewCard> cards = [];
     for (var item in data) {
-      final card = ReviewCard.fromJson(item);
       cards.add(ReviewCard.fromJson(item));
     }
     return cards;
@@ -184,7 +183,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   // 予約ページへの遷移処理
   Future<void> navigateToReservation(ReviewCard store) async {
     // final archiveStore = ArchiveStore.fromHomeStore(store);
-  
+
     final result = await Navigator.push<Map<String, String?>>(
       context,
       MaterialPageRoute(
