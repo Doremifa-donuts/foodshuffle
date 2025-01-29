@@ -50,32 +50,17 @@ class MapSampleState extends State<MapPage> {
               MarkerLayer(
                 markers: [
                   Marker(
-                      point: LatLng(34.704091, 135.500419), // ピンの位置
-                      width: 50.0, // ピンの幅
-                      height: 50.0, // ピンの高さ
-                      child: Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 50.0,
-                      )),
-                  Marker(
-                      point: LatLng(34.805832, 135.534434), // ピンの位置
-                      width: 50.0, // ピンの幅
-                      height: 50.0, // ピンの高さ
-                      child: Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 50.0,
-                      )),
-                  Marker(
-                      point: LatLng(34.702327, 135.502169), // ピンの位置
-                      width: 50.0, // ピンの幅
-                      height: 50.0, // ピンの高さ
-                      child: Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 50.0,
-                      )),
+                    point: LatLng(34.704091, 135.500419), // ピンの位置
+                    width: 50.0, // ピンの幅
+                    height: 50.0, // ピンの高さ
+                    child: Icon(
+                      Icons.location_on,
+                      color: Colors.red,
+                      size: 50.0,
+                    ),
+                    //  マップを回転させた時にピンも回転するようにする
+                    rotate: true,
+                  ),
                 ],
               ),
             ],
