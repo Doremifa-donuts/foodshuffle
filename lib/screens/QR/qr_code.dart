@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/utils/errors.dart';
 import 'package:foodshuffle/utils/geolocator.dart';
@@ -120,7 +120,7 @@ class QrScanViewState extends State<QrScanView> {
         final location = await Geolocator.getPosition();
 
         // チェックイン可否を通信
-        await Http.requestWithAuth(
+        await RequestHandler.requestWithAuth(
             endpoint: Urls.checkIn(restaurantUuid),
             method: HttpMethod.post,
             body: {

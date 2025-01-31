@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/api/websocket.dart';
 import 'package:foodshuffle/utils/errors.dart';
@@ -106,10 +105,11 @@ class _LoginPageState extends State<LoginPage> {
                           // ログイン処理
                           try {
                             // HTTPリクエストを送信
-                            final data = await Http.requestWithOutAuth(
-                                endpoint: Urls.login,
-                                method: HttpMethod.post,
-                                body: {
+                            final data =
+                                await RequestHandler.requestWithOutAuth(
+                                    endpoint: Urls.login,
+                                    method: HttpMethod.post,
+                                    body: {
                                   'MailAddress': email,
                                   'Password': password,
                                 });

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -12,7 +12,7 @@ import '../widgets/footer.dart'; // フッターウィジェット
 // ピンデータを保存するプロパイダー
 final pinProvider = FutureProvider<List<Marker>>((ref) async {
   try {
-    final pins = await Http.requestWithAuth(
+    final pins = await RequestHandler.requestWithAuth(
         endpoint: Urls.wentPlace, method: HttpMethod.get);
 
     List<Marker> addPins = [];
@@ -23,7 +23,7 @@ final pinProvider = FutureProvider<List<Marker>>((ref) async {
       final longitude = item['Longitude']; // 経度
       final name = item['RestaurantName']; // 店舗名
 
-  // ピンを追加する関数
+      // ピンを追加する関数
       addPins.add(
         Marker(
           point: LatLng(latitude, longitude),
@@ -78,9 +78,7 @@ class MapPage extends ConsumerWidget {
             children: [
               // 表示される画面
               TileLayer(
-                urlTemplate:
-                    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                // subdomains: ['a', 'b', 'c'],
+                urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
               ),
               // ピンを表示
               pinAsyncVlaue.when(

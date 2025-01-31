@@ -32,7 +32,7 @@ class Urls {
   static const String archivesReview = '$_baseUrl/auth/users/reviews/interests';
   // 訪問済みの店舗の位置情報一覧を取得
   static const String wentPlace = '$_baseUrl/auth/users/places';
-  
+
   // レビューをいいねする
   static String likeReview(String reviewUuid) =>
       '$_baseUrl/auth/users/reviews/$reviewUuid/status/liked';
@@ -46,6 +46,10 @@ class Urls {
   // チェックインする
   static String checkIn(String restaurantUuid) =>
       '$_baseUrl/auth/users/restaurants/$restaurantUuid/checkin';
+
+  // 自身が受け取った特定の店舗に対するレビューの一覧を取得する
+  static String specificReview(String restaurantUuid) =>
+      '$_baseUrl/auth/users/restaurants/$restaurantUuid/reviews';
 
   // 訪問済みでレビューをしていない店舗
   static String beforeReview = '$_baseUrl/auth/users/restaurants/visited';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
-import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/model/review_card/review_card.dart';
 import 'package:foodshuffle/screens/store_info/info.dart';
@@ -46,7 +46,7 @@ class _SwipeHandlerState extends State<SwipeHandler> {
             if (activity.end!.dx < 0.0) {
               debugPrint("左へ移動した");
               try {
-                await Http.requestWithAuth(
+                await RequestHandler.requestWithAuth(
                   endpoint: Urls.notInterestedReview(store.ReviewUuid),
                   method: HttpMethod.put,
                 );
@@ -56,7 +56,7 @@ class _SwipeHandlerState extends State<SwipeHandler> {
             } else {
               debugPrint("右へ移動した");
               try {
-                await Http.requestWithAuth(
+                await RequestHandler.requestWithAuth(
                   endpoint: Urls.interestedReview(store.ReviewUuid),
                   method: HttpMethod.put,
                 );
