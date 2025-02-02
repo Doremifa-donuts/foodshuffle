@@ -6,7 +6,6 @@ import 'package:foodshuffle/model/specific_reviews/specific_review.dart';
 import 'package:foodshuffle/widgets/auth_image.dart';
 import 'package:foodshuffle/widgets/page_template.dart';
 import 'package:intl/intl.dart';
-import '../../widgets/footer.dart';
 import '../../model/color.dart';
 import '../../screens/QR/review_post.dart';
 
@@ -27,7 +26,7 @@ class ReviewsNotifier extends StateNotifier<AsyncValue<List<SpecificReview>>> {
       for (var item in data) {
         reviews.add(SpecificReview.fromJson(item));
       }
-    } catch (e, stack) {
+    } catch (e) {
       debugPrint(e.toString());
     } finally {
       state = AsyncValue.data(reviews);
@@ -102,34 +101,7 @@ class QrAfter extends ConsumerWidget {
           icon: const Icon(Icons.add),
         ),
       ],
-      child:
-          // Scaffold(
-          //   appBar: AppBar(
-          //     title: const Text(
-          //       'お店ついたよ！',
-          //       style: TextStyle(
-          //         fontWeight: FontWeight.bold,
-          //         color: Color(textMainColor),
-          //       ),
-          //     ),
-          //     actions: [
-          //       IconButton(
-          //         onPressed: () {
-          //           Navigator.push(
-          //             context,
-          //             MaterialPageRoute(
-          //                 builder: (context) => const ReviewWritePage()),
-          //           );
-          //         },
-          //         icon: const Icon(Icons.add),
-          //       ),
-          //     ],
-          //     backgroundColor: const Color(mainColor),
-          //   ),
-          //   body: Stack(
-          //     children: [
-          //       _buildBackgroundImage(),
-          Column(
+      child: Column(
         children: [
           _buildMapImage(),
           _buildMapTitle(),
@@ -147,18 +119,10 @@ class QrAfter extends ConsumerWidget {
           ),
         ],
       ),
-      // const Positioned(
-      //   bottom: -20,
-      //   left: 0,
-      //   right: 0,
-      //   child: Footer(),
-      // ),
-      // ],
-      // ),
     );
   }
 
-  Widget _buildBackgroundImage() {
+  Widget buildBackgroundImage() {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -238,22 +202,6 @@ class QrAfter extends ConsumerWidget {
                 children: [
                   AuthImage(
                       imagePath: review.Images[0], height: 100, width: 120)
-                  // if (review.Images.isNotEmpty)
-                  //   Image.network(
-                  //     // Image.assetからImage.networkに変更
-                  //     review.Images[0],
-                  //     width: 120,
-                  //     height: 100,
-                  //     fit: BoxFit.cover,
-                  //     errorBuilder: (context, error, stackTrace) {
-                  //       return Container(
-                  //         width: 120,
-                  //         height: 100,
-                  //         color: Colors.grey[300],
-                  //         child: const Icon(Icons.error),
-                  //       );
-                  //     },
-                  //   ),
                 ],
               ),
               const SizedBox(width: 8),

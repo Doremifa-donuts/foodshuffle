@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:foodshuffle/widgets/page_template.dart';
 import 'package:image_picker/image_picker.dart'; // 画像ピッカーを使用
 import '../../model/color.dart'; // カラー設定
-import '../../model/images.dart'; // 画像パス設定
 
 class ReviewWritePage extends StatefulWidget {
   const ReviewWritePage({super.key});
@@ -42,8 +41,6 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
 
     // ここにレビュー投稿処理を実装することができます
     // 例えば、APIでデータを送信する処理など
-    
-
 
     // レビューが送信された後の処理
     Navigator.pop(context);
@@ -56,23 +53,7 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
   Widget build(BuildContext context) {
     return PageTemplate(
       pageTitle: 'レビュー投稿',
-      child:
-          // Scaffold(
-          //   appBar: AppBar(
-          //     title: const Text('レビュー投稿'),
-          //     backgroundColor: const Color(mainColor),
-          //   ),
-          //   body: Stack(
-          //     children: [
-          //       // 背景画像
-          //       Positioned.fill(
-          //         child: Image.asset(
-          //           backImg,
-          //           fit: BoxFit.cover,
-          //         ),
-          //       ),
-
-          Padding(
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
