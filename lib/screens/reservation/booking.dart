@@ -54,8 +54,8 @@ Future<bool> _fetchReservation(
         method: HttpMethod.post,
         body: {
           //TODO: 自国の表示の方法を修正する
-          "ReservationDate":
-              DateFormat("yyyy-MM-dd'T'HH:mm:ss+09:00").format(selectedDateTime),
+          "ReservationDate": DateFormat("yyyy-MM-dd'T'HH:mm:ss+09:00")
+              .format(selectedDateTime),
           "CourseUuid": courseUuid,
           "CampaignUuid": null,
           "NumberOfPeople": numberOfPeople
@@ -167,10 +167,13 @@ class _ReservationPageState extends State<ReservationPage> {
       12, // 営業開始時間
       0,
     );
-    DateTime endTime = startTime.copyWith(hour: 20, minute: 0); // 営業終了時間
+    DateTime endTime = startTime.copyWith(hour: 22, minute: 0); // 営業終了時間
+    bool isSameDate = now.year == selectedDate?.year &&
+        now.month == selectedDate?.month &&
+        now.day == selectedDate?.day;
 
     // 現在時刻が営業開始時間より後の場合、開始時間を現在時刻の次の30分に設定
-    if (now.isAfter(startTime)) {
+    if (isSameDate) {
       startTime = now;
       // 30分単位に切り上げ
       if (startTime.minute > 0) {
@@ -206,7 +209,6 @@ class _ReservationPageState extends State<ReservationPage> {
         return slotDateTime.isAfter(now);
       }).toList();
     }
-
     return timeSlots;
   }
 
