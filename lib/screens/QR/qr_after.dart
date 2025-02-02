@@ -10,6 +10,56 @@ import '../../widgets/footer.dart';
 import '../../model/color.dart';
 import '../../screens/QR/review_post.dart';
 
+// マップ処理
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+
+// データベースから現在地を取得するプロバイダー
+final locationProvider = FutureProvider<LatLng>((ref) async {
+  try {
+    final locationData = await RequestHandler.requestWithAuth(
+        endpoint: Urls.wentPlace, // 現在地を取得するエンドポイントに修正
+        method: HttpMethod.get);
+
+    final latitude = locationData['Latitude'];
+    final longitude = locationData['Longitude'];
+
+    return LatLng(latitude, longitude);
+  } catch (e) {
+    return LatLng(34.706463, 135.503209); // デフォルト位置
+  }
+});
+// ピンデータを取得するプロバイダー
+final pinProvider = FutureProvider<List<Marker>>((ref) async {
+  try {
+    final pins = await RequestHandler.requestWithAuth(
+        endpoint: Urls.wentPlace, method: HttpMethod.get);
+
+    List<Marker> addPins = [];
+    for (var item in pins) {
+      final latitude = item['Latitude'];
+      final longitude = item['Longitude'];
+      final name = item['RestaurantName'];
+
+      addPins.add(
+        Marker(
+          point: LatLng(latitude, longitude),
+          width: 50.0,
+          height: 50.0,
+          child: Tooltip(
+            message: name,
+            child: const Icon(Icons.location_on, color: Colors.red, size: 50.0),
+          ),
+          rotate: false,
+        ),
+      );
+    }
+    return addPins;
+  } catch (e) {
+    return [];
+  }
+});
+
 // StateNotifierを使用した状態管理
 class ReviewsNotifier extends StateNotifier<AsyncValue<List<SpecificReview>>> {
   ReviewsNotifier() : super(const AsyncValue.loading()) {
@@ -88,6 +138,8 @@ class QrAfter extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final reviewsAsync = ref.watch(reviewsProvider(restaurantUuid));
+    final locationAsyncValue = ref.watch(locationProvider);
+    final pinAsyncValue = ref.watch(pinProvider);
 
     return PageTemplate(
       pageTitle: 'お店についたよ！',
@@ -131,7 +183,7 @@ class QrAfter extends ConsumerWidget {
           //       _buildBackgroundImage(),
           Column(
         children: [
-          _buildMapImage(),
+          _buildMapImage(locationAsyncValue, pinAsyncValue),
           _buildMapTitle(),
           Expanded(
             child: reviewsAsync.when(
@@ -169,13 +221,42 @@ class QrAfter extends ConsumerWidget {
     );
   }
 
-  Widget _buildMapImage() {
+  // マップの表示
+  Widget _buildMapImage(AsyncValue<LatLng> locationAsyncValue,
+      AsyncValue<List<Marker>> pinAsyncValue) {
     return SizedBox(
       width: double.infinity,
       height: 200,
-      child: Image.asset(
-        "images/map.png",
-        fit: BoxFit.fill,
+      child: locationAsyncValue.when(
+        data: (currentLocation) => FlutterMap(
+          options: MapOptions(
+            initialCenter: currentLocation,
+            initialZoom: 15.0,
+            maxZoom: 18.0,
+            minZoom: 8.0,
+          ),
+          children: [
+            TileLayer(
+              urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            ),
+            pinAsyncValue.when(
+              data: (pins) => MarkerLayer(markers: [
+                ...pins,
+                Marker(
+                  point: currentLocation,
+                  width: 30.0,
+                  height: 30.0,
+                  child: const Icon(Icons.my_location,
+                      color: Colors.blue, size: 50.0),
+                ),
+              ]),
+              error: (err, stack) => const Center(child: Text("ピンの取得に失敗しました")),
+              loading: () => const Center(child: CircularProgressIndicator()),
+            ),
+          ],
+        ),
+        error: (err, stack) => const Center(child: Text("現在地の取得に失敗しました")),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }
