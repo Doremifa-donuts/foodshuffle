@@ -105,11 +105,10 @@ class _LoginPageState extends State<LoginPage> {
                           // ログイン処理
                           try {
                             // HTTPリクエストを送信
-                            final data =
-                                await RequestHandler.requestWithOutAuth(
-                                    endpoint: Urls.login,
-                                    method: HttpMethod.post,
-                                    body: {
+                            final data = await RequestHandler.jsonWithOutAuth(
+                                endpoint: Urls.login,
+                                method: HttpMethod.post,
+                                body: {
                                   'MailAddress': email,
                                   'Password': password,
                                 });
@@ -121,11 +120,12 @@ class _LoginPageState extends State<LoginPage> {
                             WebSocketService().connect(data['JtiToken']);
 
                             // ログイン処理成功時に遷移
-                            Navigator.push(
+                            Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const AnimationPage(),
                               ),
+                              (route) => false,
                             );
                           } catch (e) {
                             if (e is Errors) {

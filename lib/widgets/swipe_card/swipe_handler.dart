@@ -46,7 +46,7 @@ class _SwipeHandlerState extends State<SwipeHandler> {
             if (activity.end!.dx < 0.0) {
               debugPrint("左へ移動した");
               try {
-                await RequestHandler.requestWithAuth(
+                await RequestHandler.jsonWithAuth(
                   endpoint: Urls.notInterestedReview(store.ReviewUuid),
                   method: HttpMethod.put,
                 );
@@ -56,7 +56,7 @@ class _SwipeHandlerState extends State<SwipeHandler> {
             } else {
               debugPrint("右へ移動した");
               try {
-                await RequestHandler.requestWithAuth(
+                await RequestHandler.jsonWithAuth(
                   endpoint: Urls.interestedReview(store.ReviewUuid),
                   method: HttpMethod.put,
                 );

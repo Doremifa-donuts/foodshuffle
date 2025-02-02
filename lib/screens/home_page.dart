@@ -13,7 +13,7 @@ import '../screens/reservation/booking.dart'; // 予約ページ
 final swipeAsyncNotifierProvider =
     FutureProvider<List<ReviewCard>>((ref) async {
   try {
-    final data = await RequestHandler.requestWithAuth(
+    final data = await RequestHandler.jsonWithAuth(
         endpoint: Urls.receivesReview, method: HttpMethod.get);
 
     List<ReviewCard> cards = [];
@@ -186,7 +186,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     final result = await Navigator.push<Map<String, String?>>(
       context,
       MaterialPageRoute(
-        builder: (context) => ReservationPage(store: store),
+        builder: (context) => ReservationPage(
+          restaurantUuid: store.RestaurantUuid,
+        ),
       ),
     );
 

@@ -19,7 +19,7 @@ class ReviewsNotifier extends StateNotifier<AsyncValue<List<SpecificReview>>> {
   Future<void> fetchReviews(String restaurantUuid) async {
     try {
       state = const AsyncValue.loading();
-      final data = await RequestHandler.requestWithAuth(
+      final data = await RequestHandler.jsonWithAuth(
         endpoint: Urls.specificReview(restaurantUuid),
         method: HttpMethod.get,
       );
@@ -54,7 +54,7 @@ class ReviewsNotifier extends StateNotifier<AsyncValue<List<SpecificReview>>> {
           url = Urls.likeReview(reviewUuid);
         }
         try {
-          await RequestHandler.requestWithAuth(
+          await RequestHandler.jsonWithAuth(
               endpoint: url, method: HttpMethod.put);
           final review = updatedReviews[index];
           updatedReviews[index] = review.copyWith(

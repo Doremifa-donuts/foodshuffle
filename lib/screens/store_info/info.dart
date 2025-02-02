@@ -75,7 +75,7 @@ class StoreDetailPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  ReservationPage(store: store),
+                                  ReservationPage(restaurantUuid: store.RestaurantUuid,),
                             ),
                           );
                         },

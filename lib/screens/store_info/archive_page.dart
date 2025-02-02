@@ -13,11 +13,10 @@ import '../../model/color.dart';
 // お店の詳細ページ
 import 'info.dart';
 
-
 // プロバイダーの定義（データ取得を切り替え）
 final archiveStoreProvider = FutureProvider<List<ReviewCard>>((ref) async {
   try {
-    final data = await RequestHandler.requestWithAuth(
+    final data = await RequestHandler.jsonWithAuth(
         endpoint: Urls.archivesReview, method: HttpMethod.get);
     List<ReviewCard> cards = [];
 

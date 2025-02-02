@@ -54,7 +54,7 @@ class WebSocketService {
   // 位置情報送信を一定間隔毎に行う
   void _startSendingLocation() {
     debugPrint('タイマーを開始');
-    _timer = Timer.periodic(const Duration(seconds: 1), sendLocation);
+    _timer = Timer.periodic(const Duration(seconds: 5), sendLocation);
   }
 
   // メッセージ受信時の処理
@@ -70,6 +70,7 @@ class WebSocketService {
 
   // WebSocket切断
   void disconnect() {
+    debugPrint("websocket切断");
     _channel?.sink.close();
     _isConnected = false;
     _timer?.cancel();

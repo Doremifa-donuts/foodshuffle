@@ -12,7 +12,7 @@ import '../widgets/footer.dart'; // フッターウィジェット
 // ピンデータを保存するプロパイダー
 final pinProvider = FutureProvider<List<Marker>>((ref) async {
   try {
-    final pins = await RequestHandler.requestWithAuth(
+    final pins = await RequestHandler.jsonWithAuth(
         endpoint: Urls.wentPlace, method: HttpMethod.get);
 
     List<Marker> addPins = [];

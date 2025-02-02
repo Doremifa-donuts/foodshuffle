@@ -120,7 +120,7 @@ class QrScanViewState extends State<QrScanView> {
         final location = await Geolocator.getPosition();
 
         // チェックイン可否を通信
-        await RequestHandler.requestWithAuth(
+        await RequestHandler.jsonWithAuth(
             endpoint: Urls.checkIn(restaurantUuid),
             method: HttpMethod.post,
             body: {

@@ -31,7 +31,7 @@ Future<List<VisitedStore>> fetchReviewStores(bool isPending) async {
   }
 
   try {
-    final data = await RequestHandler.requestWithAuth(
+    final data = await RequestHandler.jsonWithAuth(
         endpoint: url, method: HttpMethod.get);
     List<VisitedStore> stores = [];
 

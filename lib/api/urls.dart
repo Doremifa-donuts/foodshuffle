@@ -24,6 +24,7 @@ class Urls {
   // 位置情報共有をするエンドポイント
   static const String location =
       '$_ws$_host:$_port$_versionOne/auth/users/locations';
+  // 画像取得エンドポイント
   static const String images = '$_baseUrl/auth/images/';
 
   // 受け取ったレビューを選別するために取得
@@ -50,6 +51,12 @@ class Urls {
   // 自身が受け取った特定の店舗に対するレビューの一覧を取得する
   static String specificReview(String restaurantUuid) =>
       '$_baseUrl/auth/users/restaurants/$restaurantUuid/reviews';
+  // コース一覧を取得する
+  static String courseList(String restaurantUuid) =>
+      '$_baseUrl/auth/courses/$restaurantUuid';
+  // 予約を行う
+  static String reservation(String restaurantUuid) =>
+      '$_baseUrl/auth/users/restaurants/$restaurantUuid/reservations';
 
   // 訪問済みでレビューをしていない店舗
   static String beforeReview = '$_baseUrl/auth/users/restaurants/visited';

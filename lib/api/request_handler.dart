@@ -15,7 +15,7 @@ class RequestHandler {
   static final requestService = RequestService();
 
   // 認証なしで
-  static Future<dynamic> requestWithOutAuth(
+  static Future<dynamic> jsonWithOutAuth(
       {required String endpoint,
       required HttpMethod method,
       Map<String, dynamic>? body}) async {
@@ -30,7 +30,7 @@ class RequestHandler {
     }
   }
 
-  static Future<dynamic> requestWithAuth({
+  static Future<dynamic> jsonWithAuth({
     required String endpoint,
     required HttpMethod method,
     Map<String, dynamic>? body,
@@ -52,7 +52,7 @@ class RequestHandler {
     }
   }
 
-  // static Future<dynamic> requestWithMultiPart({
+  // static Future<dynamic> multiPartForm({
   //   required String endpoint,
   //   required HttpMethod method,
   //   required Map<String, dynamic>? data,
