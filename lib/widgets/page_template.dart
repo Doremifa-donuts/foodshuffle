@@ -6,8 +6,10 @@ class PageTemplate extends StatefulWidget {
   final String pageTitle;
   final Widget child;
   final Function? onInit;
+  final bool isExpanded;
+  final List<Widget>? actions;
   const PageTemplate(
-      {super.key, required this.pageTitle, required this.child, this.onInit});
+      {super.key, required this.pageTitle, required this.child, this.onInit, this.isExpanded = false, this.actions});
 
   @override
   _PageTemplateState createState() => _PageTemplateState();
@@ -31,6 +33,7 @@ class _PageTemplateState extends State<PageTemplate> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(mainColor),
+        actions: widget.actions,
       ),
       body: Stack(
         children: [
@@ -47,9 +50,12 @@ class _PageTemplateState extends State<PageTemplate> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(child: widget.child),
-              SizedBox(
+              if (!widget.isExpanded )
+              const SizedBox(
                 height: 155,
               )
+
+
             ],
           ),
           const Positioned(

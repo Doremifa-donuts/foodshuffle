@@ -70,6 +70,7 @@ class WebSocketService {
 
   // WebSocket切断
   void disconnect() {
+    debugPrint("websocket切断");
     _channel?.sink.close();
     _isConnected = false;
     _timer?.cancel();

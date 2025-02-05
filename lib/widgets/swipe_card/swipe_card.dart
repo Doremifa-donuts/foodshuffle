@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/model/review_card/review_card.dart';
 import 'package:foodshuffle/widgets/auth_image.dart';
@@ -22,7 +20,7 @@ class SwipeCard extends StatelessWidget {
     return Card(
       elevation: 4.0, // カードの影の深さを設定
       margin: const EdgeInsets.only(
-          top: 100.0, bottom: 180.0, left: 10.0, right: 10.0), // カードの外側の余白を設定
+          top: 80.0, bottom: 10.0, left: 10.0, right: 10.0), // カードの外側の余白を設定
 
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0), // カードの角を丸くする
@@ -65,11 +63,14 @@ class SwipeCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8), // 上下の余白を追加
                 // コメントを表示するテキスト
-                Text(
-                  reviewCard.Comment,
-                  style: const TextStyle(fontSize: 16),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                Container(
+                  height: 110,
+                  child: Text(
+                    reviewCard.Comment,
+                    style: const TextStyle(fontSize: 16),
+                    maxLines: 5,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
 
                 const SizedBox(height: 16), // 上下の余白を追加

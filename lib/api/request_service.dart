@@ -1,30 +1,28 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:foodshuffle/utils/errors.dart';
+import 'package:foodshuffle/api/request_handler.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:foodshuffle/utils/errors.dart';
+import 'package:flutter/material.dart';
 
-enum HttpMethod { get, post, put, delete }
+class RequestService {
+  static final RequestService _instance = RequestService._internal();
 
-class Http {
-  static Future<dynamic> request(
+  // プライベートコンストラクタ
+  RequestService._internal();
+  // インスタンスを取得するためのファクトリコンストラクタ
+  factory RequestService() {
+    return _instance;
+  }
+
+  Future<dynamic> request(
       {required String endpoint,
       required HttpMethod method,
-      Map<String, dynamic>? body}) async {
-    late http.Response response;
-
-    final pref = await SharedPreferences.getInstance();
-    final token = pref.getString('token');
-
-    final headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-
+      required Map<String, String> headers,
+      dynamic body}) async {
     final uri = Uri.parse(endpoint);
     try {
+      late http.Response response;
+
       switch (method) {
         case HttpMethod.get:
           response = await http.get(uri, headers: headers);

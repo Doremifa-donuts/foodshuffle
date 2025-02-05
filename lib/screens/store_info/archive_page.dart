@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/model/review_card/review_card.dart';
 import 'package:foodshuffle/widgets/auth_icon.dart';
@@ -16,7 +16,7 @@ import 'info.dart';
 // プロバイダーの定義（データ取得を切り替え）
 final archiveStoreProvider = FutureProvider<List<ReviewCard>>((ref) async {
   try {
-    final data = await Http.request(
+    final data = await RequestHandler.jsonWithAuth(
         endpoint: Urls.archivesReview, method: HttpMethod.get);
     List<ReviewCard> cards = [];
 
@@ -49,31 +49,22 @@ class ArchivePage extends ConsumerWidget {
           data: (stores) {
             return stores.isEmpty
                 ? const Center(child: Text("アーカイブしたレビューはありません！"))
-                : Column(
-                    children: [
-                      Expanded(
-                        child:
-                            // スクロール要素
-                            Scrollbar(
-                          thickness: 12, // スクロールバーの太さ
-                          radius: const Radius.circular(20), // スクロールバーの角を丸く
-                          child: ListView.separated(
-                            padding: const EdgeInsets.all(20), // リストのパディングを指定
-                            // リスト要素
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 8), // 各リストアイテム間のスペース
-                            itemCount: stores.length, // リストアイテムの数
-                            // 各リストアイテム
-                            itemBuilder: (context, index) {
-                              return _buildCard(context, stores[index]);
-                            },
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 155,
-                      )
-                    ],
+                :
+                // スクロール要素
+                Scrollbar(
+                    thickness: 12, // スクロールバーの太さ
+                    radius: const Radius.circular(20), // スクロールバーの角を丸く
+                    child: ListView.separated(
+                      padding: const EdgeInsets.all(20), // リストのパディングを指定
+                      // リスト要素
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 8), // 各リストアイテム間のスペース
+                      itemCount: stores.length, // リストアイテムの数
+                      // 各リストアイテム
+                      itemBuilder: (context, index) {
+                        return _buildCard(context, stores[index]);
+                      },
+                    ),
                   );
           },
           loading: () =>

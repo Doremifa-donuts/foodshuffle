@@ -8,7 +8,6 @@ import '../model/color.dart';
 // 立ち上げ時に実行
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await dotenv.load(fileName: ".env");
 
   FlutterLocalNotificationsPlugin()
     ..resolvePlatformSpecificImplementation<

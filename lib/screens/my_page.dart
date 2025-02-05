@@ -61,7 +61,7 @@ class MyPage extends ConsumerWidget {
     final user = ref.watch(userProvider);
     final userNotifier = ref.read(userProvider.notifier);
 
-    void _showEditNameDialog() {
+    void showEditNameDialog() {
       final TextEditingController controller = TextEditingController(
         text: user.UserName,
       );
@@ -132,7 +132,7 @@ class MyPage extends ConsumerWidget {
                   ),
                   const SizedBox(width: 8),
                   IconButton(
-                    onPressed: _showEditNameDialog,
+                    onPressed: showEditNameDialog,
                     icon: const Icon(Icons.edit),
                     color: Colors.black,
                   ),

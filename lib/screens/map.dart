@@ -1,32 +1,69 @@
-import 'dart:async';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodshuffle/api/request_handler.dart';
+import 'package:foodshuffle/api/urls.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../model/color.dart'; // 色指定
+import '../widgets/page_template.dart';
+
 import '../widgets/footer.dart'; // フッターウィジェット
 
-// Google Mapsを表示するメイン画面のステートフルウィジェット
-class MapPage extends StatefulWidget {
-  @override
-  State<MapPage> createState() => MapSampleState(); // ステートを生成
-}
+// ピンデータを保存するプロパイダー
+final pinProvider = FutureProvider<List<Marker>>((ref) async {
+  try {
+    final pins = await RequestHandler.jsonWithAuth(
+        endpoint: Urls.wentPlace, method: HttpMethod.get);
+
+    List<Marker> addPins = [];
+    // 所得したデータをマーカーに変換
+    for (var item in pins) {
+      debugPrint(item.toString());
+      final latitude = item['Latitude']; // 緯度
+      final longitude = item['Longitude']; // 経度
+      final name = item['RestaurantName']; // 店舗名
+
+      // ピンを追加する関数
+      addPins.add(
+        Marker(
+          point: LatLng(latitude, longitude),
+          width: 50.0,
+          height: 50.0,
+          child: Tooltip(
+            message: name, // 店名をツールチップに表示
+            child: Icon(
+              Icons.location_on,
+              color: Colors.red,
+              size: 50.0,
+            ),
+          ),
+          // マップを回転した時にピンも回転するように
+          rotate: false,
+        ),
+      );
+    }
+    return addPins;
+  } catch (e) {
+    return [];
+  }
+});
 
 // MapSampleの状態を管理するクラス
-class MapSampleState extends State<MapPage> {
+class MapPage extends ConsumerWidget {
+  const MapPage({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '行ったところマップ',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: const Color(mainColor),
-      ),
-      body: Stack(
+  Widget build(BuildContext context, WidgetRef ref) {
+    // ピンのデータを非同期に所得
+    final pinAsyncVlaue = ref.watch(pinProvider);
+
+    return PageTemplate(
+      pageTitle: '行ったところマップ',
+      onInit: () {
+        ref.invalidate(pinProvider); // マップを開いたときにピンを再取得
+      },
+      isExpanded: true,
+      child: Stack(
         children: [
           FlutterMap(
             // 現在地として表示される場所
@@ -34,7 +71,6 @@ class MapSampleState extends State<MapPage> {
               initialCenter: LatLng(34.706463, 135.503209),
               // 最初に表示されるサイズ
               initialZoom: 15.0,
-
               maxZoom: 18.0,
               minZoom: 8.0,
               initialRotation: 0.0, // 初期回転角度
@@ -42,49 +78,16 @@ class MapSampleState extends State<MapPage> {
             children: [
               // 表示される画面
               TileLayer(
-                urlTemplate:
-                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                subdomains: ['a', 'b', 'c'],
+                urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
               ),
               // ピンを表示
-              MarkerLayer(
-                markers: [
-                  Marker(
-                      point: LatLng(34.704091, 135.500419), // ピンの位置
-                      width: 50.0, // ピンの幅
-                      height: 50.0, // ピンの高さ
-                      child: Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 50.0,
-                      )),
-                  Marker(
-                      point: LatLng(34.805832, 135.534434), // ピンの位置
-                      width: 50.0, // ピンの幅
-                      height: 50.0, // ピンの高さ
-                      child: Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 50.0,
-                      )),
-                  Marker(
-                      point: LatLng(34.702327, 135.502169), // ピンの位置
-                      width: 50.0, // ピンの幅
-                      height: 50.0, // ピンの高さ
-                      child: Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 50.0,
-                      )),
-                ],
+              pinAsyncVlaue.when(
+                data: (pins) => MarkerLayer(markers: pins),
+                error: (err, stack) =>
+                    const Center(child: Text("ピンの取得に失敗しました")),
+                loading: () => const Center(child: CircularProgressIndicator()),
               ),
             ],
-          ),
-          const Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Footer(),
           ),
         ],
       ),

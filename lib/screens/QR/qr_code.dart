@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/utils/errors.dart';
 import 'package:foodshuffle/utils/geolocator.dart';
@@ -110,14 +110,18 @@ class QrScanViewState extends State<QrScanView> {
       print(scanData.code);
 
       try {
+        if (scanData.code == null) {
+          return;
+        }
+        final restaurantUuid = scanData.code!;
         // カメラを一時停止する
         controller.pauseCamera();
         // 位置情報の取得
         final location = await Geolocator.getPosition();
 
         // チェックイン可否を通信
-        await Http.request(
-            endpoint: Urls.checkIn(scanData.code!),
+        await RequestHandler.jsonWithAuth(
+            endpoint: Urls.checkIn(restaurantUuid),
             method: HttpMethod.post,
             body: {
               "Location": {
@@ -133,7 +137,7 @@ class QrScanViewState extends State<QrScanView> {
         // ArchivePageに遷移
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const QrAfter(),
+            builder: (context) => QrAfter(restaurantUuid: restaurantUuid),
           ),
         );
       } catch (e) {

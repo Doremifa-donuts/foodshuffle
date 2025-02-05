@@ -9,7 +9,7 @@ import '../reservation/booking.dart'; // 予約ページ
 
 class StoreDetailPage extends StatelessWidget {
   final ReviewCard store;
-  const StoreDetailPage({Key? key, required this.store}) : super(key: key);
+  const StoreDetailPage({super.key, required this.store});
   @override
   Widget build(BuildContext context) {
     return
@@ -75,7 +75,7 @@ class StoreDetailPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  ReservationPage(store: store),
+                                  ReservationPage(restaurantUuid: store.RestaurantUuid,),
                             ),
                           );
                         },

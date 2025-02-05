@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/model/visited_store/visited_store.dart';
+import 'package:foodshuffle/screens/QR/qr_after.dart';
 import 'package:foodshuffle/widgets/auth_image.dart';
 // データリスト
 // カラーパス
@@ -40,8 +41,10 @@ class ReviewList extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ReviewWritePage(store: store),
-            ),
+                // builder: (context) => ReviewWritePage(store: store),
+                builder: (context) => QrAfter(
+                      restaurantUuid: store.RestaurantUuid,
+                    )),
           );
         },
         child: Card(

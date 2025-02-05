@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // 動的に状態把握
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodshuffle/api/http_req.dart';
+import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/model/visited_store/visited_store.dart';
 import 'package:foodshuffle/widgets/page_template.dart';
@@ -31,7 +31,8 @@ Future<List<VisitedStore>> fetchReviewStores(bool isPending) async {
   }
 
   try {
-    final data = await Http.request(endpoint: url, method: HttpMethod.get);
+    final data = await RequestHandler.jsonWithAuth(
+        endpoint: url, method: HttpMethod.get);
     List<VisitedStore> stores = [];
 
     for (var item in data) {
@@ -48,7 +49,7 @@ Future<List<VisitedStore>> fetchReviewStores(bool isPending) async {
 
 // レビューのページ画面
 class ReviewBeforePage extends ConsumerWidget {
-  ReviewBeforePage({super.key});
+  const ReviewBeforePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

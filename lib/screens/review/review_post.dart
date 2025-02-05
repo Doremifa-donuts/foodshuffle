@@ -14,7 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 class ReviewWritePage extends StatefulWidget {
   final VisitedStore store;
-  const ReviewWritePage({required this.store, Key? key}) : super(key: key);
+  const ReviewWritePage({required this.store, super.key});
 
   @override
   _ReviewWritePageState createState() => _ReviewWritePageState();
@@ -23,11 +23,11 @@ class ReviewWritePage extends StatefulWidget {
 // レビュー書き込み画面
 class _ReviewWritePageState extends State<ReviewWritePage> {
   final TextEditingController _reviewController = TextEditingController();
-  List<XFile> _selectedImages = [];
+  final List<XFile> _selectedImages = [];
 
   Future<void> _pickImages() async {
     final ImagePicker picker = ImagePicker();
-    final List<XFile>? images = await picker.pickMultiImage();
+    final List<XFile> images = await picker.pickMultiImage();
     if (images != null) {
       setState(() {
         _selectedImages.addAll(images);

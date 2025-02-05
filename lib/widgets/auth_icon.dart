@@ -8,9 +8,9 @@ class AuthIcon extends StatefulWidget {
   final String imagePath;
 
   const AuthIcon({
-    Key? key,
+    super.key,
     required this.imagePath,
-  }) : super(key: key);
+  });
 
   @override
   _AuthIconState createState() => _AuthIconState();

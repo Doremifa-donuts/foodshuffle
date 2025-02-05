@@ -7,7 +7,7 @@ class Urls {
   static const _ws = "ws://";
 
   // ホスト
-  static const String _host = "localhost";
+  static const String _host = "M2.local";
 
   // ポート
   static const int _port = 5678;
@@ -19,16 +19,20 @@ class Urls {
   static const String _baseUrl = '$_http$_host:$_port$_versionOne';
 
   // 各種エンドポイント
-
+  // ログインするエンドポイント
+  static const String login = '$_baseUrl/login';
   // 位置情報共有をするエンドポイント
   static const String location =
       '$_ws$_host:$_port$_versionOne/auth/users/locations';
+  // 画像取得エンドポイント
   static const String images = '$_baseUrl/auth/images/';
 
   // 受け取ったレビューを選別するために取得
   static const String receivesReview = '$_baseUrl/auth/users/reviews/recieves';
   // 興味ありに設定したレビューを取得 (アーカイブ)
   static const String archivesReview = '$_baseUrl/auth/users/reviews/interests';
+  // 訪問済みの店舗の位置情報一覧を取得
+  static const String wentPlace = '$_baseUrl/auth/users/places';
 
   // レビューをいいねする
   static String likeReview(String reviewUuid) =>
@@ -43,6 +47,19 @@ class Urls {
   // チェックインする
   static String checkIn(String restaurantUuid) =>
       '$_baseUrl/auth/users/restaurants/$restaurantUuid/checkin';
+
+  // 自身が受け取った特定の店舗に対するレビューの一覧を取得する
+  static String specificReview(String restaurantUuid) =>
+      '$_baseUrl/auth/users/restaurants/$restaurantUuid/reviews';
+  // コース一覧を取得する
+  static String courseList(String restaurantUuid) =>
+      '$_baseUrl/auth/courses/$restaurantUuid';
+  // 予約を行う
+  static String reservation(String restaurantUuid) =>
+      '$_baseUrl/auth/users/restaurants/$restaurantUuid/reservations';
+  // 未来の予約リスト
+  static String upcomingsReservation =
+      '$_baseUrl/auth/users/reservations/upcomings';
 
   // 訪問済みでレビューをしていない店舗
   static String beforeReview = '$_baseUrl/auth/users/restaurants/visited';
