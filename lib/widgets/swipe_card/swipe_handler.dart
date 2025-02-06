@@ -21,6 +21,7 @@ class SwipeHandler extends StatefulWidget {
 }
 
 class _SwipeHandlerState extends State<SwipeHandler> {
+  double _swipeProgress = 0.0;
   @override
   Widget build(BuildContext context) {
     if (widget.stores.isEmpty) {
@@ -35,9 +36,18 @@ class _SwipeHandlerState extends State<SwipeHandler> {
         return SwipeCard(
           key: ValueKey('card_${widget.stores[index].ReviewUuid}_$index'),
           reviewCard: widget.stores[index],
+          swipeProgress: _swipeProgress,
         );
       },
+      onCardPositionChanged: (SwiperPosition position) {
+        setState(() {
+          _swipeProgress = position.offset.dx; // スワイプの横方向の進行度を保存
+        });
+      },
       onSwipeEnd: (previousIndex, targetIndex, activity) async {
+         setState(() {
+          _swipeProgress = 0.0; // スワイプ終了時にリセット
+        });
         if (previousIndex >= widget.stores.length) return;
 
         if (activity is Swipe) {
