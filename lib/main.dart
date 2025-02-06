@@ -3,8 +3,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // Riverpodをインポート
 import 'package:foodshuffle/api/websocket.dart';
 import 'package:foodshuffle/utils/ios_notifier.dart';
+import 'package:intl/intl.dart';
 import 'screens/login.dart';
 import '../model/color.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 // グローバルナビゲーターキー
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -15,7 +17,10 @@ void main() async {
 
   // iosのローカル通知を初期化
   await NotificationService().init();
-
+  // 日本語ロケールの初期化
+  await initializeDateFormatting('ja_JP', null);
+  // デフォルトのタイムゾーンを日本時間に設定
+  Intl.defaultLocale = 'ja_JP';
   // WebSocketの通信インスタンスを生成
   WebSocketService();
 

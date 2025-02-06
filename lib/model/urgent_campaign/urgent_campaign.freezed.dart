@@ -22,10 +22,13 @@ UrgentCampaign _$UrgentCampaignFromJson(Map<String, dynamic> json) {
 mixin _$UrgentCampaign {
   String get CampaignUuid => throw _privateConstructorUsedError;
   String get RestaurantUuid => throw _privateConstructorUsedError;
+  @GlobalDateTimeConverter()
   DateTime get StartAt => throw _privateConstructorUsedError;
+  @GlobalDateTimeConverter()
   DateTime get EndAt => throw _privateConstructorUsedError;
   String get Description => throw _privateConstructorUsedError;
   String get DiscountOffer => throw _privateConstructorUsedError;
+  @GlobalDateTimeConverter()
   DateTime get CreatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this UrgentCampaign to a JSON map.
@@ -47,11 +50,11 @@ abstract class $UrgentCampaignCopyWith<$Res> {
   $Res call(
       {String CampaignUuid,
       String RestaurantUuid,
-      DateTime StartAt,
-      DateTime EndAt,
+      @GlobalDateTimeConverter() DateTime StartAt,
+      @GlobalDateTimeConverter() DateTime EndAt,
       String Description,
       String DiscountOffer,
-      DateTime CreatedAt});
+      @GlobalDateTimeConverter() DateTime CreatedAt});
 }
 
 /// @nodoc
@@ -121,11 +124,11 @@ abstract class _$$UrgentCampaignImplCopyWith<$Res>
   $Res call(
       {String CampaignUuid,
       String RestaurantUuid,
-      DateTime StartAt,
-      DateTime EndAt,
+      @GlobalDateTimeConverter() DateTime StartAt,
+      @GlobalDateTimeConverter() DateTime EndAt,
       String Description,
       String DiscountOffer,
-      DateTime CreatedAt});
+      @GlobalDateTimeConverter() DateTime CreatedAt});
 }
 
 /// @nodoc
@@ -188,11 +191,11 @@ class _$UrgentCampaignImpl implements _UrgentCampaign {
   const _$UrgentCampaignImpl(
       {required this.CampaignUuid,
       required this.RestaurantUuid,
-      required this.StartAt,
-      required this.EndAt,
+      @GlobalDateTimeConverter() required this.StartAt,
+      @GlobalDateTimeConverter() required this.EndAt,
       required this.Description,
       required this.DiscountOffer,
-      required this.CreatedAt});
+      @GlobalDateTimeConverter() required this.CreatedAt});
 
   factory _$UrgentCampaignImpl.fromJson(Map<String, dynamic> json) =>
       _$$UrgentCampaignImplFromJson(json);
@@ -202,14 +205,17 @@ class _$UrgentCampaignImpl implements _UrgentCampaign {
   @override
   final String RestaurantUuid;
   @override
+  @GlobalDateTimeConverter()
   final DateTime StartAt;
   @override
+  @GlobalDateTimeConverter()
   final DateTime EndAt;
   @override
   final String Description;
   @override
   final String DiscountOffer;
   @override
+  @GlobalDateTimeConverter()
   final DateTime CreatedAt;
 
   @override
@@ -260,13 +266,14 @@ class _$UrgentCampaignImpl implements _UrgentCampaign {
 
 abstract class _UrgentCampaign implements UrgentCampaign {
   const factory _UrgentCampaign(
-      {required final String CampaignUuid,
-      required final String RestaurantUuid,
-      required final DateTime StartAt,
-      required final DateTime EndAt,
-      required final String Description,
-      required final String DiscountOffer,
-      required final DateTime CreatedAt}) = _$UrgentCampaignImpl;
+          {required final String CampaignUuid,
+          required final String RestaurantUuid,
+          @GlobalDateTimeConverter() required final DateTime StartAt,
+          @GlobalDateTimeConverter() required final DateTime EndAt,
+          required final String Description,
+          required final String DiscountOffer,
+          @GlobalDateTimeConverter() required final DateTime CreatedAt}) =
+      _$UrgentCampaignImpl;
 
   factory _UrgentCampaign.fromJson(Map<String, dynamic> json) =
       _$UrgentCampaignImpl.fromJson;
@@ -276,14 +283,17 @@ abstract class _UrgentCampaign implements UrgentCampaign {
   @override
   String get RestaurantUuid;
   @override
+  @GlobalDateTimeConverter()
   DateTime get StartAt;
   @override
+  @GlobalDateTimeConverter()
   DateTime get EndAt;
   @override
   String get Description;
   @override
   String get DiscountOffer;
   @override
+  @GlobalDateTimeConverter()
   DateTime get CreatedAt;
 
   /// Create a copy of UrgentCampaign

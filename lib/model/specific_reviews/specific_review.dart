@@ -1,3 +1,4 @@
+import 'package:foodshuffle/utils/datetime_convater.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'specific_review.freezed.dart';
@@ -8,7 +9,7 @@ class SpecificReview with _$SpecificReview {
   const factory SpecificReview(
       {required String ReviewUuid,
       required String Comment,
-      required DateTime CreatedAt,
+      @GlobalDateTimeConverter() required DateTime CreatedAt,
       required List<String> Images,
       required String Icon,
       required int Good,

@@ -10,11 +10,13 @@ _$UrgentCampaignImpl _$$UrgentCampaignImplFromJson(Map<String, dynamic> json) =>
     _$UrgentCampaignImpl(
       CampaignUuid: json['CampaignUuid'] as String,
       RestaurantUuid: json['RestaurantUuid'] as String,
-      StartAt: DateTime.parse(json['StartAt'] as String),
-      EndAt: DateTime.parse(json['EndAt'] as String),
+      StartAt:
+          const GlobalDateTimeConverter().fromJson(json['StartAt'] as String),
+      EndAt: const GlobalDateTimeConverter().fromJson(json['EndAt'] as String),
       Description: json['Description'] as String,
       DiscountOffer: json['DiscountOffer'] as String,
-      CreatedAt: DateTime.parse(json['CreatedAt'] as String),
+      CreatedAt:
+          const GlobalDateTimeConverter().fromJson(json['CreatedAt'] as String),
     );
 
 Map<String, dynamic> _$$UrgentCampaignImplToJson(
@@ -22,9 +24,9 @@ Map<String, dynamic> _$$UrgentCampaignImplToJson(
     <String, dynamic>{
       'CampaignUuid': instance.CampaignUuid,
       'RestaurantUuid': instance.RestaurantUuid,
-      'StartAt': instance.StartAt.toIso8601String(),
-      'EndAt': instance.EndAt.toIso8601String(),
+      'StartAt': const GlobalDateTimeConverter().toJson(instance.StartAt),
+      'EndAt': const GlobalDateTimeConverter().toJson(instance.EndAt),
       'Description': instance.Description,
       'DiscountOffer': instance.DiscountOffer,
-      'CreatedAt': instance.CreatedAt.toIso8601String(),
+      'CreatedAt': const GlobalDateTimeConverter().toJson(instance.CreatedAt),
     };

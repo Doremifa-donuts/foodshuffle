@@ -10,7 +10,8 @@ _$SpecificReviewImpl _$$SpecificReviewImplFromJson(Map<String, dynamic> json) =>
     _$SpecificReviewImpl(
       ReviewUuid: json['ReviewUuid'] as String,
       Comment: json['Comment'] as String,
-      CreatedAt: DateTime.parse(json['CreatedAt'] as String),
+      CreatedAt:
+          const GlobalDateTimeConverter().fromJson(json['CreatedAt'] as String),
       Images:
           (json['Images'] as List<dynamic>).map((e) => e as String).toList(),
       Icon: json['Icon'] as String,
@@ -23,7 +24,7 @@ Map<String, dynamic> _$$SpecificReviewImplToJson(
     <String, dynamic>{
       'ReviewUuid': instance.ReviewUuid,
       'Comment': instance.Comment,
-      'CreatedAt': instance.CreatedAt.toIso8601String(),
+      'CreatedAt': const GlobalDateTimeConverter().toJson(instance.CreatedAt),
       'Images': instance.Images,
       'Icon': instance.Icon,
       'Good': instance.Good,

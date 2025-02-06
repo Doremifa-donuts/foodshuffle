@@ -50,25 +50,34 @@ final reminderProvider = FutureProvider<Widget>((ref) async {
           method: HttpMethod.get);
       // 取得したデータをキャンペーンとして扱う
       final campaign = UrgentCampaign.fromJson(data);
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'お助け要請: ${boost["RestaurantName"]}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            '時間: ${DateFormat("HH時mm分").format(campaign.StartAt)} - ${DateFormat("HH時mm分").format(campaign.EndAt)}',
-            style: const TextStyle(fontSize: 14),
-          ),
-        ],
-      );
+      debugPrint(data.toString());
+      // キャンペーンが終了していない場合
+      if (campaign.EndAt.isAfter(DateTime.now())) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'お助け要請: ${boost["RestaurantName"]}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '時間: ${DateFormat("HH時mm分まで").format(campaign.EndAt)}',
+              style: const TextStyle(fontSize: 14),
+            ),
+          ],
+        );
+      } else {
+        // 終わっていたら削除する
+        await pref.remove("boost");
+      }
     } catch (e) {
       debugPrint(e.toString());
       // セットされているキーのアイテムがなかった場合はエラー回避のためキーを削除する
       await pref.remove("boost");
     }
   }
+  debugPrint("間");
+
   // 店舗名と予約時間の情報を保持
   try {
     final data = await RequestHandler.jsonWithAuth(

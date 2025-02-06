@@ -1,3 +1,4 @@
+import 'package:foodshuffle/utils/datetime_convater.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'reservation.freezed.dart';
@@ -8,7 +9,7 @@ class Reservation with _$Reservation {
   const factory Reservation(
       {required String RestaurantUuid,
       required String RestaurantName,
-      required DateTime ReservationDate,
+      @GlobalDateTimeConverter() required DateTime ReservationDate,
       required int NumberOfPeople,
       // CourseUuid        string
       // CourseName        string

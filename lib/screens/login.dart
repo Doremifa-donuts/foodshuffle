@@ -119,7 +119,6 @@ class _LoginPageState extends State<LoginPage> {
                             // websocketの接続確立
                             debugPrint(data['JtiToken']);
                             WebSocketService().connect(data['JtiToken']);
-                            debugPrint("2");
 
                             // ログイン処理成功時に遷移
                             Navigator.pushAndRemoveUntil(
@@ -129,7 +128,6 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               (route) => false,
                             );
-                            debugPrint("3");
                           } catch (e) {
                             if (e is Errors) {
                               switch (e.errorCode) {
