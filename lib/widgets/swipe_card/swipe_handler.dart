@@ -32,32 +32,7 @@ class _SwipeHandlerState extends State<SwipeHandler> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        // 右スワイプ（❤️）
-        Positioned(
-          top: 100,
-          right: 50,
-          child: Opacity(
-            opacity: _rightHeartOpacity,
-            child: Icon(
-              Icons.favorite,
-              color: Colors.red,
-              size: 80,
-            ),
-          ),
-        ),
-        // 左スワイプ（💔）
-        Positioned(
-          top: 100,
-          left: 50,
-          child: Opacity(
-            opacity: _leftHeartOpacity,
-            child: Icon(
-              Icons.heart_broken,
-              color: Colors.grey,
-              size: 80,
-            ),
-          ),
-        ),
+        
         //スワイパー
         AppinioSwiper(
           key: const ValueKey('swiper'),
@@ -127,10 +102,37 @@ class _SwipeHandlerState extends State<SwipeHandler> {
           }
         }
       },
+      
       onEnd: () {
         debugPrint('Swipe ended');
       },
     ),
+    // 右スワイプ（❤️）
+        Positioned(
+          top: 150,
+          right: 50,
+          child: Opacity(
+            opacity: _rightHeartOpacity,
+            child: Icon(
+              Icons.favorite,
+              color: Colors.red,
+              size: 150,
+            ),
+          ),
+        ),
+        // 左スワイプ（💔）
+        Positioned(
+          top: 150,
+          left: 50,
+          child: Opacity(
+            opacity: _leftHeartOpacity,
+            child: Icon(
+              Icons.heart_broken,
+              color: Colors.grey,
+              size: 150,
+            ),
+          ),
+        ),
       ],
     );
   }
