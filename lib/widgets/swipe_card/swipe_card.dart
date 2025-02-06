@@ -5,12 +5,12 @@ import 'package:intl/intl.dart';
 
 class SwipeCard extends StatelessWidget {
   final ReviewCard reviewCard;
-  final double swipeProgress;
+
 
   const SwipeCard({
     super.key,
     required this.reviewCard,
-    required this.swipeProgress,
+   
   });
 
   @override
@@ -89,18 +89,6 @@ class SwipeCard extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
-
-        // スワイプ中のハートアイコン
-        Positioned(
-          top: 150,
-          left: 20,
-          child: Opacity(
-            opacity: (swipeProgress > 0)
-                ? (swipeProgress / 100).clamp(0.0, 1.0) // 透明度を調整
-                : 0.0,
-            child: const Icon(Icons.favorite, color: Colors.red, size: 80),
           ),
         ),
       ],

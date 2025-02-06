@@ -21,33 +21,73 @@ class SwipeHandler extends StatefulWidget {
 }
 
 class _SwipeHandlerState extends State<SwipeHandler> {
-  double _swipeProgress = 0.0;
+  double _rightHeartOpacity = 0.0; // ❤️ の透明度
+  double _leftHeartOpacity = 0.0; // 💔 の透明度
   @override
   Widget build(BuildContext context) {
     if (widget.stores.isEmpty) {
       return const Center(child: Text("新しいレビューはありません！"));
     }
 
-    return AppinioSwiper(
-      key: const ValueKey('swiper'),
-      controller: widget.controller,
-      cardCount: widget.stores.length,
-      cardBuilder: (BuildContext context, int index) {
-        return SwipeCard(
-          key: ValueKey('card_${widget.stores[index].ReviewUuid}_$index'),
-          reviewCard: widget.stores[index],
-          swipeProgress: _swipeProgress,
-        );
-      },
-      onCardPositionChanged: (SwiperPosition position) {
-        setState(() {
-          _swipeProgress = position.offset.dx; // スワイプの横方向の進行度を保存
-        });
-      },
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // 右スワイプ（❤️）
+        Positioned(
+          top: 100,
+          right: 50,
+          child: Opacity(
+            opacity: _rightHeartOpacity,
+            child: Icon(
+              Icons.favorite,
+              color: Colors.red,
+              size: 80,
+            ),
+          ),
+        ),
+        // 左スワイプ（💔）
+        Positioned(
+          top: 100,
+          left: 50,
+          child: Opacity(
+            opacity: _leftHeartOpacity,
+            child: Icon(
+              Icons.heart_broken,
+              color: Colors.grey,
+              size: 80,
+            ),
+          ),
+        ),
+        //スワイパー
+        AppinioSwiper(
+          key: const ValueKey('swiper'),
+          controller: widget.controller,
+          cardCount: widget.stores.length,
+          cardBuilder: (BuildContext context, int index) {
+            return SwipeCard(
+              key: ValueKey('card_${widget.stores[index].ReviewUuid}_$index'),
+              reviewCard: widget.stores[index],
+            );
+          },
+          onCardPositionChanged: (SwiperPosition position) {
+            setState(() {
+              double opacity = (position.offset.dx.abs() / 200).clamp(0.0, 1.0);
+              if (position.offset.dx < 0) {
+                // 左（💔）
+                _leftHeartOpacity = opacity;
+                _rightHeartOpacity = 0.0;
+              } else {
+                // 右（❤️）
+                _rightHeartOpacity = opacity;
+                _leftHeartOpacity = 0.0;
+              }
+            });
+          },
       onSwipeEnd: (previousIndex, targetIndex, activity) async {
-         setState(() {
-          _swipeProgress = 0.0; // スワイプ終了時にリセット
-        });
+            setState(() {
+              _rightHeartOpacity = 0.0;
+              _leftHeartOpacity = 0.0;
+            });
         if (previousIndex >= widget.stores.length) return;
 
         if (activity is Swipe) {
@@ -90,6 +130,8 @@ class _SwipeHandlerState extends State<SwipeHandler> {
       onEnd: () {
         debugPrint('Swipe ended');
       },
+    ),
+      ],
     );
   }
 }
