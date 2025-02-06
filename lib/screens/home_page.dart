@@ -102,7 +102,8 @@ final reminderProvider = FutureProvider<Widget>((ref) async {
       );
     } else {
       debugPrint("なぜかここ");
-      return SizedBox();
+      return Text('お知らせはありません',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
     }
   } catch (e) {
     debugPrint(e.toString());
