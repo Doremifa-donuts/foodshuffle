@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/main.dart';
 import 'package:foodshuffle/utils/geolocator.dart';
+import 'package:foodshuffle/utils/ios_notifier.dart';
 import 'package:location/location.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -59,7 +60,8 @@ class WebSocketService {
 
   // メッセージ受信時の処理
   void _onMessageReceived(String message) {
-    showLocalNotification("Food Shuffle", message);
+    NotificationService().showNotification(message);
+    // showLocalNotification("Food Shuffle", message);
   }
 
   // エラー処理

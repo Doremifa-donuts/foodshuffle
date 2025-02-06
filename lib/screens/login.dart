@@ -100,10 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                         // 入力されたメールアドレスとパスワードを取得
                         final email = _emailController.text;
                         final password = _passwordController.text;
-
                         if (email.isNotEmpty && password.isNotEmpty) {
                           // ログイン処理
                           try {
+                            debugPrint("0");
                             // HTTPリクエストを送信
                             final data = await RequestHandler.jsonWithOutAuth(
                                 endpoint: Urls.login,
@@ -112,12 +112,14 @@ class _LoginPageState extends State<LoginPage> {
                                   'MailAddress': email,
                                   'Password': password,
                                 });
+                            debugPrint("1");
 
                             // トークンの保存
                             await _saveJtiToken(data['JtiToken']);
                             // websocketの接続確立
                             debugPrint(data['JtiToken']);
                             WebSocketService().connect(data['JtiToken']);
+                            debugPrint("2");
 
                             // ログイン処理成功時に遷移
                             Navigator.pushAndRemoveUntil(
@@ -127,6 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               (route) => false,
                             );
+                            debugPrint("3");
                           } catch (e) {
                             if (e is Errors) {
                               switch (e.errorCode) {
