@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/main.dart';
 import 'package:foodshuffle/utils/geolocator.dart';
 import 'package:foodshuffle/utils/ios_notifier.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -59,8 +61,21 @@ class WebSocketService {
   }
 
   // メッセージ受信時の処理
-  void _onMessageReceived(String message) {
-    NotificationService().showNotification(message);
+  void _onMessageReceived(String jsonString) async {
+    // switch (message["type"]) {
+    //   case "boost": // お助けブーストの場合SharedPreferencesにブーストのUUIDを格納
+    // }
+    debugPrint(jsonString);
+    final message = json.decode(jsonString);
+    switch (message["Type"]) {
+      case 1:
+        debugPrint("お助けブースを設定したい");
+        final pref = await SharedPreferences.getInstance();
+        pref.setString("boost", json.encode(message["Content"]));
+      default:
+        debugPrint("何もすることないと思う");
+    }
+    NotificationService().showNotification(message["Message"]);
   }
 
   // エラー処理

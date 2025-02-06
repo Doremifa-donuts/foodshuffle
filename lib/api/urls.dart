@@ -57,6 +57,9 @@ class Urls {
   // 予約を行う
   static String reservation(String restaurantUuid) =>
       '$_baseUrl/auth/users/restaurants/$restaurantUuid/reservations';
+  // お助けブーストの詳細を取得
+  static String urgentCampaign(String boostUuid) =>
+      '$_baseUrl/auth/campaigns/$boostUuid';
   // 未来の予約リスト
   static String upcomingsReservation =
       '$_baseUrl/auth/users/reservations/upcomings';
