@@ -47,7 +47,7 @@ class WebSocketService {
       onError: (error) {
         _onError(error);
       },
-      onDone: _onDone,
+      // onDone: _onDone,
     );
     _startSendingLocation();
   }
@@ -61,21 +61,26 @@ class WebSocketService {
   // メッセージ受信時の処理
   void _onMessageReceived(String message) {
     NotificationService().showNotification(message);
-    // showLocalNotification("Food Shuffle", message);
   }
 
   // エラー処理
   void _onError(error) => disconnect();
 
   // 接続終了
-  void _onDone() => disconnect();
+  // void _onDone() => disconnect();
 
   // WebSocket切断
-  void disconnect() {
-    debugPrint("websocket切断");
-    _channel?.sink.close();
-    _isConnected = false;
+  void disconnect() async {
+    // タイマーを終了
     _timer?.cancel();
+    _timer = null;
+    debugPrint("タイマー終了");
+
+    await _channel?.sink.close();
+    _channel = null;
+    debugPrint("websocket切断");
+
+    _isConnected = false;
   }
 
   // 位置情報を送信する
@@ -84,7 +89,6 @@ class WebSocketService {
     double? latitude = currentLocation.latitude;
     double? longitude = currentLocation.longitude;
     debugPrint('位置情報$latitude $longitude');
-
     _channel?.sink.add('$latitude\n$longitude');
   }
 
