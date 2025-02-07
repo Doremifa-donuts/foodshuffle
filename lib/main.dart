@@ -2,22 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // Riverpodをインポート
 import 'package:foodshuffle/api/websocket.dart';
+import 'package:foodshuffle/utils/ios_notifier.dart';
+import 'package:intl/intl.dart';
 import 'screens/login.dart';
 import '../model/color.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
+// グローバルナビゲーターキー
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 // 立ち上げ時に実行
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  FlutterLocalNotificationsPlugin()
-    ..resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestNotificationsPermission()
-    ..initialize(const InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-      iOS: DarwinInitializationSettings(),
-    ));
-
+  // iosのローカル通知を初期化
+  await NotificationService().init();
+  // 日本語ロケールの初期化
+  await initializeDateFormatting('ja_JP', null);
+  // デフォルトのタイムゾーンを日本時間に設定
+  Intl.defaultLocale = 'ja_JP';
   // WebSocketの通信インスタンスを生成
   WebSocketService();
 
@@ -30,25 +33,6 @@ void main() async {
   );
 }
 
-// ローカル通知を実行する
-void showLocalNotification(String title, String message) {
-  // android用の通知を生成する
-  const androidNotificationDetail = AndroidNotificationDetails(
-      'channel_id', // channel Id
-      'channel_name' // channel Name
-      );
-  //ios用の通知を生成する
-  const iosNotificationDetail = DarwinNotificationDetails();
-  // 通知をまとめる
-  const notificationDetails = NotificationDetails(
-    iOS: iosNotificationDetail,
-    android: androidNotificationDetail,
-  );
-  // 通知を実行する
-  FlutterLocalNotificationsPlugin()
-      .show(0, title, message, notificationDetails);
-}
-
 // アプリケーションのエントリーポイント
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -56,6 +40,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey, // グローバルキーを設定
       // デバッグ時にチェックモードのバナーを非表示に設定
       debugShowCheckedModeBanner: false,
       // アプリケーション全体のテーマ設定

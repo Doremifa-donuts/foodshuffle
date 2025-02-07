@@ -1,3 +1,4 @@
+import 'package:foodshuffle/utils/datetime_convater.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'review_card.freezed.dart';
@@ -10,7 +11,7 @@ class ReviewCard with _$ReviewCard {
     required String RestaurantName,
     required String ReviewUuid,
     required String Comment,
-    required DateTime CreatedAt,
+    @GlobalDateTimeConverter() required DateTime CreatedAt,
     required List<String> Images,
     required String Icon,
     required int Good,

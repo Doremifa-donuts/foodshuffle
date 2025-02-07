@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodshuffle/api/websocket.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/footer.dart';
 import '../model/color.dart';
 import '../model/images.dart';
@@ -205,7 +207,13 @@ class MyPage extends ConsumerWidget {
                         'ログアウト',
                         style: TextStyle(fontSize: 24),
                       ),
-                      onTap: () {
+                      onTap: () async {
+                        // WebSocketを切断
+                        WebSocketService().disconnect();
+                        // SharedPreferencesから全てのデータを削除
+                        final pref = await SharedPreferences.getInstance();
+                        await pref.clear();
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(

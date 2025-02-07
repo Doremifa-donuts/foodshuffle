@@ -100,10 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                         // 入力されたメールアドレスとパスワードを取得
                         final email = _emailController.text;
                         final password = _passwordController.text;
-
                         if (email.isNotEmpty && password.isNotEmpty) {
                           // ログイン処理
                           try {
+                            debugPrint("0");
                             // HTTPリクエストを送信
                             final data = await RequestHandler.jsonWithOutAuth(
                                 endpoint: Urls.login,
@@ -112,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                                   'MailAddress': email,
                                   'Password': password,
                                 });
+                            debugPrint("1");
 
                             // トークンの保存
                             await _saveJtiToken(data['JtiToken']);

@@ -22,6 +22,7 @@ SpecificReview _$SpecificReviewFromJson(Map<String, dynamic> json) {
 mixin _$SpecificReview {
   String get ReviewUuid => throw _privateConstructorUsedError;
   String get Comment => throw _privateConstructorUsedError;
+  @GlobalDateTimeConverter()
   DateTime get CreatedAt => throw _privateConstructorUsedError;
   List<String> get Images => throw _privateConstructorUsedError;
   String get Icon => throw _privateConstructorUsedError;
@@ -47,7 +48,7 @@ abstract class $SpecificReviewCopyWith<$Res> {
   $Res call(
       {String ReviewUuid,
       String Comment,
-      DateTime CreatedAt,
+      @GlobalDateTimeConverter() DateTime CreatedAt,
       List<String> Images,
       String Icon,
       int Good,
@@ -121,7 +122,7 @@ abstract class _$$SpecificReviewImplCopyWith<$Res>
   $Res call(
       {String ReviewUuid,
       String Comment,
-      DateTime CreatedAt,
+      @GlobalDateTimeConverter() DateTime CreatedAt,
       List<String> Images,
       String Icon,
       int Good,
@@ -188,7 +189,7 @@ class _$SpecificReviewImpl implements _SpecificReview {
   const _$SpecificReviewImpl(
       {required this.ReviewUuid,
       required this.Comment,
-      required this.CreatedAt,
+      @GlobalDateTimeConverter() required this.CreatedAt,
       required final List<String> Images,
       required this.Icon,
       required this.Good,
@@ -203,6 +204,7 @@ class _$SpecificReviewImpl implements _SpecificReview {
   @override
   final String Comment;
   @override
+  @GlobalDateTimeConverter()
   final DateTime CreatedAt;
   final List<String> _Images;
   @override
@@ -267,7 +269,7 @@ abstract class _SpecificReview implements SpecificReview {
   const factory _SpecificReview(
       {required final String ReviewUuid,
       required final String Comment,
-      required final DateTime CreatedAt,
+      @GlobalDateTimeConverter() required final DateTime CreatedAt,
       required final List<String> Images,
       required final String Icon,
       required final int Good,
@@ -281,6 +283,7 @@ abstract class _SpecificReview implements SpecificReview {
   @override
   String get Comment;
   @override
+  @GlobalDateTimeConverter()
   DateTime get CreatedAt;
   @override
   List<String> get Images;

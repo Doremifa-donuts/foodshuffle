@@ -22,6 +22,7 @@ Reservation _$ReservationFromJson(Map<String, dynamic> json) {
 mixin _$Reservation {
   String get RestaurantUuid => throw _privateConstructorUsedError;
   String get RestaurantName => throw _privateConstructorUsedError;
+  @GlobalDateTimeConverter()
   DateTime get ReservationDate => throw _privateConstructorUsedError;
   int get NumberOfPeople =>
       throw _privateConstructorUsedError; // CourseUuid        string
@@ -50,7 +51,7 @@ abstract class $ReservationCopyWith<$Res> {
   $Res call(
       {String RestaurantUuid,
       String RestaurantName,
-      DateTime ReservationDate,
+      @GlobalDateTimeConverter() DateTime ReservationDate,
       int NumberOfPeople,
       bool ReservationStatus});
 }
@@ -112,7 +113,7 @@ abstract class _$$ReservationImplCopyWith<$Res>
   $Res call(
       {String RestaurantUuid,
       String RestaurantName,
-      DateTime ReservationDate,
+      @GlobalDateTimeConverter() DateTime ReservationDate,
       int NumberOfPeople,
       bool ReservationStatus});
 }
@@ -167,7 +168,7 @@ class _$ReservationImpl implements _Reservation {
   const _$ReservationImpl(
       {required this.RestaurantUuid,
       required this.RestaurantName,
-      required this.ReservationDate,
+      @GlobalDateTimeConverter() required this.ReservationDate,
       required this.NumberOfPeople,
       required this.ReservationStatus});
 
@@ -179,6 +180,7 @@ class _$ReservationImpl implements _Reservation {
   @override
   final String RestaurantName;
   @override
+  @GlobalDateTimeConverter()
   final DateTime ReservationDate;
   @override
   final int NumberOfPeople;
@@ -237,7 +239,7 @@ abstract class _Reservation implements Reservation {
   const factory _Reservation(
       {required final String RestaurantUuid,
       required final String RestaurantName,
-      required final DateTime ReservationDate,
+      @GlobalDateTimeConverter() required final DateTime ReservationDate,
       required final int NumberOfPeople,
       required final bool ReservationStatus}) = _$ReservationImpl;
 
@@ -249,6 +251,7 @@ abstract class _Reservation implements Reservation {
   @override
   String get RestaurantName;
   @override
+  @GlobalDateTimeConverter()
   DateTime get ReservationDate;
   @override
   int get NumberOfPeople; // CourseUuid        string
