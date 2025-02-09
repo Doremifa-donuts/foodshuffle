@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import '../widgets/footer.dart';
 import '../model/color.dart';
 import '../widgets/swipe_card/swipe_handler.dart';
-import '../screens/reservation/booking.dart'; // 予約ページ
+import 'booking.dart'; // 予約ページ
 
 // データを返すプロバイダ
 final swipeAsyncNotifierProvider =
@@ -127,6 +127,17 @@ class _HomePageState extends ConsumerState<HomePage> {
       left: 20,
       right: 20,
       height: 75,
+      child: GestureDetector(
+      onTap: () {
+        if (reservations.isNotEmpty) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BookingPage(),
+            ),
+          );
+        }
+      },
       child: Card(
         color: const Color(listColor),
         shape: RoundedRectangleBorder(
@@ -157,6 +168,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                     ],
                   )),
+      ),
       ),
     );
   }

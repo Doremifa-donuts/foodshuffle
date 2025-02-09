@@ -1,54 +1,51 @@
 import 'package:flutter/material.dart';
 // 動的に状態把握
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
-import 'package:foodshuffle/model/review_card/review_card.dart';
-import 'package:foodshuffle/widgets/auth_icon.dart';
-import 'package:foodshuffle/widgets/auth_image.dart';
+import 'package:foodshuffle/model/reservation/reservation.dart';
 import 'package:foodshuffle/widgets/page_template.dart';
 import 'package:intl/intl.dart';
 // カラー、画像パス
 import '../../model/color.dart';
-// お店の詳細ページ
-import './store_info/info.dart';
 
 // プロバイダーの定義（データ取得を切り替え）
-final archiveStoreProvider = FutureProvider<List<ReviewCard>>((ref) async {
+// 予約の状態を管理
+final reservationProvider = FutureProvider<List<Reservation>>((ref) async {
+  // 店舗名と予約時間の情報を保持
+  List<Reservation> reservations = [];
   try {
     final data = await RequestHandler.jsonWithAuth(
-        endpoint: Urls.archivesReview, method: HttpMethod.get);
-    List<ReviewCard> cards = [];
-
+        endpoint: Urls.upcomingsReservation, method: HttpMethod.get);
+    // debugPrint('0番だけ');
+    // debugPrint(data[0].toString());
     for (var item in data) {
-      cards.add(ReviewCard.fromJson(item));
+      reservations.add(Reservation.fromJson(item));
     }
-    return cards;
   } catch (e) {
-    return [];
+    debugPrint(e.toString());
   }
+  return reservations;
 });
 
-// 本番用（データベースから取得する処理）
-// Future<List<ReviewCard>> fetchArchiveStores() async {}
-
-// アーカイブページ画面
+// 予約画面
 class BookingPage extends ConsumerWidget {
   const BookingPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // アーカイブのデータを取得
-    final archiveStoreAsyncValue = ref.watch(archiveStoreProvider);
+    // 予約のデータを取得
+    final reservation = ref.watch(reservationProvider);
     return PageTemplate(
-      pageTitle: 'アーカイブ',
+      pageTitle: '予約一覧',
       onInit: () {
-        ref.invalidate(archiveStoreProvider);
+        ref.invalidate(reservationProvider);
       },
-      child: archiveStoreAsyncValue.when(
-          data: (stores) {
-            return stores.isEmpty
-                ? const Center(child: Text("アーカイブしたレビューはありません！"))
+      child: reservation.when(
+          data: (reservations) {
+            return reservations.isEmpty
+                ? const Center(child: Text("予約ははありません！"))
                 :
                 // スクロール要素
                 Scrollbar(
@@ -59,10 +56,11 @@ class BookingPage extends ConsumerWidget {
                       // リスト要素
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 8), // 各リストアイテム間のスペース
-                      itemCount: stores.length, // リストアイテムの数
+                      itemCount: reservations.length, // リストアイテムの数
                       // 各リストアイテム
                       itemBuilder: (context, index) {
-                        return _buildCard(context, stores[index]);
+                        return _buildReservationCard(
+                            context, reservations[index]);
                       },
                     ),
                   );
@@ -78,16 +76,15 @@ class BookingPage extends ConsumerWidget {
   }
 
   // Storeの情報を元に、各ストアの詳細情報を表示するカードをビルド
-  Widget _buildCard(BuildContext context, ReviewCard store) {
+  // 予約情報のカードを作成
+  Widget _buildReservationCard(BuildContext context, Reservation reservation) {
     return InkWell(
       onTap: () {
-        debugPrint('写真の数${store.Images}');
-        // お店の詳細ページに遷移
         Navigator.push(
           context,
           MaterialPageRoute(
-            // builder: (context) => PageTemplate(child: Container()),
-            builder: (context) => StoreDetailPage(store: store),
+            builder: (context) =>
+                ReservationDetailPage(reservation: reservation),
           ),
         );
       },
@@ -100,57 +97,21 @@ class BookingPage extends ConsumerWidget {
           ),
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.all(10),
-          height: 180,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                store.RestaurantName,
+                '店舗名: ${reservation.RestaurantName}',
                 style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 8),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AuthImage(
-                      imagePath: store.Images[0], height: 120, width: 100),
-                  Container(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: AuthIcon(imagePath: store.Icon)),
-                            Text(
-                              // '投稿日: ${store.CreatedAt}',
-                              '投稿日: ${DateFormat("yyyy/MM/dd").format(store.CreatedAt)}',
-                              style: const TextStyle(
-                                  fontSize: 16, color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width - 200,
-                          child: Text(
-                            store.Comment,
-                            style: const TextStyle(fontSize: 14),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              )
+              const SizedBox(height: 5),
+              Text(
+                '予約時間: ${DateFormat("yyyy/MM/dd HH:mm").format(reservation.ReservationDate.toLocal())}',
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
+              ),
             ],
           ),
         ),
@@ -158,3 +119,60 @@ class BookingPage extends ConsumerWidget {
     );
   }
 }
+
+// 予約詳細画面
+class ReservationDetailPage extends ConsumerWidget {
+  final Reservation reservation;
+
+  const ReservationDetailPage({super.key, required this.reservation});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return PageTemplate(
+      pageTitle: '予約詳細',
+      onInit: () {
+        // 予約のリフレッシュ処理や初期化をここに追加することができます
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+          Text(
+            '店舗名: ${reservation.RestaurantName}',
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            '予約時間: ${DateFormat("yyyy/MM/dd HH:mm").format(reservation.ReservationDate.toLocal())}',
+            style: const TextStyle(
+              fontSize: 18,
+            ),
+          ),
+
+          // const SizedBox(height: 16),
+          // Text(
+          //   '特別リクエスト: ${reservation.SpecialRequest ?? 'なし'}',
+          //   style: const TextStyle(fontSize: 18, ),
+          // ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              // 予約の変更やキャンセルの処理を追加することができます
+            },
+            child: const Text('予約を変更/キャンセル'),
+            style: ElevatedButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 16),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+// お店の情報も載せれてらいいな
