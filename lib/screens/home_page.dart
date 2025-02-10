@@ -5,14 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
-import 'package:foodshuffle/model/remind/remind.dart';
+import 'package:foodshuffle/main.dart';
 import 'package:foodshuffle/model/reservation/reservation.dart';
 import 'package:foodshuffle/model/review_card/review_card.dart';
 import 'package:foodshuffle/model/urgent_campaign/urgent_campaign.dart';
 import 'package:foodshuffle/widgets/page_template.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../widgets/footer.dart';
 import '../model/color.dart';
 import '../widgets/swipe_card/swipe_handler.dart';
 import 'booking.dart'; // 予約ページ
@@ -40,6 +39,9 @@ final reminderProvider = FutureProvider<Widget>((ref) async {
   // お助けブーストを受け取っているかを確かめる
   final pref = await SharedPreferences.getInstance();
   final boostString = pref.getString("boost");
+  late Widget info;
+  VoidCallback? onTap;
+  bool infoSet = false;
 
   if (boostString != null) {
     final boost = jsonDecode(boostString);
@@ -53,7 +55,7 @@ final reminderProvider = FutureProvider<Widget>((ref) async {
       debugPrint(data.toString());
       // キャンペーンが終了していない場合
       if (campaign.EndAt.isAfter(DateTime.now())) {
-        return Column(
+        info = Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -66,6 +68,7 @@ final reminderProvider = FutureProvider<Widget>((ref) async {
             ),
           ],
         );
+        infoSet = true;
       } else {
         // 終わっていたら削除する
         await pref.remove("boost");
@@ -78,41 +81,66 @@ final reminderProvider = FutureProvider<Widget>((ref) async {
   }
   debugPrint("間");
 
-  // 店舗名と予約時間の情報を保持
-  try {
-    final data = await RequestHandler.jsonWithAuth(
-        endpoint: Urls.upcomingsReservation, method: HttpMethod.get);
-    // 予約している店があるかを確認する
+  if (!infoSet) {
+    // 店舗名と予約時間の情報を保持
+    try {
+      final data = await RequestHandler.jsonWithAuth(
+          endpoint: Urls.upcomingsReservation, method: HttpMethod.get);
+      // 予約している店があるかを確認する
 
-    if (data != null) {
-      final reservation = Reservation.fromJson(data[0]);
-      // 予約があった場合のウィジェット
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '予約店舗: ${reservation.RestaurantName}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            '予約時間: ${DateFormat("yyyy/MM/dd HH時mm分").format(reservation.ReservationDate.toLocal())}',
-            style: const TextStyle(fontSize: 14),
-          ),
-        ],
+      if (data != null) {
+        final reservation = Reservation.fromJson(data[0]);
+        // 予約があった場合のウィジェット
+        info = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '予約店舗: ${reservation.RestaurantName}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '予約時間: ${DateFormat("yyyy/MM/dd HH時mm分").format(reservation.ReservationDate.toLocal())}',
+              style: const TextStyle(fontSize: 14),
+            ),
+          ],
+        );
+        onTap = () {
+          Navigator.push(
+            navigatorKey.currentContext!,
+            MaterialPageRoute(
+              builder: (context) => BookingPage(),
+            ),
+          );
+        };
+      } else {
+        debugPrint("なぜかここ");
+        info = Text('お知らせはありません',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+
+      info = Text(
+        '情報の取得に失敗しました',
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       );
-    } else {
-      debugPrint("なぜかここ");
-      return Text('お知らせはありません',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
     }
-  } catch (e) {
-    debugPrint(e.toString());
-
-    return Text(
-      '情報の取得に失敗しました',
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-    );
   }
+
+  return GestureDetector(
+    onTap: onTap,
+    child: Card(
+      color: const Color(listColor),
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(
+          color: Color(allListColor),
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(padding: EdgeInsets.all(10), child: info),
+    ),
+  );
 });
 
 class HomePage extends ConsumerStatefulWidget {
@@ -187,33 +215,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   // 予約情報の表示
   Widget _buildReservationInfo(Widget remindDetail) {
     return Positioned(
-      top: 10,
-      left: 20,
-      right: 20,
-      height: 75,
-      child: GestureDetector(
-      onTap: () {
-        if (reservations.isNotEmpty) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BookingPage(),
-            ),
-          );
-        }
-      },
-      child: Card(
-        color: const Color(listColor),
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(
-            color: Color(allListColor),
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Padding(padding: EdgeInsets.all(10), child: remindDetail),
-      ),
-      ),
-    );
+        top: 10, left: 20, right: 20, height: 75, child: remindDetail);
   }
 }
