@@ -33,10 +33,10 @@ Future<List<Course>> fetchCourseList(String restaurantUuid) async {
       courses.add(Course.fromJson(item));
     }
     debugPrint(courses.toString());
+    return courses;
   } catch (e) {
     debugPrint(e.toString());
-  } finally {
-    return courses;
+    return [];
   }
 }
 
@@ -320,7 +320,7 @@ class _ReservationPageState extends State<ReservationPage> {
                               setState(() {
                                 selectedCourse = value;
                                 minPeople = selectedCourse!.Minimum;
-                                debugPrint('最小人数${minPeople}');
+                                debugPrint('最小人数$minPeople');
                                 // 予約の人数が最低予約人数以下の場合人数を未選択に戻す
                                 if (selectedPeople != null) {
                                   if (selectedPeople! < minPeople) {

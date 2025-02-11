@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:foodshuffle/model/visited_store/visited_store.dart';
 import 'package:foodshuffle/screens/QR/qr_after.dart';
 import 'package:foodshuffle/widgets/auth_image.dart';
-// データリスト
 // カラーパス
 import '../../model/color.dart';
-// レビュー書き込みページ
-import '../../screens/review/review_post.dart';
 
-// リスト画面
 class ReviewList extends StatelessWidget {
   // データを受け取る
   final List<VisitedStore> stores;

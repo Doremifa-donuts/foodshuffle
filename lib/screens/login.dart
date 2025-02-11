@@ -13,15 +13,15 @@ import '../model/images.dart';
 //envファイルを読み込むためのモジュール
 
 Future<void> _saveJtiToken(String token) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setString('token', token); // 'oken'でJTIトークンを保存
+  final pref = await SharedPreferences.getInstance();
+  await pref.setString('token', token); // 'token'でJTIトークンを保存
 }
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -159,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                                 content: Text('通信エラー'),
                               ),
                             );
-                            print(e);
+                            debugPrint(e.toString());
                           }
                         } else {
                           // エラーメッセージを表示

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/urls.dart';
-import 'package:foodshuffle/main.dart';
 import 'package:foodshuffle/utils/geolocator.dart';
 import 'package:foodshuffle/utils/ios_notifier.dart';
 import 'package:location/location.dart';

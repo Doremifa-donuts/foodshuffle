@@ -9,10 +9,15 @@ class PageTemplate extends StatefulWidget {
   final bool isExpanded;
   final List<Widget>? actions;
   const PageTemplate(
-      {super.key, required this.pageTitle, required this.child, this.onInit, this.isExpanded = false, this.actions});
+      {super.key,
+      required this.pageTitle,
+      required this.child,
+      this.onInit,
+      this.isExpanded = false,
+      this.actions});
 
   @override
-  _PageTemplateState createState() => _PageTemplateState();
+  createState() => _PageTemplateState();
 }
 
 class _PageTemplateState extends State<PageTemplate> {
@@ -50,12 +55,10 @@ class _PageTemplateState extends State<PageTemplate> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(child: widget.child),
-              if (!widget.isExpanded )
-              const SizedBox(
-                height: 155,
-              )
-
-
+              if (!widget.isExpanded)
+                const SizedBox(
+                  height: 155,
+                )
             ],
           ),
           const Positioned(

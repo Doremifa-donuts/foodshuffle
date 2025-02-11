@@ -7,7 +7,6 @@ import 'package:latlong2/latlong.dart';
 
 import '../widgets/page_template.dart';
 
-import '../widgets/footer.dart'; // フッターウィジェット
 
 // ピンデータを保存するプロパイダー
 final pinProvider = FutureProvider<List<Marker>>((ref) async {
@@ -55,7 +54,7 @@ class MapPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // ピンのデータを非同期に所得
-    final pinAsyncVlaue = ref.watch(pinProvider);
+    final pinAsyncValue = ref.watch(pinProvider);
 
     return PageTemplate(
       pageTitle: '行ったところマップ',
@@ -81,7 +80,7 @@ class MapPage extends ConsumerWidget {
                 urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
               ),
               // ピンを表示
-              pinAsyncVlaue.when(
+              pinAsyncValue.when(
                 data: (pins) => MarkerLayer(markers: pins),
                 error: (err, stack) =>
                     const Center(child: Text("ピンの取得に失敗しました")),

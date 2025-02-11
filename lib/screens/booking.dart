@@ -17,7 +17,7 @@ final reservationProvider = FutureProvider<List<Reservation>>((ref) async {
   List<Reservation> reservations = [];
   try {
     final data = await RequestHandler.jsonWithAuth(
-        endpoint: Urls.upcomingsReservation, method: HttpMethod.get);
+        endpoint: Urls.upComingsReservation, method: HttpMethod.get);
     // debugPrint('0番だけ');
     // debugPrint(data[0].toString());
     for (var item in data) {
@@ -162,11 +162,11 @@ class ReservationDetailPage extends ConsumerWidget {
             onPressed: () {
               // 予約の変更やキャンセルの処理を追加することができます
             },
-            child: const Text('予約を変更/キャンセル'),
             style: ElevatedButton.styleFrom(
               textStyle: const TextStyle(fontSize: 16),
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             ),
+            child: const Text('予約を変更/キャンセル'),
           ),
         ],
       ),

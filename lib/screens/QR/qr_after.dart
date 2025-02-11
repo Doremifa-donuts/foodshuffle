@@ -46,7 +46,6 @@ class ReviewsNotifier extends StateNotifier<AsyncValue<List<SpecificReview>>> {
         final String url;
 
         if (goodFlag) {
-          // HACK: いいねが押されていた場合はステータスをアーカイブに変更する
           url = Urls.interestedReview(reviewUuid);
         } else {
           // いいねされていなかった場合はいいねの状態にする

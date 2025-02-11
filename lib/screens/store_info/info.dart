@@ -4,7 +4,6 @@ import 'package:foodshuffle/widgets/auth_icon.dart';
 import 'package:foodshuffle/widgets/auth_image.dart';
 import 'package:foodshuffle/widgets/page_template.dart';
 import 'package:intl/intl.dart';
-import '../../model/color.dart';
 import '../reservation/booking.dart'; // 予約ページ
 
 class StoreDetailPage extends StatelessWidget {

@@ -107,7 +107,7 @@ class QrScanViewState extends State<QrScanView> {
     });
     controller.scannedDataStream.listen((scanData) async {
       // スキャン結果をログに出力
-      print(scanData.code);
+      debugPrint(scanData.code);
 
       try {
         if (scanData.code == null) {

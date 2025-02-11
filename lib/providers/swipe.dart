@@ -4,11 +4,10 @@ class DragExample extends StatefulWidget {
   const DragExample({super.key});
 
   @override
-  _DragExampleState createState() => _DragExampleState();
+  createState() => _DragExampleState();
 }
 
 class _DragExampleState extends State<DragExample> {
-  
   double offsetX = 0.0;
   double offsetY = 0.0;
 

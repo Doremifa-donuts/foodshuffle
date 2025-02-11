@@ -6,11 +6,9 @@ import 'package:intl/intl.dart';
 class SwipeCard extends StatelessWidget {
   final ReviewCard reviewCard;
 
-
   const SwipeCard({
     super.key,
     required this.reviewCard,
-   
   });
 
   @override
@@ -59,7 +57,7 @@ class SwipeCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Container(
+                    SizedBox(
                       height: 110,
                       child: Text(
                         reviewCard.Comment,

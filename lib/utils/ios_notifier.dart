@@ -45,7 +45,7 @@ class NotificationService {
 
   // **通知を押したときの処理**
   void _onNotificationTap(NotificationResponse details) {
-    print('通知をタップ: ${details.payload}');
+    debugPrint('通知をタップ: ${details.payload}');
     navigatorKey.currentState?.push(
       MaterialPageRoute(builder: (context) => const HomePage()),
     );

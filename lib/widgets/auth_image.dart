@@ -34,7 +34,7 @@ class AuthImage extends StatefulWidget {
   });
 
   @override
-  _AuthImageState createState() => _AuthImageState();
+  createState() => _AuthImageState();
 }
 
 class _AuthImageState extends State<AuthImage>

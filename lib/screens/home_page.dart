@@ -72,6 +72,7 @@ final reminderProvider = FutureProvider<Widget>((ref) async {
       } else {
         // 終わっていたら削除する
         await pref.remove("boost");
+        debugPrint("時間が終わっていた");
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -80,12 +81,12 @@ final reminderProvider = FutureProvider<Widget>((ref) async {
     }
   }
   debugPrint("間");
-
+  debugPrint(infoSet.toString());
   if (!infoSet) {
     // 店舗名と予約時間の情報を保持
     try {
       final data = await RequestHandler.jsonWithAuth(
-          endpoint: Urls.upcomingsReservation, method: HttpMethod.get);
+          endpoint: Urls.upComingsReservation, method: HttpMethod.get);
       // 予約している店があるかを確認する
 
       if (data != null) {

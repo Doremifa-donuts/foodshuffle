@@ -23,7 +23,7 @@ mixin _$Course {
   String get CourseUuid => throw _privateConstructorUsedError;
   String get RestaurantUuid => throw _privateConstructorUsedError;
   String get CourseName => throw _privateConstructorUsedError;
-  String get Discription => throw _privateConstructorUsedError;
+  String get Description => throw _privateConstructorUsedError;
   List<String> get Images => throw _privateConstructorUsedError;
   int get Price => throw _privateConstructorUsedError;
   int get Minimum => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $CourseCopyWith<$Res> {
       {String CourseUuid,
       String RestaurantUuid,
       String CourseName,
-      String Discription,
+      String Description,
       List<String> Images,
       int Price,
       int Minimum});
@@ -70,7 +70,7 @@ class _$CourseCopyWithImpl<$Res, $Val extends Course>
     Object? CourseUuid = null,
     Object? RestaurantUuid = null,
     Object? CourseName = null,
-    Object? Discription = null,
+    Object? Description = null,
     Object? Images = null,
     Object? Price = null,
     Object? Minimum = null,
@@ -88,9 +88,9 @@ class _$CourseCopyWithImpl<$Res, $Val extends Course>
           ? _value.CourseName
           : CourseName // ignore: cast_nullable_to_non_nullable
               as String,
-      Discription: null == Discription
-          ? _value.Discription
-          : Discription // ignore: cast_nullable_to_non_nullable
+      Description: null == Description
+          ? _value.Description
+          : Description // ignore: cast_nullable_to_non_nullable
               as String,
       Images: null == Images
           ? _value.Images
@@ -119,7 +119,7 @@ abstract class _$$CourseImplCopyWith<$Res> implements $CourseCopyWith<$Res> {
       {String CourseUuid,
       String RestaurantUuid,
       String CourseName,
-      String Discription,
+      String Description,
       List<String> Images,
       int Price,
       int Minimum});
@@ -141,7 +141,7 @@ class __$$CourseImplCopyWithImpl<$Res>
     Object? CourseUuid = null,
     Object? RestaurantUuid = null,
     Object? CourseName = null,
-    Object? Discription = null,
+    Object? Description = null,
     Object? Images = null,
     Object? Price = null,
     Object? Minimum = null,
@@ -159,9 +159,9 @@ class __$$CourseImplCopyWithImpl<$Res>
           ? _value.CourseName
           : CourseName // ignore: cast_nullable_to_non_nullable
               as String,
-      Discription: null == Discription
-          ? _value.Discription
-          : Discription // ignore: cast_nullable_to_non_nullable
+      Description: null == Description
+          ? _value.Description
+          : Description // ignore: cast_nullable_to_non_nullable
               as String,
       Images: null == Images
           ? _value._Images
@@ -186,7 +186,7 @@ class _$CourseImpl implements _Course {
       {required this.CourseUuid,
       required this.RestaurantUuid,
       required this.CourseName,
-      required this.Discription,
+      required this.Description,
       required final List<String> Images,
       required this.Price,
       required this.Minimum})
@@ -202,7 +202,7 @@ class _$CourseImpl implements _Course {
   @override
   final String CourseName;
   @override
-  final String Discription;
+  final String Description;
   final List<String> _Images;
   @override
   List<String> get Images {
@@ -218,7 +218,7 @@ class _$CourseImpl implements _Course {
 
   @override
   String toString() {
-    return 'Course(CourseUuid: $CourseUuid, RestaurantUuid: $RestaurantUuid, CourseName: $CourseName, Discription: $Discription, Images: $Images, Price: $Price, Minimum: $Minimum)';
+    return 'Course(CourseUuid: $CourseUuid, RestaurantUuid: $RestaurantUuid, CourseName: $CourseName, Description: $Description, Images: $Images, Price: $Price, Minimum: $Minimum)';
   }
 
   @override
@@ -232,8 +232,8 @@ class _$CourseImpl implements _Course {
                 other.RestaurantUuid == RestaurantUuid) &&
             (identical(other.CourseName, CourseName) ||
                 other.CourseName == CourseName) &&
-            (identical(other.Discription, Discription) ||
-                other.Discription == Discription) &&
+            (identical(other.Description, Description) ||
+                other.Description == Description) &&
             const DeepCollectionEquality().equals(other._Images, _Images) &&
             (identical(other.Price, Price) || other.Price == Price) &&
             (identical(other.Minimum, Minimum) || other.Minimum == Minimum));
@@ -246,7 +246,7 @@ class _$CourseImpl implements _Course {
       CourseUuid,
       RestaurantUuid,
       CourseName,
-      Discription,
+      Description,
       const DeepCollectionEquality().hash(_Images),
       Price,
       Minimum);
@@ -272,7 +272,7 @@ abstract class _Course implements Course {
       {required final String CourseUuid,
       required final String RestaurantUuid,
       required final String CourseName,
-      required final String Discription,
+      required final String Description,
       required final List<String> Images,
       required final int Price,
       required final int Minimum}) = _$CourseImpl;
@@ -286,7 +286,7 @@ abstract class _Course implements Course {
   @override
   String get CourseName;
   @override
-  String get Discription;
+  String get Description;
   @override
   List<String> get Images;
   @override

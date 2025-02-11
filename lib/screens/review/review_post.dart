@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/model/visited_store/visited_store.dart';
@@ -17,7 +15,7 @@ class ReviewWritePage extends StatefulWidget {
   const ReviewWritePage({required this.store, super.key});
 
   @override
-  _ReviewWritePageState createState() => _ReviewWritePageState();
+  createState() => _ReviewWritePageState();
 }
 
 // レビュー書き込み画面
@@ -25,10 +23,10 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
   final TextEditingController _reviewController = TextEditingController();
   final List<XFile> _selectedImages = [];
 
-  Future<void> _pickImages() async {
+  Future<void> pickImages() async {
     final ImagePicker picker = ImagePicker();
     final List<XFile> images = await picker.pickMultiImage();
-    if (images != null) {
+    if (images.isEmpty) {
       setState(() {
         _selectedImages.addAll(images);
       });
@@ -36,8 +34,8 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
   }
 
   Future<String?> _getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token'); // 'auth_token'キーからトークンを取得
+    final pref = await SharedPreferences.getInstance();
+    return pref.getString('token'); // 'auth_token'キーからトークンを取得
   }
 
   // レビュー書き込み画面を表示
@@ -152,7 +150,7 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
                     }
                   }
                 } catch (e) {
-                  print(e);
+                  debugPrint(e.toString());
                 }
               },
               child: const Text('保存'),

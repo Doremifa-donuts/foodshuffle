@@ -72,7 +72,7 @@ class ReviewBeforePage extends ConsumerWidget {
                   // レビュー済み状態の時のみ切り替え可能になる
                   if (!isPending) {
                     ref.read(isPendingProvider.notifier).state = !isPending;
-                    ref.refresh(reviewStoreBeforeProvider(isPending));
+                    ref.invalidate(reviewStoreBeforeProvider(isPending));
                   }
                 },
                 // ここは無効化（未レビューのボタンは機能しない）
@@ -80,7 +80,7 @@ class ReviewBeforePage extends ConsumerWidget {
                   // レビュー未状態の時のみ切り替え可能になる
                   if (isPending) {
                     ref.read(isPendingProvider.notifier).state = !isPending;
-                    ref.refresh(reviewStoreBeforeProvider(isPending));
+                    ref.invalidate(reviewStoreBeforeProvider(isPending));
                   }
                 },
                 isPending: isPending,

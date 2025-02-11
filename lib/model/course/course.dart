@@ -9,7 +9,7 @@ class Course with _$Course {
     required String CourseUuid,
     required String RestaurantUuid,
     required String CourseName,
-    required String Discription,
+    required String Description,
     required List<String> Images,
     required int Price,
     required int Minimum,

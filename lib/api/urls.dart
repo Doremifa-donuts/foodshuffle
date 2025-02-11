@@ -28,7 +28,7 @@ class Urls {
   static const String images = '$_baseUrl/auth/images/';
 
   // 受け取ったレビューを選別するために取得
-  static const String receivesReview = '$_baseUrl/auth/users/reviews/recieves';
+  static const String receivesReview = '$_baseUrl/auth/users/reviews/receives';
   // 興味ありに設定したレビューを取得 (アーカイブ)
   static const String archivesReview = '$_baseUrl/auth/users/reviews/interests';
   // 訪問済みの店舗の位置情報一覧を取得
@@ -61,7 +61,7 @@ class Urls {
   static String urgentCampaign(String boostUuid) =>
       '$_baseUrl/auth/campaigns/$boostUuid';
   // 未来の予約リスト
-  static String upcomingsReservation =
+  static String upComingsReservation =
       '$_baseUrl/auth/users/reservations/upcomings';
 
   // 訪問済みでレビューをしていない店舗

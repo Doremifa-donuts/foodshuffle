@@ -13,7 +13,7 @@ class AuthIcon extends StatefulWidget {
   });
 
   @override
-  _AuthIconState createState() => _AuthIconState();
+  createState() => _AuthIconState();
 }
 
 class _AuthIconState extends State<AuthIcon> {
