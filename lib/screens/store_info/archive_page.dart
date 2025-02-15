@@ -19,7 +19,9 @@ final archiveStoreProvider = FutureProvider<List<ReviewCard>>((ref) async {
     final data = await RequestHandler.jsonWithAuth(
         endpoint: Urls.archivesReview, method: HttpMethod.get);
     List<ReviewCard> cards = [];
-
+    if (data == null) {
+      return cards;
+    }
     for (var item in data) {
       cards.add(ReviewCard.fromJson(item));
     }

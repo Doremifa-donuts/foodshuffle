@@ -1,5 +1,5 @@
 import 'package:foodshuffle/api/request_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:foodshuffle/utils/pref_helper.dart';
 
 enum HttpMethod { get, post, put, delete }
 
@@ -29,8 +29,7 @@ class RequestHandler {
     Map<String, dynamic>? body,
     // Map<String, String>? headers
   }) async {
-    final pref = await SharedPreferences.getInstance();
-    final token = pref.getString('token');
+    final token = await PrefHelper().GetJWT();
 
     final headers = {
       'Authorization': 'Bearer $token',

@@ -35,6 +35,9 @@ Future<List<VisitedStore>> fetchReviewStores(bool isPending) async {
         endpoint: url, method: HttpMethod.get);
     List<VisitedStore> stores = [];
 
+   if (data == null) {
+      return stores;
+    }
     for (var item in data) {
       final store = VisitedStore.fromJson(item);
       stores.add(store);

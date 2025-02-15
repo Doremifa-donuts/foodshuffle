@@ -24,6 +24,9 @@ final swipeAsyncNotifierProvider =
         endpoint: Urls.receivesReview, method: HttpMethod.get);
 
     List<ReviewCard> cards = [];
+    if (data == null) {
+      return cards;
+    }
     for (var item in data) {
       cards.add(ReviewCard.fromJson(item));
     }
@@ -80,7 +83,6 @@ final reminderProvider = FutureProvider<Widget>((ref) async {
       await pref.remove("boost");
     }
   }
-  debugPrint("間");
   debugPrint(infoSet.toString());
   if (!infoSet) {
     // 店舗名と予約時間の情報を保持

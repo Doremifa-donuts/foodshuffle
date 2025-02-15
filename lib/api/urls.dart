@@ -7,7 +7,7 @@ class Urls {
   static const _ws = "ws://";
 
   // ホスト
-  static const String _host = "M2.local";
+  static const String _host = "192.168.0.9";
 
   // ポート
   static const int _port = 5678;
@@ -17,6 +17,9 @@ class Urls {
 
   // ベースURL
   static const String _baseUrl = '$_http$_host:$_port$_versionOne';
+
+  // HACK: ADPに加入していないため電話番号認証を必要とするサインアップ処理のみgoサーバに配置しているWebページにて行う
+  static const String signup = '$_http$_host:$_port/signup';
 
   // 各種エンドポイント
   // ログインするエンドポイント

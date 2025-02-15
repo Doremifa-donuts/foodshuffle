@@ -22,9 +22,10 @@ class ReviewsNotifier extends StateNotifier<AsyncValue<List<SpecificReview>>> {
         endpoint: Urls.specificReview(restaurantUuid),
         method: HttpMethod.get,
       );
-
-      for (var item in data) {
-        reviews.add(SpecificReview.fromJson(item));
+      if (data != null) {
+        for (var item in data) {
+          reviews.add(SpecificReview.fromJson(item));
+        }
       }
     } catch (e) {
       debugPrint(e.toString());

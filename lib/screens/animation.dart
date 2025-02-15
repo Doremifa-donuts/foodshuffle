@@ -35,6 +35,7 @@ class _AnimationPageState extends State<AnimationPage> {
 
     // 3秒後にホームページに遷移
     Future.delayed(const Duration(seconds: 3), () {
+      debugPrint("画面移動する");
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

@@ -61,9 +61,6 @@ class WebSocketService {
 
   // メッセージ受信時の処理
   void _onMessageReceived(String jsonString) async {
-    // switch (message["type"]) {
-    //   case "boost": // お助けブーストの場合SharedPreferencesにブーストのUUIDを格納
-    // }
     debugPrint(jsonString);
     final message = json.decode(jsonString);
     switch (message["Type"]) {

@@ -20,6 +20,9 @@ final reservationProvider = FutureProvider<List<Reservation>>((ref) async {
         endpoint: Urls.upComingsReservation, method: HttpMethod.get);
     // debugPrint('0番だけ');
     // debugPrint(data[0].toString());
+    if (data == null) {
+      return reservations;
+    }
     for (var item in data) {
       reservations.add(Reservation.fromJson(item));
     }

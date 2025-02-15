@@ -29,6 +29,9 @@ Future<List<Course>> fetchCourseList(String restaurantUuid) async {
   try {
     final data = await RequestHandler.jsonWithAuth(
         endpoint: Urls.courseList(restaurantUuid), method: HttpMethod.get);
+    if (data == null) {
+      return courses;
+    }
     for (var item in data) {
       courses.add(Course.fromJson(item));
     }

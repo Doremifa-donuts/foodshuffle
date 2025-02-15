@@ -6,14 +6,18 @@ class PageTemplate extends StatefulWidget {
   final String pageTitle;
   final Widget child;
   final Function? onInit;
+  final Function? onDispose;
   final bool isExpanded;
+  final bool displayFooter;
   final List<Widget>? actions;
   const PageTemplate(
       {super.key,
       required this.pageTitle,
       required this.child,
       this.onInit,
+      this.onDispose,
       this.isExpanded = false,
+      this.displayFooter = true,
       this.actions});
 
   @override
@@ -30,6 +34,14 @@ class _PageTemplateState extends State<PageTemplate> {
   }
 
   @override
+  void dispose() {
+    if (widget.onInit != null) {
+      widget.onDispose!();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -40,6 +52,7 @@ class _PageTemplateState extends State<PageTemplate> {
         backgroundColor: const Color(mainColor),
         actions: widget.actions,
       ),
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Container(
@@ -55,18 +68,21 @@ class _PageTemplateState extends State<PageTemplate> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(child: widget.child),
-              if (!widget.isExpanded)
+              // footerがあり、且つ拡張がオンならば余白を作る
+              if (!widget.isExpanded && widget.displayFooter)
                 const SizedBox(
                   height: 155,
                 )
             ],
           ),
-          const Positioned(
-            bottom: -20,
-            left: 0,
-            right: 0,
-            child: Footer(),
-          ),
+          widget.displayFooter
+              ? const Positioned(
+                  bottom: -20,
+                  left: 0,
+                  right: 0,
+                  child: Footer(),
+                )
+              : SizedBox()
         ],
       ),
     );

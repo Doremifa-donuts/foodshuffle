@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/model/visited_store/visited_store.dart';
+import 'package:foodshuffle/utils/pref_helper.dart';
 // httpリクエスト用のモジュール
 import 'package:http/http.dart' as http;
 // jsonDecodeを有効化
 import 'dart:convert';
-// Jtiトークンを使用するためのモジュール
-import 'package:shared_preferences/shared_preferences.dart';
 //画像を複数選択するためのモジュール
 import 'package:image_picker/image_picker.dart';
 
@@ -31,11 +30,6 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
         _selectedImages.addAll(images);
       });
     }
-  }
-
-  Future<String?> _getToken() async {
-    final pref = await SharedPreferences.getInstance();
-    return pref.getString('token'); // 'auth_token'キーからトークンを取得
   }
 
   // レビュー書き込み画面を表示
@@ -83,7 +77,7 @@ class _ReviewWritePageState extends State<ReviewWritePage> {
                   return;
                 }
                 try {
-                  final token = await _getToken();
+                  final token = await PrefHelper().GetJWT();
 
                   if (token == null) {
                     throw Exception('token is null');

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/urls.dart';
+import 'package:foodshuffle/utils/pref_helper.dart';
 import 'dart:typed_data';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class AuthIcon extends StatefulWidget {
@@ -28,8 +28,7 @@ class _AuthIconState extends State<AuthIcon> {
 
   Future<void> _fetchImage() async {
     try {
-      final pref = await SharedPreferences.getInstance();
-      final token = pref.getString('token');
+      final token = await PrefHelper().GetJWT();
       final response = await http.get(
         Uri.parse('${Urls.images}${widget.imagePath}'),
         headers: {

@@ -2,20 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/request_handler.dart';
 import 'package:foodshuffle/api/urls.dart';
 import 'package:foodshuffle/api/websocket.dart';
+import 'package:foodshuffle/screens/signup_webview.dart';
 import 'package:foodshuffle/utils/errors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:foodshuffle/utils/pref_helper.dart';
 // アニメーションを挟む
 import '../../screens/animation.dart';
 // 画像パスを管理するクラス
 import '../model/images.dart';
-//httpリクエスト用のモジュール
-// Jtiトークンを保持するためのモジュール
-//envファイルを読み込むためのモジュール
-
-Future<void> _saveJtiToken(String token) async {
-  final pref = await SharedPreferences.getInstance();
-  await pref.setString('token', token); // 'token'でJTIトークンを保存
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -103,7 +96,6 @@ class _LoginPageState extends State<LoginPage> {
                         if (email.isNotEmpty && password.isNotEmpty) {
                           // ログイン処理
                           try {
-                            debugPrint("0");
                             // HTTPリクエストを送信
                             final data = await RequestHandler.jsonWithOutAuth(
                                 endpoint: Urls.login,
@@ -112,10 +104,9 @@ class _LoginPageState extends State<LoginPage> {
                                   'MailAddress': email,
                                   'Password': password,
                                 });
-                            debugPrint("1");
 
                             // トークンの保存
-                            await _saveJtiToken(data['JtiToken']);
+                            await PrefHelper().SetJWT(data['JtiToken']);
                             // websocketの接続確立
                             debugPrint(data['JtiToken']);
                             WebSocketService().connect(data['JtiToken']);
@@ -182,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                const AnimationPage(), // 適切なアカウント作成ページに変更
+                                const SignupWebViewPage(), // 適切なアカウント作成ページに変更
                           ),
                         );
                       },

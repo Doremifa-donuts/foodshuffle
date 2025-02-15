@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodshuffle/api/urls.dart';
+import 'package:foodshuffle/utils/pref_helper.dart';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 // 画像キャッシュを保持する
 class ImageCache {
@@ -77,8 +77,7 @@ class _AuthImageState extends State<AuthImage>
     });
 
     try {
-      final pref = await SharedPreferences.getInstance();
-      final token = pref.getString('token');
+      final token = await PrefHelper().GetJWT();
       final response = await http.get(
         Uri.parse('${Urls.images}$imagePath'),
         headers: {
