@@ -7,7 +7,7 @@ class Urls {
   static const _ws = "ws://";
 
   // ホスト
-  static const String _host = "192.168.0.9";
+  static const String _host = "192.168.0.18";
 
   // ポート
   static const int _port = 5678;
@@ -72,7 +72,7 @@ class Urls {
   // レビュー投稿済みの店舗
   static String afterReview = '$_baseUrl/auth/users/restaurants/reviewed';
   // レビューを投稿する
-  static String postReview = '$_baseUrl/auth/users/reviews/post';
+  static String postReview = '$_baseUrl/auth/users/reviews/posts';
   // 共有するレビューを設定する
-  static String setReview = '$_baseUrl/auth/users/reviews/set';
+  static String setReview = '$_baseUrl/auth/users/reviews/sets';
 }

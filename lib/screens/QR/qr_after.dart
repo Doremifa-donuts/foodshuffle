@@ -95,7 +95,10 @@ class QrAfter extends ConsumerWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ReviewWritePage()),
+              MaterialPageRoute(
+                  builder: (context) => ReviewWritePage(
+                        restaurantUuid: restaurantUuid,
+                      )),
             );
           },
           icon: const Icon(Icons.add),
